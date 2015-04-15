@@ -1,0 +1,18 @@
+Package: EpiModel.hiv
+Type: Package
+Title: EpiModel extensions for modeling HIV infection among heterosexual populations.
+Version: 0.1
+Date: 2015-04-15
+Authors@R: c( person("Samuel", "Jenness",
+    role=c("cre","aut"), email="sjenness@uw.edu"))
+Maintainer: Samuel Jenness <sjenness@uw.edu>
+Description: To be determined
+License: GPL-3
+Depends:
+    R (>= 3.1.1),
+    EpiModel (>= 1.1.4)
+Suggests:
+    knitr,
+    testthat
+LinkingTo: ergm
+VignetteBuilder: knitr
