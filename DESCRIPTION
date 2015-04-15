@@ -8,11 +8,13 @@ Authors@R: c( person("Samuel", "Jenness",
 Maintainer: Samuel Jenness <sjenness@uw.edu>
 Description: To be determined
 License: GPL-3
-Depends:
+Depends: 
     R (>= 3.1.1),
     EpiModel (>= 1.1.4)
-Suggests:
+Suggests: 
     knitr,
     testthat
-LinkingTo: ergm
+LinkingTo: ergm,
+    Rcpp
 VignetteBuilder: knitr
+Imports: Rcpp
