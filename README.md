@@ -1,4 +1,4 @@
 # EpiModel.hiv
 Mathematical Modeling for HIV Transmission
 
-[![Travis-CI Build Status](https://travis-ci.org/smjenness/EpiModel.hiv.png?branch=master)](https://travis-ci.org/smjenness/EpiModel.hiv)
+[![Build Status](https://magnum.travis-ci.com/smjenness/EpiModel.hiv.svg?token=1GZDAJwjpScAxYMF1mqm)](https://magnum.travis-ci.com/smjenness/EpiModel.hiv)
