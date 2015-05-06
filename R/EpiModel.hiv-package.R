@@ -17,6 +17,7 @@
 #' @docType package
 #' @keywords package
 #' @useDynLib EpiModel.hiv
+#' @import EpiModel ergm
 #' @importFrom Rcpp sourceCpp
 #'
 NULL
