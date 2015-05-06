@@ -1,20 +1,24 @@
 Package: EpiModel.hiv
 Type: Package
-Title: EpiModel extensions for modeling HIV infection among heterosexual populations.
+Title: EpiModel for HIV-1 Infection in Sub-Saharan Africa
 Version: 0.1
 Date: 2015-04-15
 Authors@R: c( person("Samuel", "Jenness",
     role=c("cre","aut"), email="sjenness@uw.edu"))
 Maintainer: Samuel Jenness <sjenness@uw.edu>
-Description: To be determined
+Description: EpiModel epidemic modules and related utility functions for simulating 
+   HIV-1 infection among heterosexual populations in Sub-Saharan Africa.
 License: GPL-3
 Depends: 
     R (>= 3.1.1),
-    EpiModel (>= 1.1.4)
-Suggests: 
+    EpiModel (>= 1.1.4),
+Imports:
+    ergm (>= 3.2.4),
+    Rcpp
+Suggests:
     knitr,
     testthat
-LinkingTo: ergm,
+LinkingTo:
+    ergm,
     Rcpp
 VignetteBuilder: knitr
-Imports: Rcpp
