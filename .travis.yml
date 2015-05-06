@@ -11,6 +11,10 @@ install:
   - ./travis-tool.sh install_deps
 script: ./travis-tool.sh run_tests
 
+branches:
+  only:
+    - master
+
 after_failure:
   - ./travis-tool.sh dump_logs
 
