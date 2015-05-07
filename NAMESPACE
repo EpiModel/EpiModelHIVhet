@@ -2,6 +2,7 @@
 
 export(InitErgmTerm.absdiffby)
 export(aging.hiv)
+export(deaths.hiv)
 import(EpiModel)
 import(ergm)
 importFrom(Rcpp,sourceCpp)
