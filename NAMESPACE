@@ -3,6 +3,7 @@
 export(InitErgmTerm.absdiffby)
 export(aging.hiv)
 export(births.hiv)
+export(cd4.hiv)
 export(circ)
 export(deaths.hiv)
 export(setBirthAttr)
