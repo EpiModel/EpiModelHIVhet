@@ -2,7 +2,9 @@
 
 export(InitErgmTerm.absdiffby)
 export(aging.hiv)
+export(births.hiv)
 export(deaths.hiv)
+export(setBirthAttr)
 import(EpiModel)
 import(ergm)
 import(network)
