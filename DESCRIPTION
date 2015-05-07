@@ -12,8 +12,8 @@ License: GPL-3
 Depends: 
     R (>= 3.1.1),
     EpiModel (>= 1.1.4),
+    ergm (>= 3.2.4)
 Imports:
-    ergm (>= 3.2.4),
     Rcpp
 Suggests:
     knitr,
