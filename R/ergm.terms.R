@@ -18,9 +18,9 @@
 #'
 #' @export
 InitErgmTerm.absdiffby <- function(nw, arglist, ...) {
-  a <- check.ErgmTerm(nw, 
-                      arglist, 
-                      directed = FALSE, 
+  a <- check.ErgmTerm(nw,
+                      arglist,
+                      directed = FALSE,
                       bipartite = FALSE,
                       varnames = c("attrname", "by", "assym"),
                       vartypes = c("character", "character", "numeric"),

@@ -17,7 +17,7 @@
 #' @docType package
 #' @keywords package
 #' @useDynLib EpiModel.hiv
-#' @import EpiModel ergm
+#' @import EpiModel ergm network networkDynamic
 #' @importFrom Rcpp sourceCpp
 #'
 NULL
