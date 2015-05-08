@@ -14,3 +14,7 @@ get_attr <- function(x, sim = 1) {
 cut_age <- function(age, breaks = c(0, 29, 39, Inf)) {
   cut(age, breaks = breaks, labels = FALSE)
 }
+
+keep.attr <- function(attrList, keep) {
+  lapply(attrList, function(x) x[keep])
+}
