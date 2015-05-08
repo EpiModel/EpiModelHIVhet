@@ -133,7 +133,6 @@ base_nw.hiv <- function(nwstats) {
   # Set Attributes
   nw <- set.vertex.attribute(nw,
                              attrname = c("male", "age"),
-                             value = list(male = male,
-                                          age = ages))
+                             value = list(male = male, age = ages))
   return(nw)
 }

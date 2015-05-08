@@ -2,7 +2,7 @@
 
 export(InitErgmTerm.absdiffby)
 export(aging.hiv)
-export(base_nw.camp)
+export(base_nw.hiv)
 export(births.hiv)
 export(calc_nwstats.hiv)
 export(cd4.hiv)
