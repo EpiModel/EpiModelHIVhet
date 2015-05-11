@@ -37,6 +37,9 @@ verbose.hiv <- function(x, type, s, at) {
             currsim <- x$control$currsim
             df <- data.frame(simno = simno, currsim = currsim, at = at,
                              popsize = x$epi$num[at], prev = x$epi$i.num[at])
+            if (file.exists("verb/") == FALSE) {
+              dir.create("verb/")
+            }
             fn <- paste0("verb/sim", simno, ".s", currsim, ".txt")
             write.table(t(df), file = fn, col.names = FALSE)
           }
