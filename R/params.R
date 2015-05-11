@@ -144,8 +144,6 @@ param.hiv <- function(time.unit = 7,
   ds.rates <- data.frame(male = male, age, mrate = mrate)
   ds.rates <- ds.rates[ds.rates$age != 0, ]
   p$ds.rates <- ds.rates
-  rm(ltGhana, envir = parent.frame())
-
 
   ## Time unit scaling
   if (time.unit > 1) {
