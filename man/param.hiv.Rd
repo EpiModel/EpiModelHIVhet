@@ -21,6 +21,12 @@ param.hiv(time.unit = 7, acute.stage.mult = 5, aids.stage.mult = 2,
 \arguments{
 \item{time.unit}{Unit of time relative to one day.}
 
+\item{acute.stage.mult}{Acute stage multiplier for increased infectiousness
+above impact of heightened viral load.}
+
+\item{aids.stage.mult}{AIDS stage multiplier for increased infectiousness in
+       AIDS above impact of heightened viral load.}
+
 \item{vl.acute.topeak}{Time in days to peak viremia during acute infection.}
 
 \item{vl.acute.toset}{Time in days to viral set point following peak viremia.}
@@ -40,6 +46,9 @@ param.hiv(time.unit = 7, acute.stage.mult = 5, aids.stage.mult = 2,
 \item{act.rate.late}{Daily per-partnership act rate in late disease.}
 
 \item{act.rate.cd4}{CD4 count at which the \code{act.rate.late} applies.}
+
+\item{acts.rand}{If \code{TRUE}, will draw number of total and unprotected
+       acts from a binomial distribution parameterized by the \code{act.rate}.}
 
 \item{circ.prob.birth}{Proportion of men circumcised at birth.}
 
@@ -91,8 +100,11 @@ value indicating no censoring.}
 
 \item{ds.rate.mult}{Simple multiplier for background death rates.}
 
-\item{act.rand}{If \code{TRUE}, will draw number of total and unprotected
-       acts from a binomial distribution parameterized by the \code{act.rate}.}
+\item{di.cd4.aids}{CD4 count at which late-stage AIDS occurs and the risk of
+mortality is governed by \code{di.cd4.rate}.}
+
+\item{di.cd4.rate}{Mortality in late-stage AIDS after hitting a nadir CD4 of
+       \code{di.cd4.aids}.}
 }
 \description{
 Sets the simulation parameters for the stochastic

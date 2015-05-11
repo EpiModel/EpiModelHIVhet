@@ -9,6 +9,11 @@
 #'
 #' @param time.unit Unit of time relative to one day.
 #'
+#' @param acute.stage.mult Acute stage multiplier for increased infectiousness
+#'        above impact of heightened viral load.
+#' @param aids.stage.mult AIDS stage multiplier for increased infectiousness in
+#'        AIDS above impact of heightened viral load.
+#'
 #' @param vl.acute.topeak Time in days to peak viremia during acute infection.
 #' @param vl.acute.toset Time in days to viral set point following peak viremia.
 #' @param vl.acute.peak Log 10 viral load at acute peak.
@@ -21,7 +26,7 @@
 #' @param act.rate.early Daily per-partnership act rate in early disease.
 #' @param act.rate.late Daily per-partnership act rate in late disease.
 #' @param act.rate.cd4 CD4 count at which the \code{act.rate.late} applies.
-#' @param act.rand If \code{TRUE}, will draw number of total and unprotected
+#' @param acts.rand If \code{TRUE}, will draw number of total and unprotected
 #'        acts from a binomial distribution parameterized by the \code{act.rate}.
 #'
 #' @param circ.prob.birth Proportion of men circumcised at birth.
@@ -58,6 +63,10 @@
 #' @param ds.exit.age Age at which the age-specific ds.rate is set to 1, with NA
 #'        value indicating no censoring.
 #' @param ds.rate.mult Simple multiplier for background death rates.
+#' @param di.cd4.aids CD4 count at which late-stage AIDS occurs and the risk of
+#'        mortality is governed by \code{di.cd4.rate}.
+#' @param di.cd4.rate Mortality in late-stage AIDS after hitting a nadir CD4 of
+#'        \code{di.cd4.aids}.
 #'
 #' @details This function sets the parameters for the models.
 #'
@@ -151,9 +160,9 @@ param.hiv <- function(time.unit = 7,
 
     p$dx.prob.feml <- p$dx.prob.feml * time.unit
     p$dx.prob.male <- p$dx.prob.male * time.unit
-
     p$tx.cd4.recrat.feml <- tx.cd4.recrat.feml * time.unit
     p$tx.cd4.recrat.male <- tx.cd4.recrat.male * time.unit
+    p$di.cd4.rate <- di.cd4.rate * time.unit
 
     ## Intervals divided by time unit
     p$vl.acute.topeak <- vl.acute.topeak / time.unit
