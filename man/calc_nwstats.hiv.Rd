@@ -4,11 +4,11 @@
 \alias{calc_nwstats.hiv}
 \title{Calculate Network Statistics}
 \usage{
-calc_nwstats.hiv(n = 1000, prop.male = 0.451, ages.male = seq(18, 55,
+calc_nwstats.hiv(n = 10000, prop.male = 0.451, ages.male = seq(18, 55,
   7/365), ages.feml = seq(18, 55, 7/365), start.prev = 0.05,
   meandeg.male = 1.005, meandeg.feml = 0.826, absdiff.offst = 5.38,
   absdiff.remain = 4.11, prop.conc.male = 0.178, prop.conc.feml = 0.028,
-  part.dur = 1000, time.unit = 7, use.constraints = TRUE)
+  part.dur = 1125, time.unit = 7, use.constraints = TRUE)
 }
 \arguments{
 \item{n}{Population size.}

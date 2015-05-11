@@ -21,7 +21,7 @@
 #'
 #' @export
 #'
-calc_nwstats.hiv <- function(n = 1000,
+calc_nwstats.hiv <- function(n = 10000,
                              prop.male = 0.451,
                              ages.male = seq(18, 55, 7/365),
                              ages.feml = seq(18, 55, 7/365),
@@ -32,7 +32,7 @@ calc_nwstats.hiv <- function(n = 1000,
                              absdiff.remain = 4.11,
                              prop.conc.male = 0.178,
                              prop.conc.feml = 0.028,
-                             part.dur = 1000,
+                             part.dur = 1125,
                              time.unit = 7,
                              use.constraints = TRUE) {
 
@@ -65,22 +65,6 @@ calc_nwstats.hiv <- function(n = 1000,
   dur <- part.dur/time.unit
   d.rate <- time.unit * (((1 - start.prev) * 1/(55 - 18)/365) + (start.prev * 1/12/365))
   coef.diss <- dissolution_coefs(dissolution, duration = dur, d.rate = d.rate)
-
-# Will move this to scenario file
-#   est <- netest(nw,
-#                 formation = formation,
-#                 dissolution = dissolution,
-#                 target.stats = ts,
-#                 coef.diss = coef.diss,
-#                 coef.form = -Inf,
-#                 constraints = constraints,
-#                 set.control.ergm = controlE,
-#                 edapprox = TRUE,
-#                 output = "fit")
-#
-#   ## Non-convergence error check
-#   sl <- tail(est$fit$steplen.hist, 2)
-#   stopifnot(all(sl == 1))
 
   out <- list()
   out$nMale <- nMale
