@@ -178,8 +178,8 @@ param.hiv <- function(time.unit = 7,
 #'
 #' @param i.prev.male Prevalence of initially infected males.
 #' @param i.prev.feml Prevalence of initially infected females.
-#' @param if \code{TRUE}, set the number of initial infected from a series of
-#'        binomial draws, else set the number deterministically.
+#' @param status.rand If \code{TRUE}, set the number of initial infected from a
+#'        series of binomial draws, else set the number deterministically.
 #' @param inf.time.dist Probability distribution for setting time of infection
 #'        for nodes infected at T1, with options of \code{"geometric"} for randomly
 #'        distributed on a geometric distribution with a probability of the
@@ -232,6 +232,10 @@ init.hiv <- function(i.prev.male = 0.05,
 #'        implied by \code{time.unit}.
 #' @param start Starting time step for simulation
 #' @param nsims Number of simulations.
+#' @param ncores Number of parallel cores to use for simulation jobs, if using
+#'        the \code{EpiModel.hpc} package.
+#' @param par.type Parallelization type, either of \code{"single"} for multi-core
+#'        or \code{"mpi"} for multi-node MPI threads.
 #' @param initialize.FUN Module to initialize the model at time 1.
 #' @param aging.FUN Module to age active nodes.
 #' @param cd4.FUN CD4 progression module.
@@ -246,7 +250,7 @@ init.hiv <- function(i.prev.male = 0.05,
 #' @param resim_nets.FUN Module to resimulate the network at each time step.
 #' @param infection.FUN Module to simulate disease infection.
 #' @param get_prev.FUN Module to calculate disease prevalence at each time step,
-#'        with the default function of \code{\link{get_prev.hiv}}.
+#'        with the default function of \code{\link{prevalence.hiv}}.
 #' @param verbose.FUN Module to print simulation progress to screen, with the
 #'        default function of \code{\link{verbose.hiv}}.
 #' @param clin.array If \code{TRUE}, save an array of individual-level attribute
@@ -267,6 +271,7 @@ init.hiv <- function(i.prev.male = 0.05,
 #'        initial conditions, and control settings before running the models.
 #'        This is suggested only if encountering unnecessary errors when running
 #'        new models.
+#' @param ... Additional arguments passed to the function.
 #'
 #' @details This function sets the parameters for the models.
 #'
@@ -277,7 +282,7 @@ control.hiv <- function(simno = 1,
                         start = 1,
                         nsims = 1,
                         ncores = 1,
-                        par.type = "mpi",
+                        par.type = "single",
                         initialize.FUN = initialize.hiv,
                         aging.FUN = aging.hiv,
                         cd4.FUN = cd4.hiv,
@@ -302,10 +307,10 @@ control.hiv <- function(simno = 1,
                         verbose = TRUE,
                         verbose.int = 100,
                         nwstats.formula = ~ edges + meandeg +
-                          absdiffby("age", "male", 5.38) +
-                          degree(0:4, by = "male") +
-                          concurrent(by = "male") +
-                          nodematch("male"),
+                                            absdiffby("age", "male", 5.38) +
+                                            degree(0:4, by = "male") +
+                                            concurrent(by = "male") +
+                                            nodematch("male"),
                         skip.check = TRUE,
                         ...) {
 

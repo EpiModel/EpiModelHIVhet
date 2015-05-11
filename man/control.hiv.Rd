@@ -6,7 +6,7 @@
        Sub-Saharan Africa}
 \usage{
 control.hiv(simno = 1, nsteps = 100, start = 1, nsims = 1, ncores = 1,
-  par.type = "mpi", initialize.FUN = initialize.hiv,
+  par.type = "single", initialize.FUN = initialize.hiv,
   aging.FUN = aging.hiv, cd4.FUN = cd4.hiv, vl.FUN = vl.hiv,
   dx.FUN = dx.hiv, tx.FUN = tx.hiv, deaths.FUN = deaths.hiv,
   births.FUN = births.hiv, edges_correct.FUN = edges_correct.hiv,
@@ -28,6 +28,12 @@ implied by \code{time.unit}.}
 \item{start}{Starting time step for simulation}
 
 \item{nsims}{Number of simulations.}
+
+\item{ncores}{Number of parallel cores to use for simulation jobs, if using
+the \code{EpiModel.hpc} package.}
+
+\item{par.type}{Parallelization type, either of \code{"single"} for multi-core
+or \code{"mpi"} for multi-node MPI threads.}
 
 \item{initialize.FUN}{Module to initialize the model at time 1.}
 
@@ -54,7 +60,7 @@ to changes to the population size, with the default function of
 \item{infection.FUN}{Module to simulate disease infection.}
 
 \item{get_prev.FUN}{Module to calculate disease prevalence at each time step,
-with the default function of \code{\link{get_prev.hiv}}.}
+with the default function of \code{\link{prevalence.hiv}}.}
 
 \item{verbose.FUN}{Module to print simulation progress to screen, with the
 default function of \code{\link{verbose.hiv}}.}
@@ -85,9 +91,11 @@ disk.}
 \item{nwstats.formula}{Formula for network statistics on the network.}
 
 \item{skip.check}{If \code{TRUE}, skips the error check for parameter values,
-       initial conditions, and control settings before running the models.
-       This is suggested only if encountering unnecessary errors when running
-       new models.}
+initial conditions, and control settings before running the models.
+This is suggested only if encountering unnecessary errors when running
+new models.}
+
+\item{...}{Additional arguments passed to the function.}
 }
 \description{
 This function sets the control settings for the stochastic

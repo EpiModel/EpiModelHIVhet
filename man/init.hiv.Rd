@@ -14,6 +14,9 @@ init.hiv(i.prev.male = 0.05, i.prev.feml = 0.05, status.rand = FALSE,
 
 \item{i.prev.feml}{Prevalence of initially infected females.}
 
+\item{status.rand}{If \code{TRUE}, set the number of initial infected from a
+series of binomial draws, else set the number deterministically.}
+
 \item{inf.time.dist}{Probability distribution for setting time of infection
 for nodes infected at T1, with options of \code{"geometric"} for randomly
 distributed on a geometric distribution with a probability of the
@@ -27,9 +30,6 @@ used when \code{inf.time.dist} is \code{"geometric"} or \code{"uniform"}.}
 \item{reinit.age.bystatus}{If \code{TRUE}, will reinitialize ages by disease
        status (infected tend to be older than susceptible) in initialization
        module.}
-
-\item{if}{\code{TRUE}, set the number of initial infected from a series of
-binomial draws, else set the number deterministically.}
 }
 \description{
 This function sets the initial conditions for the stochastic
