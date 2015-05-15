@@ -16,6 +16,12 @@ simnet.hiv <- function(dat, at) {
     return(dat)
   }
 
+  # Delete Nodes ------------------------------------------------------------
+  if (at > 1 & dat$control$delete.nodes == TRUE) {
+    dat$nw <- network.extract(dat$nw, at = at)
+    inactive <- which(dat$attr$active == 0)
+    dat$attr <- deleteAttr(dat$attr, inactive)
+  }
 
   # Resimulation ------------------------------------------------------------
   nwparam <- get_nwparam(dat)
@@ -46,18 +52,6 @@ simnet.hiv <- function(dat, at) {
                                tail(attributes(dat$nw)$stats, 1 * resim.int))
   }
 
-
-  # Delete Nodes ------------------------------------------------------------
-  if (dat$control$delete.nodes == TRUE) {
-    dat$nw <- network.extract(dat$nw, at = at)
-    inactive <- which(dat$attr$active == 0)
-    dat$attr <- deleteAttr(dat$attr, inactive)
-    if (dat$control$clin.array == TRUE & length(inactive > 0)) {
-      for (i in 1:3) {
-        dat$clin[[i]] <- dat$clin[[i]][-inactive,]
-      }
-    }
-  }
 
   return(dat)
 }
