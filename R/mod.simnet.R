@@ -11,7 +11,7 @@
 #'
 simnet.hiv <- function(dat, at) {
 
-  resim.int <- dat$param$resim.tunit
+  resim.int <- dat$param$resim.int
   if (at > 1 & at %% resim.int > 0) {
     return(dat)
   }
