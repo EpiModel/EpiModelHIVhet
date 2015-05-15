@@ -35,13 +35,16 @@ verbose.hiv <- function(x, type, s, at) {
           if (x$control$verbose.int > 0 && (at %% x$control$verbose.int == 0)) {
             simno <- x$control$simno
             currsim <- x$control$currsim
-            df <- data.frame(simno = simno, currsim = currsim, at = at,
-                             popsize = x$epi$num[at], prev = x$epi$i.num[at])
             if (file.exists("verb/") == FALSE) {
               dir.create("verb/")
             }
             fn <- paste0("verb/sim", simno, ".s", currsim, ".txt")
-            write.table(t(df), file = fn, col.names = FALSE)
+            cat("====================",
+                "\nSimno:", paste(simno, currsim, sep = "."),
+                "\nPopSize:", x$epi$num[at],
+                "\nPrev:", x$epi$i.num[at],
+                "\n====================",
+                "\n", file = fn)
           }
         }
       } else {
