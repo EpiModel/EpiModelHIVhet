@@ -11,7 +11,7 @@ control.hiv(simno = 1, nsteps = 100, start = 1, nsims = 1, ncores = 1,
   dx.FUN = dx.hiv, tx.FUN = tx.hiv, deaths.FUN = deaths.hiv,
   births.FUN = births.hiv, edges_correct.FUN = edges_correct.hiv,
   resim_nets.FUN = simnet.hiv, infection.FUN = infect.hiv,
-  get_prev.FUN = prevalence.hiv, verbose.FUN = verbose.hiv,
+  get_prev.FUN = prevalence.hiv, verbose.FUN = verbose.hiv, resim.int = 1,
   clin.array = FALSE, delete.nodes = TRUE, save.int = NULL,
   keep.cpdata = TRUE, save.transmat = FALSE, save.network = TRUE,
   save.nwstats = TRUE, save.other = "attr", verbose = TRUE,
@@ -64,6 +64,9 @@ with the default function of \code{\link{prevalence.hiv}}.}
 
 \item{verbose.FUN}{Module to print simulation progress to screen, with the
 default function of \code{\link{verbose.hiv}}.}
+
+\item{resim.int}{Interval unit for resimulation of network, relative to
+\code{time.unit} in \code{\link{param.hiv}}.}
 
 \item{clin.array}{If \code{TRUE}, save an array of individual-level attribute
 history for treatment status, viral load, and CD4 level.}

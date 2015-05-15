@@ -11,6 +11,11 @@
 #'
 simnet.hiv <- function(dat, at) {
 
+  resim.int <- dat$param$resim.tunit
+  if (at > 1 & at %% resim.int > 0) {
+    return(dat)
+  }
+
 
   # Resimulation ------------------------------------------------------------
   nwparam <- get_nwparam(dat)
@@ -29,7 +34,7 @@ simnet.hiv <- function(dat, at) {
       coef.diss = coef.diss,
       constraints = nwparam$constraints,
       time.start = at,
-      time.slices = 1,
+      time.slices = 1 * resim.int,
       time.offset = 0,
       output = "networkDynamic",
       monitor = dat$control$nwstats.formula))

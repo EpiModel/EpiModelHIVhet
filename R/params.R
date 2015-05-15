@@ -260,6 +260,8 @@ init.hiv <- function(i.prev.male = 0.05,
 #'        with the default function of \code{\link{prevalence.hiv}}.
 #' @param verbose.FUN Module to print simulation progress to screen, with the
 #'        default function of \code{\link{verbose.hiv}}.
+#' @param resim.int Interval unit for resimulation of network, relative to
+#'        \code{time.unit} in \code{\link{param.hiv}}.
 #' @param clin.array If \code{TRUE}, save an array of individual-level attribute
 #'        history for treatment status, viral load, and CD4 level.
 #' @param delete.nodes If \code{TRUE}, delete vertices upon exit/death, otherwise
@@ -303,6 +305,7 @@ control.hiv <- function(simno = 1,
                         infection.FUN = infect.hiv,
                         get_prev.FUN = prevalence.hiv,
                         verbose.FUN = verbose.hiv,
+                        resim.int = 1,
                         clin.array = FALSE,
                         delete.nodes = TRUE,
                         save.int = NULL,
