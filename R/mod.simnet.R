@@ -42,7 +42,8 @@ simnet.hiv <- function(dat, at) {
   if (at == 1) {
     dat$stats$nwstats <- as.data.frame(attributes(dat$nw)$stats)
   } else {
-    dat$stats$nwstats <- rbind(dat$stats$nwstats, tail(attributes(dat$nw)$stats, 1))
+    dat$stats$nwstats <- rbind(dat$stats$nwstats,
+                               tail(attributes(dat$nw)$stats, 1 * resim.int))
   }
 
 
