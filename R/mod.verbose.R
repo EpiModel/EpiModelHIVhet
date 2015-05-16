@@ -41,6 +41,7 @@ verbose.hiv <- function(x, type, s, at) {
             fn <- paste0("verb/sim", simno, ".s", currsim, ".txt")
             cat("====================",
                 "\nSimno:", paste(simno, currsim, sep = "."),
+                "\nStep:", at,
                 "\nPopSize:", x$epi$num[at],
                 "\nPrev:", x$epi$i.num[at],
                 "\n====================",
