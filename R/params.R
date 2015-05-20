@@ -79,7 +79,7 @@
 param.hiv <- function(time.unit = 7,
 
                       acute.stage.mult = 5,
-                      aids.stage.mult = 2,
+                      aids.stage.mult = 1,
 
                       vl.acute.topeak = 14,
                       vl.acute.toset = 107,
