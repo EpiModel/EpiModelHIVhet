@@ -61,10 +61,7 @@ vl.hiv <- function(dat, at) {
       dat$attr$vlSlope[needSlope] <- vl.slope[needSlope]
     }
 
-    # oldVl <- vlLevel[idsEligTx]
     vlLevel[idsEligTx] <- pmax(vlLevel[idsEligTx] + vl.slope[idsEligTx], tx.vlsupp.level)
-    # newVl <- vlLevel[idsEligTx]
-    # data.frame(oldVl, newVl)
   }
 
 
@@ -81,10 +78,7 @@ vl.hiv <- function(dat, at) {
 
     vl.slope <- dat$attr$vlSlope
 
-    # oldVl <- vlLevel[idsEligNoTx]
     vlLevel[idsEligNoTx] <- pmin(vlLevel[idsEligNoTx] - vl.slope[idsEligNoTx], expVl)
-    # newVl <- vlLevel[idsEligNoTx]
-    # data.frame(oldVl, newVl)
   }
 
   dat$attr$vlLevel <- vlLevel
