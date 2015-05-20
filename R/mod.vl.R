@@ -93,7 +93,7 @@ expected_vl <- function(male, age, ageInf, param) {
 
   slope1 <- param$vl.acute.peak / param$vl.acute.topeak
   slope2 <- (param$vl.setpoint - param$vl.acute.peak) /
-    (param$vl.acute.toset - param$vl.acute.topeak)
+            (param$vl.acute.toset - param$vl.acute.topeak)
 
   sl3denom <- expected_cd4(method = "timeto",
                            cd4Count1 = 200, cd4Count2 = 25,

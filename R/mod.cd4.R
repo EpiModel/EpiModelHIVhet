@@ -68,17 +68,19 @@ cd4.hiv <- function(dat, at) {
 
 
   # CD4 decline post ART ----------------------------------------------------
+  tx.cd4.decrat.feml <- dat$param$tx.cd4.decrat.feml
+  tx.cd4.decrat.male <- dat$param$tx.cd4.decrat.male
+
   idsNoTxFeml <- which(active == 1 & status == "i" & male == 0 &
                          !is.na(txStartTime) & txStat == 0)
   idsNoTxMale <- which(active == 1 & status == "i" & male == 1 &
                          !is.na(txStartTime) & txStat == 0)
   if (length(idsNoTxFeml) > 0) {
-    cd4Count[idsNoTxFeml] <- pmax(cd4Count[idsNoTxFeml] - tx.cd4.recrat.feml, 0)
+    cd4Count[idsNoTxFeml] <- pmax(cd4Count[idsNoTxFeml] - tx.cd4.decrat.feml, 0)
   }
   if (length(idsNoTxMale) > 0) {
-    cd4Count[idsNoTxMale] <- pmax(cd4Count[idsNoTxMale] - tx.cd4.recrat.male, 0)
+    cd4Count[idsNoTxMale] <- pmax(cd4Count[idsNoTxMale] - tx.cd4.decrat.male, 0)
   }
-
 
   dat$attr$cd4Count <- cd4Count
 

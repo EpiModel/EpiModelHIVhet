@@ -43,6 +43,10 @@
 #' @param tx.vlsupp.level Log 10 viral load level at suppression.
 #' @param tx.cd4.recrat.feml Rate of CD4 recovery under treatment for males.
 #' @param tx.cd4.recrat.male Rate of CD4 recovery under treatment for females.
+#' @param tx.cd4.decrat.feml Rate of CD4 decline under periods of non-adherence
+#'        for females.
+#' @param tx.cd4.decrat.male Rate of CD4 decline under periods of non-adherence
+#'        for males.
 #' @param tx.coverage Proportion of treatment-eligible persons who have initiated
 #'        treatment.
 #' @param tx.prev.eff Proportional amount by which treatment reduces infectivity
@@ -103,6 +107,8 @@ param.hiv <- function(time.unit = 7,
                       tx.vlsupp.level = 1.5,
                       tx.cd4.recrat.feml = 11.6/30,
                       tx.cd4.recrat.male = 9.75/30,
+                      tx.cd4.decrat.feml = (2*11.6)/30,
+                      tx.cd4.decrat.male = (2*9.75)/30,
                       tx.coverage = 0.3,
                       tx.prev.eff = 0.96,
 
