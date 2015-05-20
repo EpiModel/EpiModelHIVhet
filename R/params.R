@@ -166,6 +166,8 @@ param.hiv <- function(time.unit = 7,
     p$dx.prob.male <- p$dx.prob.male * time.unit
     p$tx.cd4.recrat.feml <- tx.cd4.recrat.feml * time.unit
     p$tx.cd4.recrat.male <- tx.cd4.recrat.male * time.unit
+    p$tx.cd4.decrat.feml <- tx.cd4.decrat.feml * time.unit
+    p$tx.cd4.decrat.male <- tx.cd4.decrat.male * time.unit
     p$di.cd4.rate <- di.cd4.rate * time.unit
 
     ## Intervals divided by time unit
