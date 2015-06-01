@@ -16,6 +16,9 @@ infect.hiv <- function(dat, at) {
 
   nInf <- 0
   idsInf.male <- idsInf.feml <- NULL
+  idsInf.1829 <- idsInf.30pl <- NULL
+  idsInf.feml.1829 <- idsInf.male.1829 <- NULL
+  idsInf.feml.30pl <- idsInf.male.30pl <- NULL
 
   if (!is.null(del)) {
 
@@ -31,6 +34,13 @@ infect.hiv <- function(dat, at) {
 
     idsInf.male <- intersect(idsInf, which(dat$attr$male == 1))
     idsInf.feml <- intersect(idsInf, which(dat$attr$male == 0))
+    idsInf.1829 <- intersect(idsInf, which(dat$attr$age < 30))
+    idsInf.30pl <- intersect(idsInf, which(dat$attr$age >= 30))
+    idsInf.feml.1829 <- intersect(idsInf, which(dat$attr$male == 0 & dat$attr$age < 30))
+    idsInf.male.1829 <- intersect(idsInf, which(dat$attr$male == 1 & dat$attr$age < 30))
+    idsInf.feml.30pl <- intersect(idsInf, which(dat$attr$male == 0 & dat$attr$age >= 30))
+    idsInf.male.30pl <- intersect(idsInf, which(dat$attr$male == 1 & dat$attr$age >= 30))
+
 
     if (nInf > 0) {
       dat$attr$status[idsInf] <- "i"
@@ -64,10 +74,22 @@ infect.hiv <- function(dat, at) {
     dat$epi$si.flow <- c(0, nInf)
     dat$epi$si.flow.male <- c(0, length(idsInf.male))
     dat$epi$si.flow.feml <- c(0, length(idsInf.feml))
+    dat$epi$si.flow.1829 <- c(0, length(idsInf.1829))
+    dat$epi$si.flow.30pl <- c(0, length(idsInf.30pl))
+    dat$epi$si.flow.feml.1829 <- c(0, length(idsInf.feml.1829))
+    dat$epi$si.flow.male.1829 <- c(0, length(idsInf.male.1829))
+    dat$epi$si.flow.feml.30pl <- c(0, length(idsInf.feml.30pl))
+    dat$epi$si.flow.male.30pl <- c(0, length(idsInf.male.30pl))
   } else {
     dat$epi$si.flow[at] <- nInf
     dat$epi$si.flow.male[at] <- length(idsInf.male)
     dat$epi$si.flow.feml[at] <- length(idsInf.feml)
+    dat$epi$si.flow.1829[at] <- length(idsInf.1829)
+    dat$epi$si.flow.30pl[at] <- length(idsInf.30pl)
+    dat$epi$si.flow.feml.1829[at] <- length(idsInf.feml.1829)
+    dat$epi$si.flow.male.1829[at] <- length(idsInf.male.1829)
+    dat$epi$si.flow.feml.30pl[at] <- length(idsInf.feml.30pl)
+    dat$epi$si.flow.male.30pl[at] <- length(idsInf.male.30pl)
   }
 
   return(dat)

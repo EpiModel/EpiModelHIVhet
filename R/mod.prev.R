@@ -110,6 +110,13 @@ prevalence.hiv <- function(dat, at) {
         sum(active == 1 & male == 1 & age < 30)
       dat$epi$i.prev.male.30pl <- sum(active == 1 & status == "i" & male == 0 & age >= 30)/
         sum(active == 1 & male == 1 & age >= 30)
+
+      dat$epi$incr.1829 <- 0
+      dat$epi$incr.30pl <- 0
+      dat$epi$incr.feml.1829 <- 0
+      dat$epi$incr.male.1829 <- 0
+      dat$epi$incr.feml.30pl <- 0
+      dat$epi$incr.male.30pl <- 0
     }
 
 
@@ -243,6 +250,22 @@ prevalence.hiv <- function(dat, at) {
         sum(active == 1 & male == 1 & age < 30)
       dat$epi$i.prev.male.30pl[at] <- sum(active == 1 & status == "i" & male == 0 & age >= 30)/
         sum(active == 1 & male == 1 & age >= 30)
+
+      dat$epi$incr.1829 <- (dat$epi$si.flow.1829[at] /
+                              sum(active == 1 & status == "s" & age < 30))*5200
+      dat$epi$incr.30pl <- (dat$epi$si.flow.30pl[at] /
+                              sum(active == 1 & status == "s" & age >= 30))*5200
+      dat$epi$incr.feml.1829 <- (dat$epi$si.flow.feml.1829[at] /
+                                   sum(active == 1 & status == "s" & age < 30 & male == 0))*5200
+      dat$epi$incr.male.1829 <- (dat$epi$si.flow.male.1829[at] /
+                                   sum(active == 1 & status == "s" & age < 30 & male == 1))*5200
+      dat$epi$incr.feml.30pl <- (dat$epi$si.flow.feml.30pl[at] /
+                                   sum(active == 1 & status == "s" & age >= 30 & male == 0))*5200
+      dat$epi$incr.male.30pl <- (dat$epi$si.flow.male.30pl[at] /
+                                   sum(active == 1 & status == "s" & age >= 30 & male == 1))*5200
+
+      dat$epi$incr.1829[at] <- (dat$epi$si.flow.1829[at] / dat$epi$s.num.male[at])*5200
+      dat$epi$incr.30pl[at] <- (dat$epi$si.flow.1829[at] / dat$epi$s.num.feml[at])*5200
     }
 
 
