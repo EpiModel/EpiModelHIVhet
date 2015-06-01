@@ -16,7 +16,7 @@ infect.hiv <- function(dat, at) {
 
   nInf <- 0
   idsInf.male <- idsInf.feml <- NULL
-  idsInf.rct0 <- idsInf.rct1 <- idsInf.rct1.tx0 <- idsInf.rct1.tx1 <- NULL
+
   if (!is.null(del)) {
 
     ## Acts
@@ -31,13 +31,6 @@ infect.hiv <- function(dat, at) {
 
     idsInf.male <- intersect(idsInf, which(dat$attr$male == 1))
     idsInf.feml <- intersect(idsInf, which(dat$attr$male == 0))
-    if (dat$param$model == "a3") {
-      idsInf.rct0 <- intersect(idsInf, which(dat$attr$rctStat == 0))
-      idsInf.rct1 <- intersect(idsInf, which(dat$attr$rctStat == 1))
-      idsInf.rct1.tx0 <- intersect(idsInf.rct1, which(dat$attr$rctTx == 0))
-      idsInf.rct1.tx1 <- intersect(idsInf.rct1, which(dat$attr$rctTx == 1))
-    }
-
 
     if (nInf > 0) {
       dat$attr$status[idsInf] <- "i"
@@ -71,22 +64,10 @@ infect.hiv <- function(dat, at) {
     dat$epi$si.flow <- c(0, nInf)
     dat$epi$si.flow.male <- c(0, length(idsInf.male))
     dat$epi$si.flow.feml <- c(0, length(idsInf.feml))
-    if (dat$param$model == "a3") {
-      dat$epi$si.flow.rct0 <- c(0, length(idsInf.rct0))
-      dat$epi$si.flow.rct1 <- c(0, length(idsInf.rct1))
-      dat$epi$si.flow.rct1.tx0 <- c(0, length(idsInf.rct1.tx0))
-      dat$epi$si.flow.rct1.tx1 <- c(0, length(idsInf.rct1.tx1))
-    }
   } else {
     dat$epi$si.flow[at] <- nInf
     dat$epi$si.flow.male[at] <- length(idsInf.male)
     dat$epi$si.flow.feml[at] <- length(idsInf.feml)
-    if (dat$param$model == "a3") {
-      dat$epi$si.flow.rct0[at] <- length(idsInf.rct0)
-      dat$epi$si.flow.rct1[at] <- length(idsInf.rct1)
-      dat$epi$si.flow.rct1.tx0[at] <- length(idsInf.rct1.tx0)
-      dat$epi$si.flow.rct1.tx1[at] <- length(idsInf.rct1.tx1)
-    }
   }
 
   return(dat)
