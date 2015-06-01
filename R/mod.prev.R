@@ -108,8 +108,8 @@ prevalence.hiv <- function(dat, at) {
       sum(active == 1 & male == 1)
     dat$epi$i.prev.feml[at] <- sum(active == 1 & status == "i" & male == 0) /
       sum(active == 1 & male == 0)
-    dat$epi$incr.male <- (dat$epi$si.flow.male[at] / dat$epi$s.num.male[at])*5200
-    dat$epi$incr.feml <- (dat$epi$si.flow.feml[at] / dat$epi$s.num.feml[at])*5200
+    dat$epi$incr.male[at] <- (dat$epi$si.flow.male[at] / dat$epi$s.num.male[at])*5200
+    dat$epi$incr.feml[at] <- (dat$epi$si.flow.feml[at] / dat$epi$s.num.feml[at])*5200
 
 
     ### Demographics ###
