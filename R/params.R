@@ -270,6 +270,8 @@ init.hiv <- function(i.prev.male = 0.05,
 #'        default function of \code{\link{verbose.hiv}}.
 #' @param resim.int Interval unit for resimulation of network, relative to
 #'        \code{time.unit} in \code{\link{param.hiv}}.
+#' @param calc.asprev If \code{TRUE}, add age and sex-specific binned prevalence
+#'        calculations to epi summary output.
 #' @param clin.array If \code{TRUE}, save an array of individual-level attribute
 #'        history for treatment status, viral load, and CD4 level.
 #' @param delete.nodes If \code{TRUE}, delete vertices upon exit/death, otherwise
@@ -314,6 +316,7 @@ control.hiv <- function(simno = 1,
                         get_prev.FUN = prevalence.hiv,
                         verbose.FUN = verbose.hiv,
                         resim.int = 1,
+                        calc.asprev = FALSE,
                         clin.array = FALSE,
                         delete.nodes = TRUE,
                         save.int = NULL,
