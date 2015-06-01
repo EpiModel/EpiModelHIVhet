@@ -39,11 +39,78 @@ prevalence.hiv <- function(dat, at) {
     dat$epi$i.num.male <- sum(active == 1 & status == "i" & male == 1)
     dat$epi$i.num.feml <- sum(active == 1 & status == "i" & male == 0)
     dat$epi$i.prev.male <- sum(active == 1 & status == "i" & male == 1) /
-      sum(active == 1 & male == 1)
+                           sum(active == 1 & male == 1)
     dat$epi$i.prev.feml <- sum(active == 1 & status == "i" & male == 0) /
-      sum(active == 1 & male == 0)
+                           sum(active == 1 & male == 0)
     dat$epi$incr.male <- 0
     dat$epi$incr.feml <- 0
+
+
+    ## Age-sex specific prevalence
+    if (dat$control$calc.asprev == TRUE) {
+      dat$epi$i.prev.1824 <- sum(active == 1 & status == "i" & age >= 18 & age < 25)/
+        sum(active == 1 & age >= 18 & age < 25)
+      dat$epi$i.prev.2529 <- sum(active == 1 & status == "i" & age >= 25 & age < 30)/
+        sum(active == 1 & age >= 25 & age < 30)
+      dat$epi$i.prev.3034 <- sum(active == 1 & status == "i" & age >= 30 & age < 35)/
+        sum(active == 1 & age >= 30 & age < 35)
+      dat$epi$i.prev.3539 <- sum(active == 1 & status == "i" & age >= 35 & age < 40)/
+        sum(active == 1 & age >= 35 & age < 40)
+      dat$epi$i.prev.4044 <- sum(active == 1 & status == "i" & age >= 40 & age < 45)/
+        sum(active == 1 & age >= 40 & age < 45)
+      dat$epi$i.prev.45pl <- sum(active == 1 & status == "i" & age >= 45)/
+        sum(active == 1 & age >= 45)
+      dat$epi$i.prev.1829 <- sum(active == 1 & status == "i" & age < 30)/
+        sum(active == 1 & age < 30)
+      dat$epi$i.prev.30pl <- sum(active == 1 & status == "i" & age >= 30)/
+        sum(active == 1 & age >= 30)
+
+      dat$epi$i.prev.feml.1824 <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 18 & age < 25)/
+        sum(active == 1 & age >= 18 & age < 25 & male == 0)
+      dat$epi$i.prev.feml.2529 <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 25 & age < 30)/
+        sum(active == 1 & age >= 25 & age < 30 & male == 0)
+      dat$epi$i.prev.feml.3034 <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 30 & age < 35)/
+        sum(active == 1 & age >= 30 & age < 35 & male == 0)
+      dat$epi$i.prev.feml.3539 <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 35 & age < 40)/
+        sum(active == 1 & age >= 35 & age < 40 & male == 0)
+      dat$epi$i.prev.feml.4044 <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 40 & age < 45)/
+        sum(active == 1 & age >= 40 & age < 45 & male == 0)
+      dat$epi$i.prev.feml.45pl <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 45)/
+        sum(active == 1 & age >= 45 & male == 0)
+      dat$epi$i.prev.feml.1829 <- sum(active == 1 & status == "i" & male == 0 & age < 30)/
+        sum(active == 1 & male == 0 & age < 30)
+      dat$epi$i.prev.feml.30pl <- sum(active == 1 & status == "i" & male == 0 & age >= 30)/
+        sum(active == 1 & male == 0 & age >= 30)
+
+      dat$epi$i.prev.male.1824 <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 18 & age < 25)/
+        sum(active == 1 & age >= 18 & age < 25 & male == 0)
+      dat$epi$i.prev.male.2529 <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 25 & age < 30)/
+        sum(active == 1 & age >= 25 & age < 30 & male == 0)
+      dat$epi$i.prev.male.3034 <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 30 & age < 35)/
+        sum(active == 1 & age >= 30 & age < 35 & male == 0)
+      dat$epi$i.prev.male.3539 <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 35 & age < 40)/
+        sum(active == 1 & age >= 35 & age < 40 & male == 0)
+      dat$epi$i.prev.male.4044 <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 40 & age < 45)/
+        sum(active == 1 & age >= 40 & age < 45 & male == 0)
+      dat$epi$i.prev.male.45pl <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 45)/
+        sum(active == 1 & age >= 45 & male == 0)
+      dat$epi$i.prev.male.1829 <- sum(active == 1 & status == "i" & male == 0 & age < 30)/
+        sum(active == 1 & male == 1 & age < 30)
+      dat$epi$i.prev.male.30pl <- sum(active == 1 & status == "i" & male == 0 & age >= 30)/
+        sum(active == 1 & male == 1 & age >= 30)
+    }
 
 
     ### Demographics ###
@@ -110,6 +177,73 @@ prevalence.hiv <- function(dat, at) {
       sum(active == 1 & male == 0)
     dat$epi$incr.male[at] <- (dat$epi$si.flow.male[at] / dat$epi$s.num.male[at])*5200
     dat$epi$incr.feml[at] <- (dat$epi$si.flow.feml[at] / dat$epi$s.num.feml[at])*5200
+
+
+    ## Age-sex specific prevalence
+    if (dat$control$calc.asprev == TRUE) {
+      dat$epi$i.prev.1824[at] <- sum(active == 1 & status == "i" & age >= 18 & age < 25)/
+        sum(active == 1 & age >= 18 & age < 25)
+      dat$epi$i.prev.2529[at] <- sum(active == 1 & status == "i" & age >= 25 & age < 30)/
+        sum(active == 1 & age >= 25 & age < 30)
+      dat$epi$i.prev.3034[at] <- sum(active == 1 & status == "i" & age >= 30 & age < 35)/
+        sum(active == 1 & age >= 30 & age < 35)
+      dat$epi$i.prev.3539[at] <- sum(active == 1 & status == "i" & age >= 35 & age < 40)/
+        sum(active == 1 & age >= 35 & age < 40)
+      dat$epi$i.prev.4044[at] <- sum(active == 1 & status == "i" & age >= 40 & age < 45)/
+        sum(active == 1 & age >= 40 & age < 45)
+      dat$epi$i.prev.45pl[at] <- sum(active == 1 & status == "i" & age >= 45)/
+        sum(active == 1 & age >= 45)
+      dat$epi$i.prev.1829[at] <- sum(active == 1 & status == "i" & age < 30)/
+        sum(active == 1 & age < 30)
+      dat$epi$i.prev.30pl[at] <- sum(active == 1 & status == "i" & age >= 30)/
+        sum(active == 1 & age >= 30)
+
+      dat$epi$i.prev.feml.1824[at] <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 18 & age < 25)/
+        sum(active == 1 & age >= 18 & age < 25 & male == 0)
+      dat$epi$i.prev.feml.2529[at] <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 25 & age < 30)/
+        sum(active == 1 & age >= 25 & age < 30 & male == 0)
+      dat$epi$i.prev.feml.3034[at] <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 30 & age < 35)/
+        sum(active == 1 & age >= 30 & age < 35 & male == 0)
+      dat$epi$i.prev.feml.3539[at] <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 35 & age < 40)/
+        sum(active == 1 & age >= 35 & age < 40 & male == 0)
+      dat$epi$i.prev.feml.4044[at] <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 40 & age < 45)/
+        sum(active == 1 & age >= 40 & age < 45 & male == 0)
+      dat$epi$i.prev.feml.45pl[at] <- sum(active == 1 & status == "i" &
+                                        male == 0 & age >= 45)/
+        sum(active == 1 & age >= 45 & male == 0)
+      dat$epi$i.prev.feml.1829[at] <- sum(active == 1 & status == "i" & male == 0 & age < 30)/
+        sum(active == 1 & male == 0 & age < 30)
+      dat$epi$i.prev.feml.30pl[at] <- sum(active == 1 & status == "i" & male == 0 & age >= 30)/
+        sum(active == 1 & male == 0 & age >= 30)
+
+      dat$epi$i.prev.male.1824[at] <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 18 & age < 25)/
+        sum(active == 1 & age >= 18 & age < 25 & male == 0)
+      dat$epi$i.prev.male.2529[at] <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 25 & age < 30)/
+        sum(active == 1 & age >= 25 & age < 30 & male == 0)
+      dat$epi$i.prev.male.3034[at] <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 30 & age < 35)/
+        sum(active == 1 & age >= 30 & age < 35 & male == 0)
+      dat$epi$i.prev.male.3539[at] <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 35 & age < 40)/
+        sum(active == 1 & age >= 35 & age < 40 & male == 0)
+      dat$epi$i.prev.male.4044[at] <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 40 & age < 45)/
+        sum(active == 1 & age >= 40 & age < 45 & male == 0)
+      dat$epi$i.prev.male.45pl[at] <- sum(active == 1 & status == "i" &
+                                        male == 1 & age >= 45)/
+        sum(active == 1 & age >= 45 & male == 0)
+      dat$epi$i.prev.male.1829[at] <- sum(active == 1 & status == "i" & male == 0 & age < 30)/
+        sum(active == 1 & male == 1 & age < 30)
+      dat$epi$i.prev.male.30pl[at] <- sum(active == 1 & status == "i" & male == 0 & age >= 30)/
+        sum(active == 1 & male == 1 & age >= 30)
+    }
 
 
     ### Demographics ###
