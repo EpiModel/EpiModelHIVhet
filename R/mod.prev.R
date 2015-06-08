@@ -29,7 +29,7 @@ prevalence.hiv <- function(dat, at) {
 
     # Prev vectors
     dat$epi$s.num <-  dat$epi$i.num <- rNA
-    dat$epi$num <- dat$epi$cumNum <- rNA
+    dat$epi$num <- dat$epi$cumlNum <- rNA
     dat$epi$cumlInc <- dat$epi$incr <- rNA
 
     dat$epi$s.num.male <- dat$epi$s.num.feml <- rNA
@@ -76,7 +76,7 @@ prevalence.hiv <- function(dat, at) {
   dat$epi$i.num[at] <- sum(active == 1 & status == "i")
   dat$epi$num[at] <- sum(active == 1)
   dat$epi$cumlNum[at] <- dat$epi$num[1] + sum(dat$epi$b.flow, na.rm = TRUE)
-  dat$epi$cumlInc[at] <- sum(dat$epi$si.flow)
+  dat$epi$cumlInc[at] <- sum(dat$epi$si.flow, na.rm = TRUE)
   dat$epi$incr[at] <- (dat$epi$si.flow[at] / dat$epi$s.num[at])*5200
 
   ## Sex-specific prevalence
