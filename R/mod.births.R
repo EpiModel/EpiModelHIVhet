@@ -65,11 +65,7 @@ births.hiv <- function(dat, at) {
 
 
   # Output ------------------------------------------------------------------
-  if (at == 2) {
-    dat$epi$b.flow <- c(0, nBirths)
-  } else {
-    dat$epi$b.flow[at] <- nBirths
-  }
+  dat$epi$b.flow[at] <- nBirths
 
   return(dat)
 }

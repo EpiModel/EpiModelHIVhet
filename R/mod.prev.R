@@ -59,6 +59,13 @@ prevalence.hiv <- function(dat, at) {
     dat$epi$si.flow.male <- rNA
     dat$epi$si.flow.feml <- rNA
 
+    dat$epi$b.flow <- rNA
+    dat$epi$ds.flow <- dat$epi$di.flow <- rNA
+
+    dat$epi$txCov <- rNA
+    dat$epi$txStart <- rNA
+    dat$epi$txStop <- rNA
+    dat$epi$txRest <- rNA
 
   }
 
@@ -68,7 +75,7 @@ prevalence.hiv <- function(dat, at) {
   dat$epi$s.num[at] <- sum(active == 1 & status == "s")
   dat$epi$i.num[at] <- sum(active == 1 & status == "i")
   dat$epi$num[at] <- sum(active == 1)
-  dat$epi$cumNum[at] <- dat$epi$num[1] + sum(dat$epi$b.flow)
+  dat$epi$cumlNum[at] <- dat$epi$num[1] + sum(dat$epi$b.flow, na.rm = TRUE)
   dat$epi$cumlInc[at] <- sum(dat$epi$si.flow)
   dat$epi$incr[at] <- (dat$epi$si.flow[at] / dat$epi$s.num[at])*5200
 

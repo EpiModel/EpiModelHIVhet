@@ -98,13 +98,8 @@ deaths.hiv <- function(dat, at) {
 
 
   # Output ------------------------------------------------------------------
-  if (at == 2) {
-    dat$epi$ds.flow <- c(0, nDeathsSus)
-    dat$epi$di.flow <- c(0, nDeathsInf)
-  } else {
-    dat$epi$ds.flow[at] <- nDeathsSus
-    dat$epi$di.flow[at] <- nDeathsInf
-  }
+  dat$epi$ds.flow[at] <- nDeathsSus
+  dat$epi$di.flow[at] <- nDeathsInf
 
   return(dat)
 }
