@@ -21,234 +21,132 @@ prevalence.hiv <- function(dat, at) {
   txTimeOff <- dat$attr$txTimeOff
   txType <- dat$attr$txType
 
+  nsteps <- dat$control$nsteps
+  rNA <- rep(NA, nsteps)
+
+  # Initialize vectors
   if (at == 1) {
 
-    ### Prevalence ###
+    dat$epi$s.num <-  dat$epi$i.num <- rNA
+    dat$epi$num <- dat$epi$cumNum <- rNA
+    dat$epi$cumlInc <- dat$epi$incr <- rNA
 
-    ## Overall prevalence/incidence
-    dat$epi$s.num <- sum(active == 1 & status == "s")
-    dat$epi$i.num <- sum(active == 1 & status == "i")
-    dat$epi$num <- sum(active == 1)
-    dat$epi$cumNum <- dat$epi$num[1] + sum(dat$epi$b.flow)
-    dat$epi$cumlInc <- 0
-    dat$epi$incr <- 0
+    dat$epi$s.num.male <- dat$epi$s.num.feml <- rNA
+    dat$epi$i.num.male <- dat$epi$i.num.feml <- rNA
+    dat$epi$i.prev.male <- dat$epi$i.prev.feml <- rNA
+    dat$epi$incr.male <- dat$epi$incr.feml <- rNA
 
-    ## Sex-specific prevalence
-    dat$epi$s.num.male <- sum(active == 1 & status == "s" & male == 1)
-    dat$epi$s.num.feml <- sum(active == 1 & status == "s" & male == 0)
-    dat$epi$i.num.male <- sum(active == 1 & status == "i" & male == 1)
-    dat$epi$i.num.feml <- sum(active == 1 & status == "i" & male == 0)
-    dat$epi$i.prev.male <- sum(active == 1 & status == "i" & male == 1) /
-                           sum(active == 1 & male == 1)
-    dat$epi$i.prev.feml <- sum(active == 1 & status == "i" & male == 0) /
-                           sum(active == 1 & male == 0)
-    dat$epi$incr.male <- 0
-    dat$epi$incr.feml <- 0
+    dat$epi$num.male <- dat$epi$num.feml <- rNA
+    dat$epi$meanAge <- dat$epi$meanAge.sus <- dat$epi$meanAge.inf <- rNA
+    dat$epi$meanAge.male <- dat$epi$meanAge.feml <- rNA
+    dat$epi$propMale <- rNA
 
-
-    ## Age-sex specific prevalence
-    if (dat$control$calc.asprev == TRUE) {
-      dat$epi$i.prev.1829 <- sum(active == 1 & status == "i" & age < 30)/
-                             sum(active == 1 & age < 30)
-      dat$epi$i.prev.30pl <- sum(active == 1 & status == "i" & age >= 30)/
-                             sum(active == 1 & age >= 30)
-
-      dat$epi$i.prev.feml.1829 <- sum(active == 1 & status == "i" & male == 0 & age < 30)/
-                                  sum(active == 1 & male == 0 & age < 30)
-      dat$epi$i.prev.feml.30pl <- sum(active == 1 & status == "i" & male == 0 & age >= 30)/
-                                  sum(active == 1 & male == 0 & age >= 30)
-
-      dat$epi$i.prev.male.1829 <- sum(active == 1 & status == "i" & male == 1 & age < 30)/
-                                  sum(active == 1 & male == 1 & age < 30)
-      dat$epi$i.prev.male.30pl <- sum(active == 1 & status == "i" & male == 1 & age >= 30)/
-                                  sum(active == 1 & male == 1 & age >= 30)
-
-      dat$epi$incr.1829 <- 0
-      dat$epi$incr.30pl <- 0
-      dat$epi$incr.feml.1829 <- 0
-      dat$epi$incr.male.1829 <- 0
-      dat$epi$incr.feml.30pl <- 0
-      dat$epi$incr.male.30pl <- 0
-    }
-
-
-    ### Demographics ###
-    dat$epi$num.male <- sum(active == 1 & male == 1)
-    dat$epi$num.feml <- sum(active == 1 & male == 0)
-    dat$epi$meanAge <- mean(age[active == 1])
-    dat$epi$meanAge.sus <- mean(age[active == 1 & status == "s"])
-    dat$epi$meanAge.inf <- mean(age[active == 1 & status == "i"])
-    dat$epi$meanAge.male <- mean(age[active == 1 & male == 1])
-    dat$epi$meanAge.feml <- mean(age[active == 1 & male == 0])
-    dat$epi$propMale <- mean(male[active == 1])
-
-
-    ### Diagnosis and Treatment ###
-    dat$epi$newDx <- sum(dxTime == at, na.rm = TRUE)
-
-    ## Tx adherence
-    dat$epi$meanTxTimeOn <- NA
-    dat$epi$meanTxTimeOn.t0 <- NA
-    dat$epi$meanTxTimeOn.t1 <- NA
-
-    ## Viral load
-    dat$epi$meanVl <- NA
-    dat$epi$vlSupp <- NA
-    dat$epi$vlSupp.tx <- NA
-    dat$epi$vlSupp.t0 <- NA
-    dat$epi$vlSupp.t1 <- NA
-
-
-    ### Age Mixing ###
-    relage <- get_male_relage(dat$nw, at)
-    dat$epi$male.relage.mean <- mean(relage)
-    dat$epi$male.relage.mode <- dens_mode(relage)
-
-
-    ### Clinical array for treatment ###
+    dat$epi$newDx <- rNA
+    dat$epi$meanTxTimeOn <- dat$epi$meanTxTimeOn.t0 <-
+      dat$epi$meanTxTimeOn.t1 <- rNA
+    dat$epi$meanVl <- dat$epi$vlSupp <- dat$epi$vlSupp.tx <-
+      dat$epi$vlSupp.t0 <- dat$epi$vlSupp.t1 <- rNA
     if (dat$control$clin.array == TRUE) {
       dat$clin <- list()
-      dat$clin$txStat <- matrix(NA, length(active), dat$control$nsteps)
-      dat$clin$vlLevel <- matrix(NA, length(active), dat$control$nsteps)
-      dat$clin$cd4Count <- matrix(NA, length(active), dat$control$nsteps)
+      dat$clin$txStat <- matrix(NA, length(active), nsteps)
+      dat$clin$vlLevel <- matrix(NA, length(active), nsteps)
+      dat$clin$cd4Count <- matrix(NA, length(active), nsteps)
     }
 
-  } else {
+  }
 
-    ### Prevalence ###
+  ### Prevalence ###
 
-    ## Overall prevalence/incidence
-    dat$epi$s.num[at] <- sum(active == 1 & status == "s")
-    dat$epi$i.num[at] <- sum(active == 1 & status == "i")
-    dat$epi$num[at] <- sum(active == 1)
-    dat$epi$cumNum[at] <- dat$epi$num[1] + sum(dat$epi$b.flow)
-    dat$epi$cumlInc[at] <- sum(dat$epi$si.flow)
-    dat$epi$incr[at] <- (dat$epi$si.flow[at] / dat$epi$s.num[at])*5200
+  ## Overall prevalence/incidence
+  dat$epi$s.num[at] <- sum(active == 1 & status == "s")
+  dat$epi$i.num[at] <- sum(active == 1 & status == "i")
+  dat$epi$num[at] <- sum(active == 1)
+  dat$epi$cumNum[at] <- dat$epi$num[1] + sum(dat$epi$b.flow)
+  dat$epi$cumlInc[at] <- sum(dat$epi$si.flow)
+  dat$epi$incr[at] <- (dat$epi$si.flow[at] / dat$epi$s.num[at])*5200
 
-    ## Sex-specific prevalence
-    dat$epi$s.num.male[at] <- sum(active == 1 & status == "s" & male == 1)
-    dat$epi$s.num.feml[at] <- sum(active == 1 & status == "s" & male == 0)
-    dat$epi$i.num.male[at] <- sum(active == 1 & status == "i" & male == 1)
-    dat$epi$i.num.feml[at] <- sum(active == 1 & status == "i" & male == 0)
-    dat$epi$i.prev.male[at] <- sum(active == 1 & status == "i" & male == 1) /
-                               sum(active == 1 & male == 1)
-    dat$epi$i.prev.feml[at] <- sum(active == 1 & status == "i" & male == 0) /
-                               sum(active == 1 & male == 0)
-    dat$epi$incr.male[at] <- (dat$epi$si.flow.male[at] / dat$epi$s.num.male[at])*5200
-    dat$epi$incr.feml[at] <- (dat$epi$si.flow.feml[at] / dat$epi$s.num.feml[at])*5200
+  ## Sex-specific prevalence
+  dat$epi$s.num.male[at] <- sum(active == 1 & status == "s" & male == 1)
+  dat$epi$s.num.feml[at] <- sum(active == 1 & status == "s" & male == 0)
+  dat$epi$i.num.male[at] <- sum(active == 1 & status == "i" & male == 1)
+  dat$epi$i.num.feml[at] <- sum(active == 1 & status == "i" & male == 0)
+  dat$epi$i.prev.male[at] <- sum(active == 1 & status == "i" & male == 1) /
+                             sum(active == 1 & male == 1)
+  dat$epi$i.prev.feml[at] <- sum(active == 1 & status == "i" & male == 0) /
+                             sum(active == 1 & male == 0)
+  dat$epi$incr.male[at] <- (dat$epi$si.flow.male[at] / dat$epi$s.num.male[at])*5200
+  dat$epi$incr.feml[at] <- (dat$epi$si.flow.feml[at] / dat$epi$s.num.feml[at])*5200
 
+  ### Demographics ###
+  dat$epi$num.male[at] <- sum(active == 1 & male == 1)
+  dat$epi$num.feml[at] <- sum(active == 1 & male == 0)
 
-    ## Age-sex specific prevalence
-    if (dat$control$calc.asprev == TRUE) {
-      dat$epi$i.prev.1829[at] <- sum(active == 1 & status == "i" & age < 30)/
-                                 sum(active == 1 & age < 30)
-      dat$epi$i.prev.30pl[at] <- sum(active == 1 & status == "i" & age >= 30)/
-                                 sum(active == 1 & age >= 30)
-
-      dat$epi$i.prev.feml.1829[at] <- sum(active == 1 & status == "i" & male == 0 & age < 30)/
-                                      sum(active == 1 & male == 0 & age < 30)
-      dat$epi$i.prev.feml.30pl[at] <- sum(active == 1 & status == "i" & male == 0 & age >= 30)/
-                                      sum(active == 1 & male == 0 & age >= 30)
-
-      dat$epi$i.prev.male.1829[at] <- sum(active == 1 & status == "i" & male == 1 & age < 30)/
-                                      sum(active == 1 & male == 1 & age < 30)
-      dat$epi$i.prev.male.30pl[at] <- sum(active == 1 & status == "i" & male == 1 & age >= 30)/
-                                      sum(active == 1 & male == 1 & age >= 30)
-
-      dat$epi$incr.1829[at] <- (dat$epi$si.flow.1829[at] /
-                                sum(active == 1 & status == "s" & age < 30))*5200
-      dat$epi$incr.30pl[at] <- (dat$epi$si.flow.30pl[at] /
-                                sum(active == 1 & status == "s" & age >= 30))*5200
-      dat$epi$incr.feml.1829[at] <- (dat$epi$si.flow.feml.1829[at] /
-                                     sum(active == 1 & status == "s" & age < 30 & male == 0))*5200
-      dat$epi$incr.male.1829[at] <- (dat$epi$si.flow.male.1829[at] /
-                                     sum(active == 1 & status == "s" & age < 30 & male == 1))*5200
-      dat$epi$incr.feml.30pl[at] <- (dat$epi$si.flow.feml.30pl[at] /
-                                     sum(active == 1 & status == "s" & age >= 30 & male == 0))*5200
-      dat$epi$incr.male.30pl[at] <- (dat$epi$si.flow.male.30pl[at] /
-                                     sum(active == 1 & status == "s" & age >= 30 & male == 1))*5200
-    }
+  ## Age
+  dat$epi$meanAge[at] <- mean(age[active == 1])
+  dat$epi$meanAge.sus[at] <- mean(age[active == 1 & status == "s"])
+  dat$epi$meanAge.inf[at] <- mean(age[active == 1 & status == "i"])
+  dat$epi$meanAge.male[at] <- mean(age[active == 1 & male == 1])
+  dat$epi$meanAge.feml[at] <- mean(age[active == 1 & male == 0])
+  dat$epi$propMale[at] <- mean(male[active == 1])
 
 
-    ### Demographics ###
-    dat$epi$num.male[at] <- sum(active == 1 & male == 1)
-    dat$epi$num.feml[at] <- sum(active == 1 & male == 0)
+  ### Diagnosis and treatment ###
+  dat$epi$newDx[at] <- sum(dxTime == at)
 
-    ## Age
-    dat$epi$meanAge[at] <- mean(age[active == 1])
-    dat$epi$meanAge.sus[at] <- mean(age[active == 1 & status == "s"])
-    dat$epi$meanAge.inf[at] <- mean(age[active == 1 & status == "i"])
-    dat$epi$meanAge.male[at] <- mean(age[active == 1 & male == 1])
-    dat$epi$meanAge.feml[at] <- mean(age[active == 1 & male == 0])
-    dat$epi$propMale[at] <- mean(male[active == 1])
+  ## Treatment adherence
+  dat$epi$meanTxTimeOn[at] <- mean(txTimeOn/(txTimeOn + txTimeOff), na.rm = TRUE)
+  if (is.nan(dat$epi$meanTxTimeOn[at])) {
+    dat$epi$meanTxTimeOn[at] <- NA
+  }
+  dat$epi$meanTxTimeOn.t0[at] <- mean(txTimeOn[txType == 0]/
+                                        (txTimeOn[txType == 0] +
+                                           txTimeOff[txType == 0]),
+                                      na.rm = TRUE)
+  if (is.nan(dat$epi$meanTxTimeOn.t0[at])) {
+    dat$epi$meanTxTimeOn.t0[at] <- NA
+  }
+  dat$epi$meanTxTimeOn.t1[at] <- mean(txTimeOn[txType == 1]/
+                                        (txTimeOn[txType == 1] +
+                                           txTimeOff[txType == 1]),
+                                      na.rm = TRUE)
+  if (is.nan(dat$epi$meanTxTimeOn.t1[at])) {
+    dat$epi$meanTxTimeOn.t1[at] <- NA
+  }
 
+  ## Viral load and suppression
+  dat$epi$meanVl[at] <- mean(vlLevel[active == 1 & status == "i"])
+  dat$epi$vlSupp[at] <- length(whichVlSupp(dat$attr, dat$param)) /
+    sum(active == 1 & status == "i", na.rm = TRUE)
+  if (is.nan(dat$epi$vlSupp[at])) {
+    dat$epi$vlSupp[at] <- NA
+  }
+  dat$epi$vlSupp.tx[at] <- length(intersect(which(txType %in% 0:1),
+                                            whichVlSupp(dat$attr, dat$param))) /
+    sum(active == 1 & status == "i" &
+          txType %in% 0:1, na.rm = TRUE)
+  if (is.nan(dat$epi$vlSupp.tx[at])) {
+    dat$epi$vlSupp.tx[at] <- NA
+  }
+  dat$epi$vlSupp.t0[at] <- length(intersect(which(txType == 0),
+                                            whichVlSupp(dat$attr, dat$param))) /
+    sum(active == 1 & status == "i" &
+          txType == 0, na.rm = TRUE)
+  if (is.nan(dat$epi$vlSupp.t0[at])) {
+    dat$epi$vlSupp.t0[at] <- NA
+  }
+  dat$epi$vlSupp.t1[at] <- length(intersect(which(txType == 1),
+                                            whichVlSupp(dat$attr, dat$param))) /
+    sum(active == 1 & status == "i" &
+          txType == 1, na.rm = TRUE)
+  if (is.nan(dat$epi$vlSupp.t1[at])) {
+    dat$epi$vlSupp.t1[at] <- NA
+  }
 
-    ### Diagnosis and treatment ###
-    dat$epi$newDx[at] <- sum(dxTime == at)
-
-    ## Treatment adherence
-    dat$epi$meanTxTimeOn[at] <- mean(txTimeOn/(txTimeOn + txTimeOff), na.rm = TRUE)
-    if (is.nan(dat$epi$meanTxTimeOn[at])) {
-      dat$epi$meanTxTimeOn[at] <- NA
-    }
-    dat$epi$meanTxTimeOn.t0[at] <- mean(txTimeOn[txType == 0]/
-                                          (txTimeOn[txType == 0] +
-                                             txTimeOff[txType == 0]),
-                                        na.rm = TRUE)
-    if (is.nan(dat$epi$meanTxTimeOn.t0[at])) {
-      dat$epi$meanTxTimeOn.t0[at] <- NA
-    }
-    dat$epi$meanTxTimeOn.t1[at] <- mean(txTimeOn[txType == 1]/
-                                          (txTimeOn[txType == 1] +
-                                             txTimeOff[txType == 1]),
-                                        na.rm = TRUE)
-    if (is.nan(dat$epi$meanTxTimeOn.t1[at])) {
-      dat$epi$meanTxTimeOn.t1[at] <- NA
-    }
-
-    ## Viral load and suppression
-    dat$epi$meanVl[at] <- mean(vlLevel[active == 1 & status == "i"])
-    dat$epi$vlSupp[at] <- length(whichVlSupp(dat$attr, dat$param)) /
-      sum(active == 1 & status == "i", na.rm = TRUE)
-    if (is.nan(dat$epi$vlSupp[at])) {
-      dat$epi$vlSupp[at] <- NA
-    }
-    dat$epi$vlSupp.tx[at] <- length(intersect(which(txType %in% 0:1),
-                                              whichVlSupp(dat$attr, dat$param))) /
-      sum(active == 1 & status == "i" &
-            txType %in% 0:1, na.rm = TRUE)
-    if (is.nan(dat$epi$vlSupp.tx[at])) {
-      dat$epi$vlSupp.tx[at] <- NA
-    }
-    dat$epi$vlSupp.t0[at] <- length(intersect(which(txType == 0),
-                                              whichVlSupp(dat$attr, dat$param))) /
-      sum(active == 1 & status == "i" &
-            txType == 0, na.rm = TRUE)
-    if (is.nan(dat$epi$vlSupp.t0[at])) {
-      dat$epi$vlSupp.t0[at] <- NA
-    }
-    dat$epi$vlSupp.t1[at] <- length(intersect(which(txType == 1),
-                                              whichVlSupp(dat$attr, dat$param))) /
-      sum(active == 1 & status == "i" &
-            txType == 1, na.rm = TRUE)
-    if (is.nan(dat$epi$vlSupp.t1[at])) {
-      dat$epi$vlSupp.t1[at] <- NA
-    }
-
-
-    ### Clinical array ###
-    if (dat$control$clin.array == TRUE) {
-      dat$clin$txStat[,at] <- dat$attr$txStat
-      dat$clin$cd4Count[,at] <- dat$attr$cd4Count
-      dat$clin$vlLevel[,at] <- dat$attr$vlLevel
-    }
-
-
-    ### Age Mixing ###
-    relage <- get_male_relage(dat$nw, at)
-    dat$epi$male.relage.mean[at] <- mean(relage)
-    dat$epi$male.relage.mode[at] <- dens_mode(relage)
-
+  ### Clinical array ###
+  if (dat$control$clin.array == TRUE) {
+    dat$clin$txStat[,at] <- dat$attr$txStat
+    dat$clin$cd4Count[,at] <- dat$attr$cd4Count
+    dat$clin$vlLevel[,at] <- dat$attr$vlLevel
   }
 
   return(dat)
@@ -263,27 +161,4 @@ whichVlSupp <- function(attr, param) {
           (attr$age - attr$ageInf) * (365 / param$time.unit) >
           (param$vl.acute.topeak + param$vl.acute.toset))
 
-}
-
-dens_mode <- function(data) {
-  dens <- density(data)
-  dens$x[which.max(dens$y)]
-}
-
-
-get_male_relage <- function(nD, at) {
-
-  el <- get.dyads.active(nD, at = at)
-
-  ages <- get.vertex.attribute(nD, "age")
-  ageel <- matrix(ages[el], ncol = 2)
-
-  male <- get.vertex.attribute(nD, "male")
-  maleel <- matrix(male[el], ncol = 2)
-
-  male.in.col1 <- which(maleel[, 1] == 1)
-  ageel[male.in.col1,] <- ageel[male.in.col1, 2:1]
-
-  out <- apply(ageel, 1, function(x) x[2] - x[1])
-  return(out)
 }
