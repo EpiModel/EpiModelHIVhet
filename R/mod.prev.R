@@ -121,39 +121,41 @@ prevalence.hiv <- function(dat, at) {
   }
 
   ## Viral load and suppression
-  dat$epi$meanVl[at] <- mean(vlLevel[active == 1 & status == "i"])
-  dat$epi$vlSupp[at] <- length(whichVlSupp(dat$attr, dat$param)) /
-    sum(active == 1 & status == "i", na.rm = TRUE)
-  if (is.nan(dat$epi$vlSupp[at])) {
-    dat$epi$vlSupp[at] <- NA
-  }
-  dat$epi$vlSupp.tx[at] <- length(intersect(which(txType %in% 0:1),
-                                            whichVlSupp(dat$attr, dat$param))) /
-    sum(active == 1 & status == "i" &
-          txType %in% 0:1, na.rm = TRUE)
-  if (is.nan(dat$epi$vlSupp.tx[at])) {
-    dat$epi$vlSupp.tx[at] <- NA
-  }
-  dat$epi$vlSupp.t0[at] <- length(intersect(which(txType == 0),
-                                            whichVlSupp(dat$attr, dat$param))) /
-    sum(active == 1 & status == "i" &
-          txType == 0, na.rm = TRUE)
-  if (is.nan(dat$epi$vlSupp.t0[at])) {
-    dat$epi$vlSupp.t0[at] <- NA
-  }
-  dat$epi$vlSupp.t1[at] <- length(intersect(which(txType == 1),
-                                            whichVlSupp(dat$attr, dat$param))) /
-    sum(active == 1 & status == "i" &
-          txType == 1, na.rm = TRUE)
-  if (is.nan(dat$epi$vlSupp.t1[at])) {
-    dat$epi$vlSupp.t1[at] <- NA
-  }
+  if (at >= 2) {
+    dat$epi$meanVl[at] <- mean(vlLevel[active == 1 & status == "i"])
+    dat$epi$vlSupp[at] <- length(whichVlSupp(dat$attr, dat$param)) /
+      sum(active == 1 & status == "i", na.rm = TRUE)
+    if (is.nan(dat$epi$vlSupp[at])) {
+      dat$epi$vlSupp[at] <- NA
+    }
+    dat$epi$vlSupp.tx[at] <- length(intersect(which(txType %in% 0:1),
+                                              whichVlSupp(dat$attr, dat$param))) /
+      sum(active == 1 & status == "i" &
+            txType %in% 0:1, na.rm = TRUE)
+    if (is.nan(dat$epi$vlSupp.tx[at])) {
+      dat$epi$vlSupp.tx[at] <- NA
+    }
+    dat$epi$vlSupp.t0[at] <- length(intersect(which(txType == 0),
+                                              whichVlSupp(dat$attr, dat$param))) /
+      sum(active == 1 & status == "i" &
+            txType == 0, na.rm = TRUE)
+    if (is.nan(dat$epi$vlSupp.t0[at])) {
+      dat$epi$vlSupp.t0[at] <- NA
+    }
+    dat$epi$vlSupp.t1[at] <- length(intersect(which(txType == 1),
+                                              whichVlSupp(dat$attr, dat$param))) /
+      sum(active == 1 & status == "i" &
+            txType == 1, na.rm = TRUE)
+    if (is.nan(dat$epi$vlSupp.t1[at])) {
+      dat$epi$vlSupp.t1[at] <- NA
+    }
 
-  ### Clinical array ###
-  if (dat$control$clin.array == TRUE) {
-    dat$clin$txStat[,at] <- dat$attr$txStat
-    dat$clin$cd4Count[,at] <- dat$attr$cd4Count
-    dat$clin$vlLevel[,at] <- dat$attr$vlLevel
+    ### Clinical array ###
+    if (dat$control$clin.array == TRUE) {
+      dat$clin$txStat[,at] <- dat$attr$txStat
+      dat$clin$cd4Count[,at] <- dat$attr$cd4Count
+      dat$clin$vlLevel[,at] <- dat$attr$vlLevel
+    }
   }
 
   ### Supplemental prevalence submod
