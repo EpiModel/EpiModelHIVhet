@@ -100,7 +100,7 @@ tx.hiv <- function(dat, at) {
   }
 
 
-  # Save output -------------------------------------------------------------
+  # Output ------------------------------------------------------------------
   idsOnTx <- which(txStat == 1)
   idsOffTx <- which(txStat == 0 & !is.na(txStartTime))
   txTimeOn[idsOnTx] <- txTimeOn[idsOnTx] + 1
@@ -114,17 +114,10 @@ tx.hiv <- function(dat, at) {
   dat$attr$txType <- txType
   dat$attr$txCD4start <- txCD4start
 
-  if (at == 2) {
-    dat$epi$txCov <- c(NA, txCov)
-    dat$epi$txStart <- c(0, length(idsTx))
-    dat$epi$txStop <- c(0, length(idsStop))
-    dat$epi$txRest <- c(0, length(idsRest))
-  } else {
-    dat$epi$txCov[at] <- txCov
-    dat$epi$txStart[at] <- length(idsTx)
-    dat$epi$txStop[at] <- length(idsStop)
-    dat$epi$txRest[at] <- length(idsRest)
-  }
+  dat$epi$txCov[at] <- txCov
+  dat$epi$txStart[at] <- length(idsTx)
+  dat$epi$txStop[at] <- length(idsStop)
+  dat$epi$txRest[at] <- length(idsRest)
 
   return(dat)
 }
