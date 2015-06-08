@@ -156,6 +156,11 @@ prevalence.hiv <- function(dat, at) {
     dat$clin$vlLevel[,at] <- dat$attr$vlLevel
   }
 
+  ### Supplemental prevalence submod
+  if (!is.null(dat$control$getprev.suppl)) {
+    dat <- do.call(dat$control[["getprev.suppl"]], list(dat, at))
+  }
+
   return(dat)
 }
 
