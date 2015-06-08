@@ -63,7 +63,7 @@ infect.hiv <- function(dat, at) {
 
   ## Supplemental incidence stats
   if (!is.null(dat$control$getincid.infect)) {
-    dat <- do.call(dat$control[["getincid.infect"]], list(dat, at, idsInf))
+    dat <- do.call(dat$control[["getincid.infect"]], list(dat, at, idsInf, idsTrans))
   }
 
   return(dat)
