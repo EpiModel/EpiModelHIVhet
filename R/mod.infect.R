@@ -64,8 +64,8 @@ infect.hiv <- function(dat, at) {
   dat$epi$si.flow.feml[at] <- length(idsInf.feml)
 
   ## Supplemental incidence stats
-  if (!is.null(dat$control$infect.incid)) {
-    dat <- do.call(dat$control[["infect.incid"]], list(dat, idsInf))
+  if (!is.null(dat$control$getincid.infect)) {
+    dat <- do.call(dat$control[["getincid.infect"]], list(dat, at, idsInf))
   }
 
   return(dat)
