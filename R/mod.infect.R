@@ -58,8 +58,8 @@ infect.hiv <- function(dat, at) {
 
   ## Incidence vector
   dat$epi$si.flow[at] <- nInf
-  dat$epi$si.flow.male[at] <- intersect(idsInf, which(dat$attr$male == 1))
-  dat$epi$si.flow.feml[at] <- intersect(idsInf, which(dat$attr$male == 0))
+  dat$epi$si.flow.male[at] <- sum(dat$attr$male[idsInf] == 1, na.rm = TRUE)
+  dat$epi$si.flow.feml[at] <- sum(dat$attr$male[idsInf] == 0, na.rm = TRUE)
 
   ## Supplemental incidence stats
   if (!is.null(dat$control$getincid.infect)) {
