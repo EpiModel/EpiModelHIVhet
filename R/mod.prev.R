@@ -27,6 +27,7 @@ prevalence.hiv <- function(dat, at) {
   # Initialize vectors
   if (at == 1) {
 
+    # Prev vectors
     dat$epi$s.num <-  dat$epi$i.num <- rNA
     dat$epi$num <- dat$epi$cumNum <- rNA
     dat$epi$cumlInc <- dat$epi$incr <- rNA
@@ -52,6 +53,12 @@ prevalence.hiv <- function(dat, at) {
       dat$clin$vlLevel <- matrix(NA, length(active), nsteps)
       dat$clin$cd4Count <- matrix(NA, length(active), nsteps)
     }
+
+    # Incidence vectors
+    dat$epi$si.flow <- rNA
+    dat$epi$si.flow.male <- rNA
+    dat$epi$si.flow.feml <- rNA
+
 
   }
 
