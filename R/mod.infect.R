@@ -1,5 +1,4 @@
 
-
 #' @title Infection Module
 #'
 #' @description Module function to simulate transmission over an active discordant
@@ -40,7 +39,6 @@ infect.hiv <- function(dat, at) {
     idsInf.male.1829 <- intersect(idsInf, which(dat$attr$male == 1 & dat$attr$age < 30))
     idsInf.feml.30pl <- intersect(idsInf, which(dat$attr$male == 0 & dat$attr$age >= 30))
     idsInf.male.30pl <- intersect(idsInf, which(dat$attr$male == 1 & dat$attr$age >= 30))
-
 
     if (nInf > 0) {
       dat$attr$status[idsInf] <- "i"
@@ -94,6 +92,7 @@ infect.hiv <- function(dat, at) {
 
   return(dat)
 }
+
 
 discord_edgelist.hiv <- function(dat, at) {
 
