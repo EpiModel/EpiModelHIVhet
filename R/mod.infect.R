@@ -14,7 +14,7 @@ infect.hiv <- function(dat, at) {
   del <- discord_edgelist.hiv(dat, at)
 
   nInf <- 0
-  idsInf.male <- idsInf.feml <- NULL
+  idsInf <- idsTrans <- NULL
 
   if (!is.null(del)) {
 
@@ -26,10 +26,8 @@ infect.hiv <- function(dat, at) {
 
     ## Update Nodal Attr
     idsInf <- unique(del$sus)
+    idsTrans <- unique(del$inf)
     nInf <- length(idsInf)
-
-    idsInf.male <- intersect(idsInf, which(dat$attr$male == 1))
-    idsInf.feml <- intersect(idsInf, which(dat$attr$male == 0))
 
     if (nInf > 0) {
       dat$attr$status[idsInf] <- "i"
@@ -60,8 +58,8 @@ infect.hiv <- function(dat, at) {
 
   ## Incidence vector
   dat$epi$si.flow[at] <- nInf
-  dat$epi$si.flow.male[at] <- length(idsInf.male)
-  dat$epi$si.flow.feml[at] <- length(idsInf.feml)
+  dat$epi$si.flow.male[at] <- intersect(idsInf, which(dat$attr$male == 1))
+  dat$epi$si.flow.feml[at] <- intersect(idsInf, which(dat$attr$male == 0))
 
   ## Supplemental incidence stats
   if (!is.null(dat$control$getincid.infect)) {
