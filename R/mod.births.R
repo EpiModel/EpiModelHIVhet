@@ -103,24 +103,7 @@ setBirthAttr <- function(dat, at, nBirths) {
                       dat$param$b.propmale)
   dat$attr$male[newIds] <- rbinom(nBirths, 1, prop.male)
 
-  if (dat$param$b.age.const == TRUE) {
-    idsMale <- intersect(newIds, which(dat$attr$male == 1))
-    nMale <- length(idsMale)
-    if (nMale > 0) {
-      adm <- dat$temp$age.dens.male
-      dat$attr$age[idsMale] <- sample(adm$x, nMale, TRUE, adm$y)
-    }
-
-    idsFeml <- intersect(newIds, which(dat$attr$male == 0))
-    nFeml <- length(idsFeml)
-    if (nFeml > 0) {
-      adf <- dat$temp$age.dens.feml
-      dat$attr$age[idsFeml] <- sample(adf$x, nFeml, TRUE, adf$y)
-    }
-
-  } else {
-    dat$attr$age[newIds] <- rep(18, nBirths)
-  }
+  dat$attr$age[newIds] <- rep(18, nBirths)
 
 
   # Circumcision ------------------------------------------------------------

@@ -59,10 +59,6 @@
 #'        stable growth rate.
 #' @param b.propmale Proportion of entries assigned as male. If NULL, then set
 #'        adaptively based on the proportion at time 1.
-#' @param b.age.const If \code{TRUE}, new ages of incoming births are drawn from
-#'        the empirical distribution of ages at the start of the simulation,
-#'        separately for men and women; otherwise, everyone initialized at 18
-#'        years old.
 #' @param agecat.cutoff Age in years for calculating the \code{agecat} attribute
 #'        used in the network model.
 #'
@@ -117,7 +113,6 @@ param.hiv <- function(time.unit = 7,
                       b.rate = 0.03/365,
                       b.rate.method = "totpop",
                       b.propmale = NULL,
-                      b.age.const = FALSE,
                       agecat.cutoff = 35,
 
                       ds.exit.age = 55,
