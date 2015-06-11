@@ -71,8 +71,8 @@ make_nw.hiv <- function(n = 10000,
   # Formation Model
   formation <- as.formula(paste("~ edges +
                                 concurrent(by = 'male') +
-                                absdiffby('age', 'male',", absdiff.offst,") +
                                 nodefactor('agecat', base = c(1, 3)) +
+                                absdiffby('age', 'male',", absdiff.offst,") +
                                 offset(nodematch('male'))"))
 
   ### Target stats
@@ -82,7 +82,8 @@ make_nw.hiv <- function(n = 10000,
   nf <- unname(table(agecat)) * c(meandeg.feml, meandeg.feml,
                                   meandeg.male, meandeg.male)
 
-  stats <- unname(c(edges = edges, conc = conc, nf = nf, absdiff = absdiff))
+  stats <- unname(c(edges = edges, conc = conc,
+                    nf = nf[c(2,4)], absdiff = absdiff))
 
 
   # Constraints
