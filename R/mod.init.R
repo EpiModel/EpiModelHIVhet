@@ -141,8 +141,10 @@ initStatus <- function(dat) {
 initAge <- function(dat) {
 
   age <- get.vertex.attribute(dat$nw, "age")
-  dat$attr$age <- age
+  agecat <- get.vertex.attribute(dat$nw, "agecat")
 
+  dat$attr$age <- age
+  dat$attr$agecat <- agecat
 
   return(dat)
 }
