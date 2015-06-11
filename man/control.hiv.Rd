@@ -17,7 +17,8 @@ control.hiv(simno = 1, nsteps = 100, start = 1, nsims = 1, ncores = 1,
   save.network = TRUE, save.nwstats = TRUE, save.other = "attr",
   verbose = TRUE, verbose.int = 100, nwstats.formula = ~edges + meandeg +
   absdiffby("age", "male", 5.38) + degree(0:4, by = "male") + concurrent(by =
-  "male") + nodematch("male"), skip.check = TRUE, ...)
+  "male") + nodefactor("agecat", base = 0) + nodematch("male"),
+  skip.check = TRUE, ...)
 }
 \arguments{
 \item{simno}{Simulation ID number.}

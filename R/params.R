@@ -329,6 +329,7 @@ control.hiv <- function(simno = 1,
                                             absdiffby("age", "male", 5.38) +
                                             degree(0:4, by = "male") +
                                             concurrent(by = "male") +
+                                            nodefactor("agecat", base = 0) +
                                             nodematch("male"),
                         skip.check = TRUE,
                         ...) {
