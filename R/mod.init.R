@@ -143,12 +143,6 @@ initAge <- function(dat) {
   age <- get.vertex.attribute(dat$nw, "age")
   dat$attr$age <- age
 
-  if (dat$param$b.age.const == TRUE) {
-    dat$temp$age.dens.male <- density(age[dat$attr$male == 1],
-                                      from = 18, to = 55, n = 2048)
-    dat$temp$age.dens.feml <- density(age[dat$attr$male == 0],
-                                      from = 18, to = 55, n = 2048)
-  }
 
   return(dat)
 }
