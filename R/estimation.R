@@ -55,10 +55,10 @@ make_nw.hiv <- function(n = 10000,
   age[male == 0] <- age.feml
 
   agecat <- rep(NA, length(age))
-  agecat[male == 0 & age < 30] <- 0
-  agecat[male == 0 & age >= 30] <- 1
-  agecat[male == 1 & age < 30] <- 2
-  agecat[male == 1 & age >= 30] <- 3
+  agecat[male == 0 & age < agecat.cutoff] <- 0
+  agecat[male == 0 & age >= agecat.cutoff] <- 1
+  agecat[male == 1 & age < agecat.cutoff] <- 2
+  agecat[male == 1 & age >= agecat.cutoff] <- 3
 
   # Set vertex attributes on NW
   nw <- network.initialize(n = n, directed = FALSE)
