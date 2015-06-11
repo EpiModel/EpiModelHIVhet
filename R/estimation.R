@@ -61,6 +61,7 @@ make_nw.hiv <- function(n = 10000,
   agecat[male == 1 & age >= 30] <- 3
 
   # Set vertex attributes on NW
+  nw <- network.initialize(n = n, directed = FALSE)
   nw <- set.vertex.attribute(nw,
                              attrname = c("male", "age", "agecat"),
                              value = list(male = male,
