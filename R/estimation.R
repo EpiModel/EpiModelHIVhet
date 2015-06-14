@@ -15,33 +15,63 @@
 #' @param absdiff.remain Average remainer of absdiffby term after offset.
 #' @param prop.conc.male Proportion of men with concurrency.
 #' @param prop.conc.feml Proportion of women with concurrency.
+#' @param agecat.cutoff Age in years for calculating the \code{agecat} attribute
+#'        used in the network model.
 #' @param part.dur Mean duration of partnerships.
 #' @param time.unit Time unit used, relative to days.
 #' @param use.constraints If \code{TRUE}, use the \code{~bd(maxout = 3)} constraint.
 #'
 #' @export
 #'
-calc_nwstats.hiv <- function(n = 10000,
-                             prop.male = 0.451,
-                             ages.male = seq(18, 55, 7/365),
-                             ages.feml = seq(18, 55, 7/365),
-                             start.prev = 0.05,
-                             meandeg.male = 1.005,
-                             meandeg.feml = 0.826,
-                             absdiff.offst = 5.38,
-                             absdiff.remain = 4.11,
-                             prop.conc.male = 0.178,
-                             prop.conc.feml = 0.028,
-                             part.dur = 1125,
-                             time.unit = 7,
-                             use.constraints = TRUE) {
+make_nw.hiv <- function(n = 10000,
+                        prop.male = 0.451,
+                        ages.male = seq(18, 50, 7/365),
+                        ages.feml = seq(18, 50, 7/365),
+                        start.prev = 0.05,
+                        meandeg.male = 1.005,
+                        meandeg.feml = 0.826,
+                        absdiff.offst = 5.38,
+                        absdiff.remain = 4.11,
+                        prop.conc.male = 0.178,
+                        prop.conc.feml = 0.028,
+                        agecat.cutoff = 35,
+                        part.dur = 1125,
+                        time.unit = 7,
+                        use.constraints = TRUE) {
+
+  # Core demographics
 
   nMale <- round(n * prop.male)
   nFeml <- n - nMale
 
+  male <- rep(0, n)
+  male[sample(1:n, nMale)] <- 1
+
+  age.male <- sample(ages.male, nMale, TRUE)
+  age.feml <- sample(ages.feml, nFeml, TRUE)
+
+  age <- rep(NA, n)
+  age[male == 1] <- age.male
+  age[male == 0] <- age.feml
+
+  agecat <- rep(NA, length(age))
+  agecat[male == 0 & age < agecat.cutoff] <- 0
+  agecat[male == 0 & age >= agecat.cutoff] <- 1
+  agecat[male == 1 & age < agecat.cutoff] <- 2
+  agecat[male == 1 & age >= agecat.cutoff] <- 3
+
+  # Set vertex attributes on NW
+  nw <- network.initialize(n = n, directed = FALSE)
+  nw <- set.vertex.attribute(nw,
+                             attrname = c("male", "age", "agecat"),
+                             value = list(male = male,
+                                          age = age,
+                                          agecat = agecat))
+
   # Formation Model
   formation <- as.formula(paste("~ edges +
                                 concurrent(by = 'male') +
+                                nodefactor('agecat', base = c(1, 3)) +
                                 absdiffby('age', 'male',", absdiff.offst,") +
                                 offset(nodematch('male'))"))
 
@@ -49,8 +79,11 @@ calc_nwstats.hiv <- function(n = 10000,
   edges <- (meandeg.male * nMale/2) + (meandeg.feml * nFeml/2)
   absdiff <- absdiff.remain * edges
   conc <- c(nFeml * prop.conc.feml, nMale * prop.conc.male)
+  nf <- unname(table(agecat)) * c(meandeg.feml, meandeg.feml,
+                                  meandeg.male, meandeg.male)
 
-  stats <- unname(c(edges = edges, conc = conc, absdiff = absdiff))
+  stats <- unname(c(edges = edges, conc = conc,
+                    nf = nf[c(2,4)], absdiff = absdiff))
 
 
   # Constraints
@@ -67,56 +100,13 @@ calc_nwstats.hiv <- function(n = 10000,
   coef.diss <- dissolution_coefs(dissolution, duration = dur, d.rate = d.rate)
 
   out <- list()
-  out$nMale <- nMale
-  out$nFeml <- nFeml
-  out$ages.male <- ages.male
-  out$ages.feml <- ages.feml
+  out$nw <- nw
   out$time.unit <- time.unit
   out$formation <- formation
   out$stats <- stats
   out$constraints <- constraints
   out$coef.diss <- coef.diss
 
-  class(out) <- "nwstats"
+  class(out) <- "basenet"
   return(out)
-}
-
-
-#' @title Make Base Population
-#'
-#' @description description
-#'
-#' @param nwstats Output from \code{\link{calc_nwstats.hiv}}.
-#'
-#' @details
-#' This function ...
-#'
-#' @export
-base_nw.hiv <- function(nwstats) {
-
-  # Initialize Networks
-  n <- nwstats$nMale + nwstats$nFeml
-  nw <- network.initialize(n, directed = FALSE)
-
-  # Vertex Attributes
-  ## Sex
-  nMale <- nwstats$nMale
-  nFeml <- nwstats$nFeml
-  male <- rep(0, n)
-  male[sample(1:n, nMale)] <- 1
-
-  ## Age
-  ages.male <- sample(nwstats$ages.male, nMale, TRUE)
-  ages.feml <- sample(nwstats$ages.feml, nFeml, TRUE)
-
-  ages <- rep(NA, n)
-  ages[male == 1] <- ages.male
-  ages[male == 0] <- ages.feml
-
-
-  # Set Attributes
-  nw <- set.vertex.attribute(nw,
-                             attrname = c("male", "age"),
-                             value = list(male = male, age = ages))
-  return(nw)
 }

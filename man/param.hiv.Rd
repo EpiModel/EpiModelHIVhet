@@ -16,7 +16,7 @@ param.hiv(time.unit = 7, acute.stage.mult = 5, aids.stage.mult = 1,
   tx.cd4.recrat.male = 9.75/30, tx.cd4.decrat.feml = 11.6/30,
   tx.cd4.decrat.male = 9.75/30, tx.coverage = 0.3, tx.prev.eff = 0.96,
   b.rate = 0.03/365, b.rate.method = "totpop", b.propmale = NULL,
-  b.age.const = FALSE, ds.exit.age = 55, ds.rate.mult = 1,
+  agecat.cutoff = 35, ds.exit.age = 55, ds.rate.mult = 1,
   di.cd4.aids = 50, di.cd4.rate = 2/365)
 }
 \arguments{
@@ -97,10 +97,8 @@ stable growth rate.}
 \item{b.propmale}{Proportion of entries assigned as male. If NULL, then set
 adaptively based on the proportion at time 1.}
 
-\item{b.age.const}{If \code{TRUE}, new ages of incoming births are drawn from
-       the empirical distribution of ages at the start of the simulation,
-       separately for men and women; otherwise, everyone initialized at 18
-       years old.}
+\item{agecat.cutoff}{Age in years for calculating the \code{agecat} attribute
+       used in the network model.}
 
 \item{ds.exit.age}{Age at which the age-specific ds.rate is set to 1, with NA
 value indicating no censoring.}

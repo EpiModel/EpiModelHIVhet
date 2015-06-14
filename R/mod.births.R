@@ -56,9 +56,10 @@ births.hiv <- function(dat, at) {
                                                   onset = at, terminus = Inf)
 
     dat$nw <- network::set.vertex.attribute(x = dat$nw,
-                                   attrname = c("male", "age"),
+                                   attrname = c("male", "age", "agecat"),
                                    value = list(male = dat$attr$male[newIds],
-                                                age = dat$attr$age[newIds]),
+                                                age = dat$attr$age[newIds],
+                                                agecat = dat$attr$agecat[newIds]),
                                    v = newIds)
 
   }
@@ -69,7 +70,6 @@ births.hiv <- function(dat, at) {
 
   return(dat)
 }
-
 
 
 #' @title Assign Vertex Attributes at Network Entry
@@ -103,24 +103,12 @@ setBirthAttr <- function(dat, at, nBirths) {
                       dat$param$b.propmale)
   dat$attr$male[newIds] <- rbinom(nBirths, 1, prop.male)
 
-  if (dat$param$b.age.const == TRUE) {
-    idsMale <- intersect(newIds, which(dat$attr$male == 1))
-    nMale <- length(idsMale)
-    if (nMale > 0) {
-      adm <- dat$temp$age.dens.male
-      dat$attr$age[idsMale] <- sample(adm$x, nMale, TRUE, adm$y)
-    }
+  dat$attr$age[newIds] <- rep(18, nBirths)
 
-    idsFeml <- intersect(newIds, which(dat$attr$male == 0))
-    nFeml <- length(idsFeml)
-    if (nFeml > 0) {
-      adf <- dat$temp$age.dens.feml
-      dat$attr$age[idsFeml] <- sample(adf$x, nFeml, TRUE, adf$y)
-    }
-
-  } else {
-    dat$attr$age[newIds] <- rep(18, nBirths)
-  }
+  idsNewF <- intersect(newIds, which(dat$attr$male == 0))
+  idsNewM <- intersect(newIds, which(dat$attr$male == 1))
+  dat$attr$agecat[idsNewF] <- 0
+  dat$attr$agecat[idsNewM] <- 2
 
 
   # Circumcision ------------------------------------------------------------
