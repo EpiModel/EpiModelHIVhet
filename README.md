@@ -1,5 +1,5 @@
 # EpiModelHIV
-[![Build Status](https://magnum.travis-ci.com/statnet/EpiModelHIV.svg?token=1GZDAJwjpScAxYMF1mqm)](https://magnum.travis-ci.com/statnet/EpiModelHIV)
+[![Build Status](https://magnum.travis-ci.com/statnet/EpiModelHIV.svg?token=1GZDAJwjpScAxYMF1mqm&branch=master)](https://magnum.travis-ci.com/statnet/EpiModelHIV)
 
 ### Aims
 EpiModelHIV provides extension modules to the [EpiModel](http://epimodel.org) software package to simulate network-based epidemics of HIV, with a focus on transmission dynamics among heterosexual couples in Sub-Saharan Africa. 
