@@ -10,15 +10,14 @@ control.hiv(simno = 1, nsteps = 100, start = 1, nsims = 1, ncores = 1,
   aging.FUN = aging.hiv, cd4.FUN = cd4.hiv, vl.FUN = vl.hiv,
   dx.FUN = dx.hiv, tx.FUN = tx.hiv, deaths.FUN = deaths.hiv,
   births.FUN = births.hiv, edges_correct.FUN = edges_correct.hiv,
-  resim_nets.FUN = simnet.hiv, infection.FUN = infect.hiv,
-  get_prev.FUN = prevalence.hiv, verbose.FUN = verbose.hiv, resim.int = 1,
-  calc.asprev = FALSE, clin.array = FALSE, delete.nodes = TRUE,
-  save.int = NULL, keep.cpdata = TRUE, save.transmat = FALSE,
-  save.network = TRUE, save.nwstats = TRUE, save.other = "attr",
-  verbose = TRUE, verbose.int = 100, nwstats.formula = ~edges + meandeg +
-  absdiffby("age", "male", 5.38) + degree(0:4, by = "male") + concurrent(by =
-  "male") + nodefactor("agecat", base = 0) + nodematch("male"),
-  skip.check = TRUE, ...)
+  updatepop.FUN = NULL, updatenwp.FUN = NULL, resim_nets.FUN = simnet.hiv,
+  infection.FUN = infect.hiv, get_prev.FUN = prevalence.hiv,
+  verbose.FUN = verbose.hiv, resim.int = 1, calc.asprev = FALSE,
+  clin.array = FALSE, delete.nodes = TRUE, save.int = NULL,
+  keep.cpdata = TRUE, save.transmat = FALSE, save.network = TRUE,
+  save.nwstats = TRUE, save.other = "attr", verbose = TRUE,
+  verbose.int = 100, nwstats.formula = "formation", skip.check = TRUE,
+  ...)
 }
 \arguments{
 \item{simno}{Simulation ID number.}
@@ -55,6 +54,10 @@ or \code{"mpi"} for multi-node MPI threads.}
 \item{edges_correct.FUN}{Module to adjust the edges coefficient in response
 to changes to the population size, with the default function of
 \code{\link{edges_correct.hiv}} that preserves mean degree.}
+
+\item{updatepop.FUN}{In progress}
+
+\item{updatenwp.FUN}{In progress}
 
 \item{resim_nets.FUN}{Module to resimulate the network at each time step.}
 
