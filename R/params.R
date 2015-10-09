@@ -260,7 +260,6 @@ init.hiv <- function(i.prev.male = 0.05,
 #' @param edges_correct.FUN Module to adjust the edges coefficient in response
 #'        to changes to the population size, with the default function of
 #'        \code{\link{edges_correct.hiv}} that preserves mean degree.
-#' @param updatepop.FUN In progress
 #' @param updatenwp.FUN In progress
 #' @param resim_nets.FUN Module to resimulate the network at each time step.
 #' @param infection.FUN Module to simulate disease infection.
@@ -311,7 +310,6 @@ control.hiv <- function(simno = 1,
                         deaths.FUN = deaths.hiv,
                         births.FUN = births.hiv,
                         edges_correct.FUN = edges_correct.hiv,
-                        updatepop.FUN = NULL,
                         updatenwp.FUN = NULL,
                         resim_nets.FUN = simnet.hiv,
                         infection.FUN = infect.hiv,
