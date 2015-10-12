@@ -38,8 +38,7 @@ prevalence.hiv <- function(dat, at) {
     dat$epi$incr.male <- dat$epi$incr.feml <- rNA
 
     dat$epi$num.male <- dat$epi$num.feml <- rNA
-    dat$epi$meanAge <- dat$epi$meanAge.sus <- dat$epi$meanAge.inf <- rNA
-    dat$epi$meanAge.male <- dat$epi$meanAge.feml <- rNA
+    dat$epi$meanAge <- rNA
     dat$epi$propMale <- rNA
 
     dat$epi$newDx <- rNA
@@ -62,31 +61,26 @@ prevalence.hiv <- function(dat, at) {
     dat$epi$b.flow <- rNA
     dat$epi$ds.flow <- dat$epi$di.flow <- rNA
 
-    dat$epi$txCov <- rNA
-    dat$epi$txStart <- rNA
-    dat$epi$txStop <- rNA
-    dat$epi$txRest <- rNA
-
   }
 
   ### Prevalence ###
 
   ## Overall prevalence/incidence
-  dat$epi$s.num[at] <- sum(active == 1 & status == "s", na.rm = TRUE)
-  dat$epi$i.num[at] <- sum(active == 1 & status == "i", na.rm = TRUE)
+  dat$epi$s.num[at] <- sum(active == 1 & status == 0, na.rm = TRUE)
+  dat$epi$i.num[at] <- sum(active == 1 & status == 1, na.rm = TRUE)
   dat$epi$num[at] <- sum(active == 1, na.rm = TRUE)
   dat$epi$cumlNum[at] <- dat$epi$num[1] + sum(dat$epi$b.flow, na.rm = TRUE)
   dat$epi$cumlInc[at] <- sum(dat$epi$si.flow, na.rm = TRUE)
   dat$epi$incr[at] <- (dat$epi$si.flow[at] / dat$epi$s.num[at])*5200
 
   ## Sex-specific prevalence
-  dat$epi$s.num.male[at] <- sum(active == 1 & status == "s" & male == 1, na.rm = TRUE)
-  dat$epi$s.num.feml[at] <- sum(active == 1 & status == "s" & male == 0, na.rm = TRUE)
-  dat$epi$i.num.male[at] <- sum(active == 1 & status == "i" & male == 1, na.rm = TRUE)
-  dat$epi$i.num.feml[at] <- sum(active == 1 & status == "i" & male == 0, na.rm = TRUE)
-  dat$epi$i.prev.male[at] <- sum(active == 1 & status == "i" & male == 1, na.rm = TRUE) /
+  dat$epi$s.num.male[at] <- sum(active == 1 & status == 0 & male == 1, na.rm = TRUE)
+  dat$epi$s.num.feml[at] <- sum(active == 1 & status == 0 & male == 0, na.rm = TRUE)
+  dat$epi$i.num.male[at] <- sum(active == 1 & status == 1 & male == 1, na.rm = TRUE)
+  dat$epi$i.num.feml[at] <- sum(active == 1 & status == 1 & male == 0, na.rm = TRUE)
+  dat$epi$i.prev.male[at] <- sum(active == 1 & status == 1 & male == 1, na.rm = TRUE) /
                              sum(active == 1 & male == 1, na.rm = TRUE)
-  dat$epi$i.prev.feml[at] <- sum(active == 1 & status == "i" & male == 0, na.rm = TRUE) /
+  dat$epi$i.prev.feml[at] <- sum(active == 1 & status == 1 & male == 0, na.rm = TRUE) /
                              sum(active == 1 & male == 0, na.rm = TRUE)
   dat$epi$incr.male[at] <- (dat$epi$si.flow.male[at] / dat$epi$s.num.male[at])*5200
   dat$epi$incr.feml[at] <- (dat$epi$si.flow.feml[at] / dat$epi$s.num.feml[at])*5200
@@ -97,10 +91,6 @@ prevalence.hiv <- function(dat, at) {
 
   ## Age
   dat$epi$meanAge[at] <- mean(age[active == 1], na.rm = TRUE)
-  dat$epi$meanAge.sus[at] <- mean(age[active == 1 & status == "s"], na.rm = TRUE)
-  dat$epi$meanAge.inf[at] <- mean(age[active == 1 & status == "i"], na.rm = TRUE)
-  dat$epi$meanAge.male[at] <- mean(age[active == 1 & male == 1], na.rm = TRUE)
-  dat$epi$meanAge.feml[at] <- mean(age[active == 1 & male == 0], na.rm = TRUE)
   dat$epi$propMale[at] <- mean(male[active == 1], na.rm = TRUE)
 
 
@@ -127,29 +117,29 @@ prevalence.hiv <- function(dat, at) {
 
   ## Viral Load
   if (at >= 2) {
-    dat$epi$meanVl[at] <- mean(vlLevel[active == 1 & status == "i"], na.rm = TRUE)
+    dat$epi$meanVl[at] <- mean(vlLevel[active == 1 & status == 1], na.rm = TRUE)
     dat$epi$vlSupp[at] <- length(whichVlSupp(dat$attr, dat$param)) /
-      sum(active == 1 & status == "i", na.rm = TRUE)
+      sum(active == 1 & status == 1, na.rm = TRUE)
     if (is.nan(dat$epi$vlSupp[at])) {
       dat$epi$vlSupp[at] <- NA
     }
     dat$epi$vlSupp.tx[at] <- length(intersect(which(txType %in% 0:1),
                                               whichVlSupp(dat$attr, dat$param))) /
-                                  sum(active == 1 & status == "i" &
+                                  sum(active == 1 & status == 1 &
                                         txType %in% 0:1, na.rm = TRUE)
     if (is.nan(dat$epi$vlSupp.tx[at])) {
       dat$epi$vlSupp.tx[at] <- NA
     }
     dat$epi$vlSupp.t0[at] <- length(intersect(which(txType == 0),
                                               whichVlSupp(dat$attr, dat$param))) /
-                                  sum(active == 1 & status == "i" &
+                                  sum(active == 1 & status == 1 &
                                         txType == 0, na.rm = TRUE)
     if (is.nan(dat$epi$vlSupp.t0[at])) {
       dat$epi$vlSupp.t0[at] <- NA
     }
     dat$epi$vlSupp.t1[at] <- length(intersect(which(txType == 1),
                                               whichVlSupp(dat$attr, dat$param))) /
-                                  sum(active == 1 & status == "i" &
+                                  sum(active == 1 & status == 1 &
                                         txType == 1, na.rm = TRUE)
     if (is.nan(dat$epi$vlSupp.t1[at])) {
       dat$epi$vlSupp.t1[at] <- NA
@@ -175,7 +165,7 @@ prevalence.hiv <- function(dat, at) {
 whichVlSupp <- function(attr, param) {
 
   which(attr$active == 1 &
-          attr$status == "i" &
+          attr$status == 1 &
           attr$vlLevel <= log10(50) &
           (attr$age - attr$ageInf) * (365 / param$time.unit) >
           (param$vl.acute.topeak + param$vl.acute.toset))

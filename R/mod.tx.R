@@ -114,10 +114,5 @@ tx.hiv <- function(dat, at) {
   dat$attr$txType <- txType
   dat$attr$txCD4start <- txCD4start
 
-  dat$epi$txCov[at] <- txCov
-  dat$epi$txStart[at] <- length(idsTx)
-  dat$epi$txStop[at] <- length(idsStop)
-  dat$epi$txRest[at] <- length(idsRest)
-
   return(dat)
 }
