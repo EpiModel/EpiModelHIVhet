@@ -85,20 +85,15 @@ discord_edgelist.hiv <- function(dat, at) {
     el <- get.dyads.active(dat$nw, at = at)
     if (nrow(el) > 0) {
       el <- el[sample(1:nrow(el)), , drop = FALSE]
-      stat <- matrix(status[el], ncol = 2)
-      isInf <- matrix(stat == 1, ncol = 2)
-      isSus <- matrix(stat == 0, ncol = 2)
-      SIpairs <- el[isSus[, 1] * isInf[, 2] == 1, , drop = FALSE]
-      ISpairs <- el[isSus[, 2] * isInf[, 1] == 1, , drop = FALSE]
-      pairs <- rbind(SIpairs, ISpairs[,2:1])
 
-      del <- list()
-      del$at <- rep(at, nrow(pairs))
-      del$sus <- numeric()
-      del$inf <- numeric()
-      if (nrow(pairs) > 0) {
-        del$sus <- pairs[, 1]
-        del$inf <- pairs[, 2]
+      disc <- which(abs(status[el[, 1]] - status[el[, 2]]) == 1)
+      if (length(disc) > 0) {
+        tmp.del <- el[disc, ]
+        tmp.del[status[tmp.del[, 2]] == 1, ] <- tmp.del[status[tmp.del[, 2]] == 1, 2:1]
+
+        del <- list()
+        del$sus <- tmp.del[, 2]
+        del$inf <- tmp.del[, 1]
       }
     }
 
