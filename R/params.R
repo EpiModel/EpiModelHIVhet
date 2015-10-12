@@ -330,7 +330,6 @@ control.hiv <- function(simno = 1,
                         skip.check = TRUE,
                         ...) {
 
-  ## Process parameters
   p <- list()
   formal.args <- formals(sys.function())
   formal.args[["..."]] <- NULL
@@ -345,7 +344,10 @@ control.hiv <- function(simno = 1,
     }
   }
 
-  p$bi.mods <- grep(".FUN", names(formal.args), value = TRUE)
+  bi.mods <- grep(".FUN", names(formal.args), value = TRUE)
+  bi.mods <- bi.mods[which(sapply(bi.mods, function(x) !is.null(eval(parse(text = x))),
+                                  USE.NAMES = FALSE) == TRUE)]
+  p$bi.mods <- bi.mods
   p$user.mods <- grep(".FUN", names.dot.args, value = TRUE)
 
   if (clin.array == TRUE) {
