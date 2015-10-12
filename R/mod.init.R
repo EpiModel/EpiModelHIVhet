@@ -126,11 +126,11 @@ initStatus <- function(dat) {
     if (sum(status) == 0) {
       status[ssample(1:length(status), 1)] <- 1
     }
-    status <- ifelse(status == 1, "i", "s")
+    status <- ifelse(status == 1, 1, 0)
   } else {
-    status <- rep("s", n)
-    status[sample(idsMale, round(i.prev.male*nMale))] <- "i"
-    status[sample(idsFeml, round(i.prev.feml*nFeml))] <- "i"
+    status <- rep(0, n)
+    status[sample(idsMale, round(i.prev.male * nMale))] <- 1
+    status[sample(idsFeml, round(i.prev.feml * nFeml))] <- 1
   }
   dat$attr$status <- status
 
@@ -155,7 +155,7 @@ initInfTime <- function(dat) {
   status <- dat$attr$status
   n <- length(status)
 
-  infecteds <- which(status == "i")
+  infecteds <- which(status == 1)
   infTime <- rep(NA, n)
 
   inf.time.dist <- dat$init$inf.time.dist
@@ -196,7 +196,7 @@ initDx <- function(dat) {
   status <- dat$attr$status
 
   dxStat <- rep(NA, n)
-  dxStat[status == "i"] <- 0
+  dxStat[status == 1] <- 0
 
   dxTime <- rep(NA, n)
 
@@ -212,7 +212,7 @@ initTx <- function(dat) {
   ## Variables
   status <- dat$attr$status
   n <- sum(dat$attr$active == 1)
-  nInf <- sum(status == "i")
+  nInf <- sum(status == 1)
 
   tx.init.cd4.mean <- dat$param$tx.init.cd4.mean
   tx.init.cd4.sd <- dat$param$tx.init.cd4.sd
@@ -227,10 +227,10 @@ initTx <- function(dat) {
   dat$attr$txTimeOff <- rep(NA, n)
 
   txCD4min <- rep(NA, n)
-  txCD4min[status == "i"] <- pmin(rnbinom(nInf,
-                                          size = nbsdtosize(tx.init.cd4.mean,
-                                                            tx.init.cd4.sd),
-                                          mu = tx.init.cd4.mean), tx.elig.cd4)
+  txCD4min[status == 1] <- pmin(rnbinom(nInf,
+                                        size = nbsdtosize(tx.init.cd4.mean,
+                                                          tx.init.cd4.sd),
+                                        mu = tx.init.cd4.mean), tx.elig.cd4)
   dat$attr$txCD4min <- txCD4min
   dat$attr$txCD4start <- rep(NA, n)
   dat$attr$txType <- rep(NA, n)

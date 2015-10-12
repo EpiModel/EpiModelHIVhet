@@ -23,7 +23,7 @@ vl.hiv <- function(dat, at) {
   }
   vlLevel <- dat$attr$vlLevel
 
-  idsEligAsn <- which(active == 1 & status == "i" & is.na(vlLevel))
+  idsEligAsn <- which(active == 1 & status == 1 & is.na(vlLevel))
   if (length(idsEligAsn) > 0) {
     vlLevel[idsEligAsn] <- expected_vl(male = dat$attr$male[idsEligAsn],
                                        age = dat$attr$age[idsEligAsn],
@@ -34,7 +34,7 @@ vl.hiv <- function(dat, at) {
 
   # Update natural VL -------------------------------------------------------
   txStartTime <- dat$attr$txStartTime
-  idsEligUpd <- which(active == 1 & status == "i" &
+  idsEligUpd <- which(active == 1 & status == 1 &
                         infTime < at & is.na(txStartTime))
 
   if (length(idsEligUpd) > 0) {
@@ -46,7 +46,7 @@ vl.hiv <- function(dat, at) {
 
   # VL decline with ART -----------------------------------------------------
   txStat <- dat$attr$txStat
-  idsEligTx <- which(active == 1 & status == "i" & infTime < at & txStat == 1)
+  idsEligTx <- which(active == 1 & status == 1 & infTime < at & txStat == 1)
   if (length(idsEligTx) > 0) {
     tx.vlsupp.time <- dat$param$tx.vlsupp.time
     tx.vlsupp.level <- dat$param$tx.vlsupp.level
@@ -66,7 +66,7 @@ vl.hiv <- function(dat, at) {
 
 
   # VL rebound post ART -----------------------------------------------------
-  idsEligNoTx <- which(active == 1 & status == "i" &
+  idsEligNoTx <- which(active == 1 & status == 1 &
                          txStat == 0 & !is.na(txStartTime))
   if (length(idsEligNoTx) > 0) {
     tx.vlsupp.time <- dat$param$tx.vlsupp.time

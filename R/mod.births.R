@@ -116,7 +116,7 @@ setBirthAttr <- function(dat, at, nBirths) {
 
 
   # Epi/Clinical ------------------------------------------------------------
-  dat$attr$status[newIds] <- rep("s", nBirths)
+  dat$attr$status[newIds] <- rep(0, nBirths)
 
   if (length(unique(sapply(dat$attr, length))) != 1) {
     sapply(dat$attr, length)

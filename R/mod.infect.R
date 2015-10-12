@@ -30,7 +30,7 @@ infect.hiv <- function(dat, at) {
     nInf <- length(idsInf)
 
     if (nInf > 0) {
-      dat$attr$status[idsInf] <- "i"
+      dat$attr$status[idsInf] <- 1
       dat$attr$infTime[idsInf] <- at
       dat$attr$ageInf[idsInf] <- dat$attr$age[idsInf]
       dat$attr$dxStat[idsInf] <- 0
@@ -75,7 +75,7 @@ discord_edgelist.hiv <- function(dat, at) {
   status <- dat$attr$status
   active <- dat$attr$active
 
-  idsInft <- which(active == 1 & status == "i")
+  idsInft <- which(active == 1 & status == 1)
   nInft <- length(idsInft)
 
   del <- NULL
@@ -86,8 +86,8 @@ discord_edgelist.hiv <- function(dat, at) {
     if (nrow(el) > 0) {
       el <- el[sample(1:nrow(el)), , drop = FALSE]
       stat <- matrix(status[el], ncol = 2)
-      isInf <- matrix(stat == "i", ncol = 2)
-      isSus <- matrix(stat == "s", ncol = 2)
+      isInf <- matrix(stat == 1, ncol = 2)
+      isSus <- matrix(stat == 0, ncol = 2)
       SIpairs <- el[isSus[, 1] * isInf[, 2] == 1, , drop = FALSE]
       ISpairs <- el[isSus[, 2] * isInf[, 1] == 1, , drop = FALSE]
       pairs <- rbind(SIpairs, ISpairs[,2:1])

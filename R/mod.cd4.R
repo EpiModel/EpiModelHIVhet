@@ -21,7 +21,7 @@ cd4.hiv <- function(dat, at) {
 
 
   # Assign CD4 for newly infected -------------------------------------------
-  idsAsn <- which(active == 1 & status == "i" & is.na(cd4Count))
+  idsAsn <- which(active == 1 & status == 1 & is.na(cd4Count))
   if (length(idsAsn) > 0) {
     cd4Count[idsAsn] <- expected_cd4(method = "assign",
                                      male = dat$attr$male[idsAsn],
@@ -35,7 +35,7 @@ cd4.hiv <- function(dat, at) {
   txStartTime <- dat$attr$txStartTime
   infTime <- dat$attr$infTime
 
-  idsUpd <- which(active == 1 & status == "i" & infTime < at & is.na(txStartTime))
+  idsUpd <- which(active == 1 & status == 1 & infTime < at & is.na(txStartTime))
   idsUpd <- setdiff(idsUpd, idsAsn)
 
   if (length(idsUpd) > 0) {
@@ -54,8 +54,8 @@ cd4.hiv <- function(dat, at) {
   tx.cd4.recrat.feml <- dat$param$tx.cd4.recrat.feml
   tx.cd4.recrat.male <- dat$param$tx.cd4.recrat.male
 
-  idsTxFeml <- which(active == 1 & status == "i" & male == 0 & txStat == 1)
-  idsTxMale <- which(active == 1 & status == "i" & male == 1 & txStat == 1)
+  idsTxFeml <- which(active == 1 & status == 1 & male == 0 & txStat == 1)
+  idsTxMale <- which(active == 1 & status == 1 & male == 1 & txStat == 1)
 
   if (length(idsTxFeml) > 0) {
     cd4Cap <- expected_cd4(method = "assign", male = 0, age = 25, ageInf = 25)
@@ -71,9 +71,9 @@ cd4.hiv <- function(dat, at) {
   tx.cd4.decrat.feml <- dat$param$tx.cd4.decrat.feml
   tx.cd4.decrat.male <- dat$param$tx.cd4.decrat.male
 
-  idsNoTxFeml <- which(active == 1 & status == "i" & male == 0 &
+  idsNoTxFeml <- which(active == 1 & status == 1 & male == 0 &
                          !is.na(txStartTime) & txStat == 0)
-  idsNoTxMale <- which(active == 1 & status == "i" & male == 1 &
+  idsNoTxMale <- which(active == 1 & status == 1 & male == 1 &
                          !is.na(txStartTime) & txStat == 0)
   if (length(idsNoTxFeml) > 0) {
     cd4Count[idsNoTxFeml] <- pmax(cd4Count[idsNoTxFeml] - tx.cd4.decrat.feml, 0)

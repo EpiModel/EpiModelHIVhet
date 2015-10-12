@@ -18,7 +18,7 @@ dx.hiv <- function(dat, at) {
   dxStat <- dat$attr$dxStat
 
   # Process -----------------------------------------------------------------
-  tested <- which(active == 1 & status == "i" & dxStat == 0 & cd4Count <= txCD4min)
+  tested <- which(active == 1 & status == 1 & dxStat == 0 & cd4Count <= txCD4min)
 
 
   # Results -----------------------------------------------------------------

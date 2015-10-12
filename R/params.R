@@ -1,5 +1,4 @@
 
-
 #' @title Parameters for Stochastic Network Model of HIV-1 Infection in
 #'        Sub-Saharan Africa
 #'
