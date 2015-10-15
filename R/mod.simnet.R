@@ -35,7 +35,7 @@ simnet.hiv <- function(dat, at) {
     dat$nw <- simulate(
       dat$nw,
       formation = nwparam$formation,
-      dissolution = nwparam$dissolution,
+      dissolution = nwparam$coef.diss$dissolution,
       coef.form = as.numeric(nwparam$coef.form),
       coef.diss = coef.diss,
       constraints = nwparam$constraints,
