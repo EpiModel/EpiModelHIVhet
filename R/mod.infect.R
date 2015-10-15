@@ -192,6 +192,20 @@ trans <- function(dat, del, at) {
   # Random transmission given final trans prob
   idsTrans <- which(rbinom(nedges, 1, del$finl.tprob) == 1)
 
+  if (at == 2) {
+    dat$epi$del.length <- length(del[[1]])
+    dat$epi$del.numActs <- mean(del$numActs)
+    dat$epi$del.unprotActs <- mean(del$unprotActs)
+    dat$epi$del.base.tprob <- mean(del$base.tprob)
+    dat$epi$del.finl.tprob <- mean(del$finl.tprob)
+  } else {
+    dat$epi$del.length[at] <- length(del[[1]])
+    dat$epi$del.numActs[at] <- mean(del$numActs)
+    dat$epi$del.unprotActs[at] <- mean(del$unprotActs)
+    dat$epi$del.base.tprob[at] <- mean(del$base.tprob)
+    dat$epi$del.finl.tprob[at] <- mean(del$finl.tprob)
+  }
+
   # Subset discord edgelist to transmissions
   del <- keep.attr(del, idsTrans)
 
