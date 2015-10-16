@@ -22,7 +22,9 @@ infect.hiv <- function(dat, at) {
     del <- acts(dat, del, at)
 
     ## Transmission
-    del <- trans(dat, del, at)
+    dat <- trans(dat, del, at)
+    del <- dat$del
+    dat$del <- NULL
 
     ## Update Nodal Attr
     idsInf <- unique(del$sus)
@@ -35,11 +37,12 @@ infect.hiv <- function(dat, at) {
       dat$attr$ageInf[idsInf] <- dat$attr$age[idsInf]
       dat$attr$dxStat[idsInf] <- 0
       dat$attr$vlLevel[idsInf] <- 0
-      dat$attr$txCD4min[idsInf] <- pmin(rnbinom(nInf,
-                                                size = nbsdtosize(dat$param$tx.init.cd4.mean,
-                                                                  dat$param$tx.init.cd4.sd),
-                                                mu = dat$param$tx.init.cd4.mean),
-                                        dat$param$tx.elig.cd4)
+      dat$attr$txCD4min[idsInf] <-
+        pmin(rnbinom(nInf,
+                     size = nbsdtosize(dat$param$tx.init.cd4.mean,
+                                       dat$param$tx.init.cd4.sd),
+                     mu = dat$param$tx.init.cd4.mean),
+             dat$param$tx.elig.cd4)
     }
 
     ## Transmission data frame
@@ -48,8 +51,7 @@ infect.hiv <- function(dat, at) {
         if (at == 2) {
           dat$stats$transmat <- as.data.frame(del)
         } else {
-          dat$stats$transmat <- rbind(dat$stats$transmat,
-                                      as.data.frame(del))
+          dat$stats$transmat <- rbind(dat$stats$transmat, as.data.frame(del))
         }
       }
     }
@@ -82,7 +84,12 @@ discord_edgelist.hiv <- function(dat, at) {
 
   if (nInft > 0) {
 
-    el <- get.dyads.active(dat$nw, at = at)
+    if (is.null(dat$el)) {
+      el <- get.dyads.active(dat$nw, at = at)
+    } else {
+      el <- dat$el
+    }
+
     if (nrow(el) > 0) {
       el <- el[sample(1:nrow(el)), , drop = FALSE]
 
@@ -195,7 +202,9 @@ trans <- function(dat, del, at) {
   # Subset discord edgelist to transmissions
   del <- keep.attr(del, idsTrans)
 
-  return(del)
+  dat$del <- del
+
+  return(dat)
 }
 
 

@@ -19,89 +19,111 @@
 #'
 initialize.hiv <- function(x, param, init, control, s) {
 
-  # Restarted simulation
-  reinit <- ifelse(class(x) == "netsim", TRUE, FALSE)
-
-  if (reinit == FALSE) {
-    dat <- list()
-    dat$temp <- list()
-    if (class(x$fit) == "network") {
-      dat$nw <- simulate(x$formation,
-                         basis = x$fit,
-                         coef = x$coef.form.crude,
-                         constraints = x$constraints,
-                         control = control.simulate.formula(MCMC.burnin = 1e6))
-    } else {
-      dat$nw <- simulate(x$fit,
-                         control = control.simulate.ergm(MCMC.burnin = 1e6))
-    }
-
-    if (class(dat$nw)[1] == "networkDynamic") {
-      dat$nw <- network.collapse(dat$nw, at = 1)
-    }
-
-    dat$nw <- activate.vertices(dat$nw, onset = 1, terminus = Inf)
-    if (control$delete.nodes == TRUE) {
-      dat$nw <- network.extract(dat$nw, at = 1)
-    }
-
-    ## Network Model Parameters
-    dat$nwparam <- list(x[-which(names(x) == "fit")])
-
-    ## Simulation Parameters
-    dat$param <- param
-    dat$param$modes <- 1
-
-    dat$init <- init
-    dat$control <- control
-
-    ## Nodal Attributes
-    dat$attr <- list()
-
-    dat$attr$male <- get.vertex.attribute(dat$nw, "male")
-
-    n <- network.size(dat$nw)
-    dat$attr$active <- rep(1, n)
-    dat$attr$entTime <- rep(1, n)
-    dat$attr$deathTime <- rep(NA, n)
-    dat$attr$deathCause <- rep(NA, n)
-
-    ## Initialize HIV related attributes
-    dat <- initStatus(dat)
-    dat <- initAge(dat)
-    dat <- initInfTime(dat)
-    dat <- initDx(dat)
-    dat <- initTx(dat)
-    dat <- circ(dat, at = 1)
-
-    ## Stats List
-    dat$stats <- list()
-
-    ## Final steps
-    dat$epi <- list()
-    dat <- prevalence.hiv(dat, at = 1)
-    dat <- simnet.hiv(dat, at = 1)
-
+  # browser()
+  dat <- list()
+  dat$temp <- list()
+  if (class(x$fit) == "network") {
+    nw <- simulate(x$formation,
+                   basis = x$fit,
+                   coef = x$coef.form.crude,
+                   constraints = x$constraints)
   } else {
-    dat <- list()
-    dat$nw <- x$network[[s]]
-    dat$param <- param
-    dat$param$modes <- 1
-    dat$control <- control
-    dat$nwparam <- x$nwparam
-    dat$epi <- sapply(x$epi, function(var) var[s])
-    names(dat$epi) <- names(x$epi)
-    dat$attr <- x$attr[[s]]
-    dat$stats <- list()
-    dat$stats$nwstats <- x$stats$nwstats[[s]]
-    dat$temp <- list()
+    nw <- simulate(x$fit, control = control.simulate.ergm(MCMC.burnin = 1e6))
   }
+
+  if (class(nw)[1] == "networkDynamic") {
+    nw <- network.collapse(nw, at = 1)
+  }
+
+  dat$el <- as.edgelist(nw)
+  attributes(dat$el)$vnames <- NULL
+  p <- tergmLite::ergm_prep(nw, x$formation, x$coef.diss$dissolution, x$coef.form,
+                 x$coef.diss$coef.adj, x$constraints, control = tergm::control.simulate.network())
+  p$model.form$formula <- NULL
+  p$model.diss$formula <- NULL
+  dat$p <- p
+
+  ## Network Model Parameters
+  dat$nwparam <- list(x[-which(names(x) == "fit")])
+
+  ## Simulation Parameters
+  dat$param <- param
+  dat$param$modes <- 1
+
+  dat$init <- init
+  dat$control <- control
+
+  ## Nodal Attributes
+  dat$attr <- list()
+
+  dat$attr$male <- get.vertex.attribute(nw, "male")
+
+  n <- network.size(nw)
+  dat$attr$active <- rep(1, n)
+  dat$attr$entTime <- rep(1, n)
+  dat$attr$deathTime <- rep(NA, n)
+  dat$attr$deathCause <- rep(NA, n)
+
+  ## Initialize HIV related attributes
+  dat <- initStatus(dat)
+
+  dat$attr$age <- get.vertex.attribute(nw, "age")
+  dat$attr$agecat <- get.vertex.attribute(nw, "agecat")
+
+  dat <- initInfTime(dat)
+  dat <- initDx(dat)
+  dat <- initTx(dat)
+  dat <- circ(dat, at = 1)
+
+  ## Stats List
+  dat$stats <- list()
+
+  ## Final steps
+  dat$epi <- list()
+  dat <- prevalence.hiv(dat, at = 1)
+  dat <- simnet.hiv(dat, at = 1)
+
+}
+
+
+#' @title Reinitialization Module
+#'
+#' @description This function reinitializes the master \code{dat} object on which
+#'              data are stored, simulates the initial state of the network, and
+#'              simulates disease status and other attributes.
+#'
+#' @param x An \code{EpiModel} object of class \code{\link{netest}}.
+#' @param param An \code{EpiModel} object of class \code{\link{param.hiv}}.
+#' @param init An \code{EpiModel} object of class \code{\link{init.hiv}}.
+#' @param control An \code{EpiModel} object of class \code{\link{control.hiv}}.
+#' @param s Simulation number, used for restarting dependent simulations.
+#'
+#' @return
+#' This function returns the updated \code{dat} object with the initialized values
+#' for demographics and disease-related variables.
+#'
+#' @export
+#'
+reinit.hiv <- function(x, param, init, control, s) {
+  dat <- list()
+  dat$el <- x$el[[s]]
+  dat$param <- param
+  dat$param$modes <- 1
+  dat$control <- control
+  dat$nwparam <- x$nwparam
+  dat$epi <- sapply(x$epi, function(var) var[s])
+  names(dat$epi) <- names(x$epi)
+  dat$attr <- x$attr[[s]]
+  dat$stats <- list()
+  dat$stats$nwstats <- x$stats$nwstats[[s]]
+  dat$temp <- list()
 
   dat$param$modes <- 1
   class(dat) <- "dat"
 
   return(dat)
 }
+
 
 
 initStatus <- function(dat) {

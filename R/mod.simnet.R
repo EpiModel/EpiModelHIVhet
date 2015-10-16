@@ -11,19 +11,6 @@
 #'
 simnet.hiv <- function(dat, at) {
 
-  resim.int <- dat$control$resim.int
-  if (at > 1 & at %% resim.int > 0) {
-    return(dat)
-  }
-
-  # Delete Nodes ------------------------------------------------------------
-  if (at > 1 & dat$control$delete.nodes == TRUE) {
-    dat$nw <- network.extract(dat$nw, at = at)
-    inactive <- which(dat$attr$active == 0)
-    dat$attr <- deleteAttr(dat$attr, inactive)
-  }
-
-  # Resimulation ------------------------------------------------------------
   nwparam <- get_nwparam(dat)
   if (at == 1) {
     coef.diss <- as.numeric(nwparam$coef.diss$coef.crude)
@@ -31,27 +18,23 @@ simnet.hiv <- function(dat, at) {
     coef.diss <- as.numeric(nwparam$coef.diss$coef.adj)
   }
 
-  suppressWarnings(
-    dat$nw <- simulate(
-      dat$nw,
-      formation = nwparam$formation,
-      dissolution = nwparam$coef.diss$dissolution,
-      coef.form = as.numeric(nwparam$coef.form),
-      coef.diss = coef.diss,
-      constraints = nwparam$constraints,
-      time.start = at,
-      time.slices = 1 * resim.int,
-      time.offset = 0,
-      output = "networkDynamic",
-      monitor = dat$control$nwstats.formula))
+  dat$el <- tergmLite::simulate_network(p = dat$p,
+                             el = dat$el,
+                             coef.form = nwparam$coef.form,
+                             coef.diss = coef.diss,
+                             time.start = at)
 
-  if (at == 1) {
-    dat$stats$nwstats <- as.data.frame(attributes(dat$nw)$stats)
-  } else {
-    dat$stats$nwstats <- rbind(dat$stats$nwstats,
-                               tail(attributes(dat$nw)$stats, 1 * resim.int))
-  }
-
+  # if (at == 1) {
+  #   dat$stats$nwstats <- matrix(NA, ncol = 5, nrow = dat$control$nsteps)
+  #   colnames(dat$stats$nwstats) <- c("edges", "meandeg", "deg0", "deg1", "concurrent")
+  # }
+  # n <- attributes(dat$el)$n
+  # tab <- table(dat$el)
+  # dat$stats$nwstats[at, 1] <- nrow(dat$el)
+  # dat$stats$nwstats[at, 2] <- nrow(dat$el)/n
+  # dat$stats$nwstats[at, 4] <- sum(tab == 1)/n
+  # dat$stats$nwstats[at, 5] <- sum(tab > 1)/n
+  # dat$stats$nwstats[at, 3] <- (n - sum(tab == 1) - sum(tab > 1))/n
 
   return(dat)
 }

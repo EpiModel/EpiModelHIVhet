@@ -262,12 +262,10 @@ init.hiv <- function(i.prev.male = 0.05,
 #' @param updatenwp.FUN In progress
 #' @param resim_nets.FUN Module to resimulate the network at each time step.
 #' @param infection.FUN Module to simulate disease infection.
-#' @param get_prev.FUN Module to calculate disease prevalence at each time step,
+#' @param prev.FUN Module to calculate disease prevalence at each time step,
 #'        with the default function of \code{\link{prevalence.hiv}}.
 #' @param verbose.FUN Module to print simulation progress to screen, with the
 #'        default function of \code{\link{verbose.hiv}}.
-#' @param resim.int Interval unit for resimulation of network, relative to
-#'        \code{time.unit} in \code{\link{param.hiv}}.
 #' @param calc.asprev If \code{TRUE}, add age and sex-specific binned prevalence
 #'        calculations to epi summary output.
 #' @param clin.array If \code{TRUE}, save an array of individual-level attribute
@@ -283,7 +281,6 @@ init.hiv <- function(i.prev.male = 0.05,
 #' @param save.other Other list elements of dat to save out.
 #' @param verbose If \code{TRUE}, print progress to console.
 #' @param verbose.int Interval for printing progress to console.
-#' @param nwstats.formula Formula for network statistics on the network.
 #' @param skip.check If \code{TRUE}, skips the error check for parameter values,
 #'        initial conditions, and control settings before running the models.
 #'        This is suggested only if encountering unnecessary errors when running
@@ -309,24 +306,22 @@ control.hiv <- function(simno = 1,
                         deaths.FUN = deaths.hiv,
                         births.FUN = births.hiv,
                         edges_correct.FUN = edges_correct.hiv,
-                        updatenwp.FUN = NULL,
+                        updatenwp.FUN = update_nwp,
                         resim_nets.FUN = simnet.hiv,
                         infection.FUN = infect.hiv,
-                        get_prev.FUN = prevalence.hiv,
+                        prev.FUN = prevalence.hiv,
                         verbose.FUN = verbose.hiv,
-                        resim.int = 1,
                         calc.asprev = FALSE,
                         clin.array = FALSE,
                         delete.nodes = TRUE,
                         save.int = NULL,
                         keep.cpdata = TRUE,
                         save.transmat = FALSE,
-                        save.network = TRUE,
-                        save.nwstats = TRUE,
-                        save.other = "attr",
+                        save.network = FALSE,
+                        save.nwstats = FALSE,
+                        save.other = c("el", "attr"),
                         verbose = TRUE,
                         verbose.int = 100,
-                        nwstats.formula = "formation",
                         skip.check = TRUE,
                         ...) {
 

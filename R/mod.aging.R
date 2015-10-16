@@ -32,10 +32,5 @@ aging.hiv <- function(dat, at) {
   dat$attr$age <- age
   dat$attr$agecat <- agecat
 
-  dat$nw <- network::set.vertex.attribute(dat$nw,
-                                          attrname = c("age", "agecat"),
-                                          value = list(age = age,
-                                                       agecat = agecat))
-
   return(dat)
 }

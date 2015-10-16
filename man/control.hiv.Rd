@@ -10,14 +10,13 @@ control.hiv(simno = 1, nsteps = 100, start = 1, nsims = 1, ncores = 1,
   aging.FUN = aging.hiv, cd4.FUN = cd4.hiv, vl.FUN = vl.hiv,
   dx.FUN = dx.hiv, tx.FUN = tx.hiv, deaths.FUN = deaths.hiv,
   births.FUN = births.hiv, edges_correct.FUN = edges_correct.hiv,
-  updatenwp.FUN = NULL, resim_nets.FUN = simnet.hiv,
-  infection.FUN = infect.hiv, get_prev.FUN = prevalence.hiv,
-  verbose.FUN = verbose.hiv, resim.int = 1, calc.asprev = FALSE,
-  clin.array = FALSE, delete.nodes = TRUE, save.int = NULL,
-  keep.cpdata = TRUE, save.transmat = FALSE, save.network = TRUE,
-  save.nwstats = TRUE, save.other = "attr", verbose = TRUE,
-  verbose.int = 100, nwstats.formula = "formation", skip.check = TRUE,
-  ...)
+  updatenwp.FUN = update_nwp, resim_nets.FUN = simnet.hiv,
+  infection.FUN = infect.hiv, prev.FUN = prevalence.hiv,
+  verbose.FUN = verbose.hiv, calc.asprev = FALSE, clin.array = FALSE,
+  delete.nodes = TRUE, save.int = NULL, keep.cpdata = TRUE,
+  save.transmat = FALSE, save.network = FALSE, save.nwstats = FALSE,
+  save.other = c("el", "attr"), verbose = TRUE, verbose.int = 100,
+  skip.check = TRUE, ...)
 }
 \arguments{
 \item{simno}{Simulation ID number.}
@@ -61,14 +60,11 @@ to changes to the population size, with the default function of
 
 \item{infection.FUN}{Module to simulate disease infection.}
 
-\item{get_prev.FUN}{Module to calculate disease prevalence at each time step,
+\item{prev.FUN}{Module to calculate disease prevalence at each time step,
 with the default function of \code{\link{prevalence.hiv}}.}
 
 \item{verbose.FUN}{Module to print simulation progress to screen, with the
 default function of \code{\link{verbose.hiv}}.}
-
-\item{resim.int}{Interval unit for resimulation of network, relative to
-\code{time.unit} in \code{\link{param.hiv}}.}
 
 \item{calc.asprev}{If \code{TRUE}, add age and sex-specific binned prevalence
 calculations to epi summary output.}
@@ -95,8 +91,6 @@ disk.}
 \item{verbose}{If \code{TRUE}, print progress to console.}
 
 \item{verbose.int}{Interval for printing progress to console.}
-
-\item{nwstats.formula}{Formula for network statistics on the network.}
 
 \item{skip.check}{If \code{TRUE}, skips the error check for parameter values,
 initial conditions, and control settings before running the models.

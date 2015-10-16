@@ -10,14 +10,13 @@
 #'
 births.hiv <- function(dat, at) {
 
-  # Variables ---------------------------------------------------------------
+  # Variables
   b.rate.method <- dat$param$b.rate.method
   b.rate <- dat$param$b.rate
   active <- dat$attr$active
-  currNwSize <- network::network.size(dat$nw)
 
 
-  # Process -----------------------------------------------------------------
+  # Process
   nBirths <- 0
   if (b.rate.method == "stgrowth") {
     exptPopSize <- dat$epi$num[1] * (1 + b.rate*at)
@@ -40,32 +39,17 @@ births.hiv <- function(dat, at) {
   }
 
 
-  # Update Attr -------------------------------------------------------------
+  # Update Population Structure
   if (nBirths > 0) {
     dat <- setBirthAttr(dat, at, nBirths)
+    attributes(dat$el)$n <- attributes(dat$el)$n + nBirths
   }
 
-
-  # Update Network ----------------------------------------------------------
-  if (nBirths > 0) {
-    newIds <- (currNwSize + 1):(currNwSize + nBirths)
-
-    stopifnot(unique(sapply(dat$attr, length)) == (currNwSize + nBirths))
-
-    dat$nw <- networkDynamic::add.vertices.active(x = dat$nw, nv = nBirths,
-                                                  onset = at, terminus = Inf)
-
-    dat$nw <- network::set.vertex.attribute(x = dat$nw,
-                                   attrname = c("male", "age", "agecat"),
-                                   value = list(male = dat$attr$male[newIds],
-                                                age = dat$attr$age[newIds],
-                                                agecat = dat$attr$agecat[newIds]),
-                                   v = newIds)
-
+  if (unique(sapply(dat$attr, length)) != attributes(dat$el)$n) {
+    stop("mismatch between el and attr length in births mod")
   }
 
-
-  # Output ------------------------------------------------------------------
+  # Output
   dat$epi$b.flow[at] <- nBirths
 
   return(dat)

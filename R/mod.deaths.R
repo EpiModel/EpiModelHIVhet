@@ -10,7 +10,7 @@
 #'
 deaths.hiv <- function(dat, at) {
 
-  # Susceptible Deaths ------------------------------------------------------
+  ### 1. Susceptible Deaths ###
 
   ## Variables
   active <- dat$attr$active
@@ -51,7 +51,7 @@ deaths.hiv <- function(dat, at) {
   }
 
 
-  # Infected Deaths ---------------------------------------------------------
+  ### 2. Infected Deaths ###
 
   ## Variables
   active <- dat$attr$active
@@ -81,23 +81,23 @@ deaths.hiv <- function(dat, at) {
   }
 
 
-  ## Update Attributes
+  ### 3. Update Attributes ###
   if (nDeathsInf > 0) {
     dat$attr$active[idsDeathsInf] <- 0
     dat$attr$deathTime[idsDeathsInf] <- at
     dat$attr$deathCause[idsDeathsInf] <- "i"
   }
 
+  ## 4. Update Population Structure ##
+  inactive <- which(dat$attr$active == 0)
+  dat$el <- delete_vertices(dat$el, inactive)
+  dat$attr <- deleteAttr(dat$attr, inactive)
 
-  # Update Network ----------------------------------------------------------
-  idsDeaths <- c(idsDeathsSus, idsDeathsInf)
-  if (length(idsDeaths) > 0) {
-    dat$nw <- networkDynamic::deactivate.vertices(dat$nw, onset = at, terminus = Inf,
-                                                  v = idsDeaths, deactivate.edges = TRUE)
+  if (unique(sapply(dat$attr, length)) != attributes(dat$el)$n) {
+    stop("mismatch between el and attr length in death mod")
   }
 
-
-  # Output ------------------------------------------------------------------
+  ### 5. Summary Statistics ###
   dat$epi$ds.flow[at] <- nDeathsSus
   dat$epi$di.flow[at] <- nDeathsInf
 
