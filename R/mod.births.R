@@ -107,12 +107,5 @@ setBirthAttr <- function(dat, at, nBirths) {
     stop("Attribute dimensions not unique")
   }
 
-  if (dat$control$clin.array == TRUE) {
-    for (i in 1:3) {
-      dat$clin[[i]] <- rbind(dat$clin[[i]], matrix(NA, nBirths, dat$control$nsteps))
-    }
-  }
-
-
   return(dat)
 }

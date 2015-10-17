@@ -15,11 +15,6 @@ prevalence.hiv <- function(dat, at) {
   active <- dat$attr$active
   male <- dat$attr$male
   age <- dat$attr$age
-  dxTime <- dat$attr$dxTime
-  vlLevel <- dat$attr$vlLevel
-  txTimeOn <- dat$attr$txTimeOn
-  txTimeOff <- dat$attr$txTimeOff
-  txType <- dat$attr$txType
 
   nsteps <- dat$control$nsteps
   rNA <- rep(NA, nsteps)
@@ -41,19 +36,6 @@ prevalence.hiv <- function(dat, at) {
     dat$epi$meanAge <- rNA
     dat$epi$propMale <- rNA
 
-    dat$epi$newDx <- rNA
-    dat$epi$meanTxTimeOn <- dat$epi$meanTxTimeOn.t0 <-
-      dat$epi$meanTxTimeOn.t1 <- rNA
-    dat$epi$meanVl <- dat$epi$vlSupp <- dat$epi$vlSupp.tx <-
-      dat$epi$vlSupp.t0 <- dat$epi$vlSupp.t1 <- rNA
-    if (dat$control$clin.array == TRUE) {
-      dat$clin <- list()
-      dat$clin$txStat <- matrix(NA, length(active), nsteps)
-      dat$clin$vlLevel <- matrix(NA, length(active), nsteps)
-      dat$clin$cd4Count <- matrix(NA, length(active), nsteps)
-    }
-
-    # Incidence vectors
     dat$epi$si.flow <- rNA
     dat$epi$si.flow.male <- rNA
     dat$epi$si.flow.feml <- rNA
@@ -92,71 +74,6 @@ prevalence.hiv <- function(dat, at) {
   ## Age
   dat$epi$meanAge[at] <- mean(age[active == 1], na.rm = TRUE)
   dat$epi$propMale[at] <- mean(male[active == 1], na.rm = TRUE)
-
-
-  ### Diagnosis and treatment ###
-  dat$epi$newDx[at] <- sum(dxTime == at, na.rm = TRUE)
-
-  ## Treatment adherence
-  dat$epi$meanTxTimeOn[at] <- mean(txTimeOn/(txTimeOn + txTimeOff), na.rm = TRUE)
-  if (is.nan(dat$epi$meanTxTimeOn[at])) {
-    dat$epi$meanTxTimeOn[at] <- NA
-  }
-  dat$epi$meanTxTimeOn.t0[at] <- mean(txTimeOn[txType == 0]/
-                                      (txTimeOn[txType == 0] + txTimeOff[txType == 0]),
-                                      na.rm = TRUE)
-  if (is.nan(dat$epi$meanTxTimeOn.t0[at])) {
-    dat$epi$meanTxTimeOn.t0[at] <- NA
-  }
-  dat$epi$meanTxTimeOn.t1[at] <- mean(txTimeOn[txType == 1]/
-                                      (txTimeOn[txType == 1] + txTimeOff[txType == 1]),
-                                      na.rm = TRUE)
-  if (is.nan(dat$epi$meanTxTimeOn.t1[at])) {
-    dat$epi$meanTxTimeOn.t1[at] <- NA
-  }
-
-  ## Viral Load
-  if (at >= 2) {
-    dat$epi$meanVl[at] <- mean(vlLevel[active == 1 & status == 1], na.rm = TRUE)
-    dat$epi$vlSupp[at] <- length(whichVlSupp(dat$attr, dat$param)) /
-      sum(active == 1 & status == 1, na.rm = TRUE)
-    if (is.nan(dat$epi$vlSupp[at])) {
-      dat$epi$vlSupp[at] <- NA
-    }
-    dat$epi$vlSupp.tx[at] <- length(intersect(which(txType %in% 0:1),
-                                              whichVlSupp(dat$attr, dat$param))) /
-                                  sum(active == 1 & status == 1 &
-                                        txType %in% 0:1, na.rm = TRUE)
-    if (is.nan(dat$epi$vlSupp.tx[at])) {
-      dat$epi$vlSupp.tx[at] <- NA
-    }
-    dat$epi$vlSupp.t0[at] <- length(intersect(which(txType == 0),
-                                              whichVlSupp(dat$attr, dat$param))) /
-                                  sum(active == 1 & status == 1 &
-                                        txType == 0, na.rm = TRUE)
-    if (is.nan(dat$epi$vlSupp.t0[at])) {
-      dat$epi$vlSupp.t0[at] <- NA
-    }
-    dat$epi$vlSupp.t1[at] <- length(intersect(which(txType == 1),
-                                              whichVlSupp(dat$attr, dat$param))) /
-                                  sum(active == 1 & status == 1 &
-                                        txType == 1, na.rm = TRUE)
-    if (is.nan(dat$epi$vlSupp.t1[at])) {
-      dat$epi$vlSupp.t1[at] <- NA
-    }
-
-    ### Clinical Array ###
-    if (dat$control$clin.array == TRUE) {
-      dat$clin$txStat[, at] <- dat$attr$txStat
-      dat$clin$cd4Count[, at] <- dat$attr$cd4Count
-      dat$clin$vlLevel[, at] <- dat$attr$vlLevel
-    }
-  }
-
-  ### Supplemental prevalence submod
-  if (!is.null(dat$control$getprev.suppl)) {
-    dat <- do.call(dat$control[["getprev.suppl"]], list(dat, at))
-  }
 
   return(dat)
 }
