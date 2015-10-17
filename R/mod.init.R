@@ -22,18 +22,7 @@ initialize.hiv <- function(x, param, init, control, s) {
   # browser()
   dat <- list()
   dat$temp <- list()
-  if (class(x$fit) == "network") {
-    nw <- simulate(x$formation,
-                   basis = x$fit,
-                   coef = x$coef.form.crude,
-                   constraints = x$constraints)
-  } else {
-    nw <- simulate(x$fit, control = control.simulate.ergm(MCMC.burnin = 1e6))
-  }
-
-  if (class(nw)[1] == "networkDynamic") {
-    nw <- network.collapse(nw, at = 1)
-  }
+  nw <- simulate(x$fit, control = control.simulate.ergm(MCMC.burnin = 1e6))
 
   dat$el <- as.edgelist(nw)
   attributes(dat$el)$vnames <- NULL
