@@ -42,7 +42,7 @@ births.hiv <- function(dat, at) {
   # Update Population Structure
   if (nBirths > 0) {
     dat <- setBirthAttr(dat, at, nBirths)
-    attributes(dat$el)$n <- attributes(dat$el)$n + nBirths
+    dat$el <- add_vertices(dat$el, nBirths)
   }
 
   if (unique(sapply(dat$attr, length)) != attributes(dat$el)$n) {
@@ -76,12 +76,12 @@ setBirthAttr <- function(dat, at, nBirths) {
   newIds <- which(is.na(dat$attr$active))
 
 
-  # Network Status ----------------------------------------------------------
+  # Network Status
   dat$attr$active[newIds] <- rep(1, nBirths)
   dat$attr$entTime[newIds] <- rep(at, nBirths)
 
 
-  # Demography --------------------------------------------------------------
+  # Demography
   prop.male <- ifelse(is.null(dat$param$b.propmale),
                       dat$epi$propMale[1],
                       dat$param$b.propmale)
@@ -91,15 +91,12 @@ setBirthAttr <- function(dat, at, nBirths) {
 
   idsNewF <- intersect(newIds, which(dat$attr$male == 0))
   idsNewM <- intersect(newIds, which(dat$attr$male == 1))
-  dat$attr$agecat[idsNewF] <- 0
-  dat$attr$agecat[idsNewM] <- 2
 
-
-  # Circumcision ------------------------------------------------------------
+  # Circumcision
   dat <- circ(dat, at)
 
 
-  # Epi/Clinical ------------------------------------------------------------
+  # Epi/Clinical
   dat$attr$status[newIds] <- rep(0, nBirths)
 
   if (length(unique(sapply(dat$attr, length))) != 1) {
