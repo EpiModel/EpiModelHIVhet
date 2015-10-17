@@ -112,11 +112,9 @@ reinit.hiv <- function(x, param, init, control, s) {
 }
 
 
-
 initStatus <- function(dat) {
 
   ## Variables
-  status.rand <- dat$init$status.rand
   i.prev.male <- dat$init$i.prev.male
   i.prev.feml <- dat$init$i.prev.feml
 
@@ -128,24 +126,9 @@ initStatus <- function(dat) {
   n <- nMale + nFeml
 
   ## Process
-  if (status.rand == TRUE) {
-    status <- rep(NA, n)
-    status[idsMale] <- rbinom(nMale, 1, i.prev.male)
-    status[idsFeml] <- rbinom(nFeml, 1, i.prev.feml)
-    if (sum(status) == 0) {
-      status[ssample(1:length(status), 1)] <- 1
-    }
-    status <- ifelse(status == 1, 1, 0)
-  } else {
-    status <- rep(0, n)
-    status[sample(idsMale, round(i.prev.male * nMale))] <- 1
-    status[sample(idsFeml, round(i.prev.feml * nFeml))] <- 1
-  }
-  dat$attr$status <- status
-
-  return(dat)
-}
-
+  status <- rep(0, n)
+  status[sample(idsMale, round(i.prev.male * nMale))] <- 1
+  status[sample(idsFeml, round(i.prev.feml * nFeml))] <- 1
 
   dat$attr$status <- status
 
