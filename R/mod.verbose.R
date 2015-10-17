@@ -68,7 +68,6 @@ verbose.hiv <- function(x, type, s, at) {
           cat("\nTotal Prevalence: ", x$epi$i.num[at], " (", prev, ")", sep = "")
           cat("\n------------------------------")
           cat("\nCurr Pop Size:", x$epi$num[at])
-          cat("\nCuml Pop Size:", x$epi$cumlNum[at])
           cat("\n  Births:", x$epi$b.flow[at])
           cat("\n  Deaths (Sus):", x$epi$ds.flow[at])
           cat("\n  Deaths (Inf):", x$epi$di.flow[at])
