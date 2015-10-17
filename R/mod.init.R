@@ -19,7 +19,6 @@
 #'
 initialize.hiv <- function(x, param, init, control, s) {
 
-  # browser()
   dat <- list()
   dat$temp <- list()
   nw <- simulate(x$fit, control = control.simulate.ergm(MCMC.burnin = 1e6))
@@ -50,14 +49,13 @@ initialize.hiv <- function(x, param, init, control, s) {
   n <- network.size(nw)
   dat$attr$active <- rep(1, n)
   dat$attr$entTime <- rep(1, n)
-  dat$attr$deathTime <- rep(NA, n)
-  dat$attr$deathCause <- rep(NA, n)
 
-  ## Initialize HIV related attributes
   dat <- initStatus(dat)
 
-  dat$attr$age <- get.vertex.attribute(nw, "age")
-  dat$attr$agecat <- get.vertex.attribute(nw, "agecat")
+  age <- rep(NA, n)
+  age[dat$attr$male == 0] <- sample(init$ages.feml, sum(dat$attr$male == 0), TRUE)
+  age[dat$attr$male == 1] <- sample(init$ages.male, sum(dat$attr$male == 1), TRUE)
+  dat$attr$age <- age
 
   dat <- initInfTime(dat)
   dat <- initDx(dat)
