@@ -46,8 +46,6 @@ deaths.hiv <- function(dat, at) {
   if (nDeathsSus > 0) {
     idsDeathsSus <- idsEligSus[vecDeathsSus]
     dat$attr$active[idsDeathsSus] <- 0
-    dat$attr$deathTime[idsDeathsSus] <- at
-    dat$attr$deathCause[idsDeathsSus] <- "s"
   }
 
 
@@ -84,8 +82,6 @@ deaths.hiv <- function(dat, at) {
   ### 3. Update Attributes ###
   if (nDeathsInf > 0) {
     dat$attr$active[idsDeathsInf] <- 0
-    dat$attr$deathTime[idsDeathsInf] <- at
-    dat$attr$deathCause[idsDeathsInf] <- "i"
   }
 
   ## 4. Update Population Structure ##
