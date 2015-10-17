@@ -16,8 +16,8 @@ param.hiv(time.unit = 7, acute.stage.mult = 5, aids.stage.mult = 1,
   tx.cd4.recrat.male = 9.75/30, tx.cd4.decrat.feml = 11.6/30,
   tx.cd4.decrat.male = 9.75/30, tx.coverage = 0.3, tx.prev.eff = 0.96,
   b.rate = 0.03/365, b.rate.method = "totpop", b.propmale = NULL,
-  agecat.cutoff = 35, ds.exit.age = 55, ds.rate.mult = 1,
-  di.cd4.aids = 50, di.cd4.rate = 2/365)
+  ds.exit.age = 55, ds.rate.mult = 1, di.cd4.aids = 50,
+  di.cd4.rate = 2/365)
 }
 \arguments{
 \item{time.unit}{Unit of time relative to one day.}
@@ -95,10 +95,7 @@ as a function of the female population size, and "stgrowth" for a constant
 stable growth rate.}
 
 \item{b.propmale}{Proportion of entries assigned as male. If NULL, then set
-adaptively based on the proportion at time 1.}
-
-\item{agecat.cutoff}{Age in years for calculating the \code{agecat} attribute
-       used in the network model.}
+       adaptively based on the proportion at time 1.}
 
 \item{ds.exit.age}{Age at which the age-specific ds.rate is set to 1, with NA
 value indicating no censoring.}

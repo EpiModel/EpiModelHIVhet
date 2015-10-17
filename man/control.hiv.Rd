@@ -12,11 +12,8 @@ control.hiv(simno = 1, nsteps = 100, start = 1, nsims = 1, ncores = 1,
   births.FUN = births.hiv, edges_correct.FUN = edges_correct.hiv,
   updatenwp.FUN = update_nwp, resim_nets.FUN = simnet.hiv,
   infection.FUN = infect.hiv, prev.FUN = prevalence.hiv,
-  verbose.FUN = verbose.hiv, calc.asprev = FALSE, clin.array = FALSE,
-  delete.nodes = TRUE, save.int = NULL, keep.cpdata = TRUE,
-  save.transmat = FALSE, save.network = FALSE, save.nwstats = FALSE,
-  save.other = c("el", "attr"), verbose = TRUE, verbose.int = 100,
-  skip.check = TRUE, ...)
+  verbose.FUN = verbose.hiv, save.nwstats = FALSE, save.other = c("el",
+  "attr"), verbose = TRUE, verbose.int = 1, skip.check = TRUE, ...)
 }
 \arguments{
 \item{simno}{Simulation ID number.}
@@ -65,24 +62,6 @@ with the default function of \code{\link{prevalence.hiv}}.}
 
 \item{verbose.FUN}{Module to print simulation progress to screen, with the
 default function of \code{\link{verbose.hiv}}.}
-
-\item{calc.asprev}{If \code{TRUE}, add age and sex-specific binned prevalence
-calculations to epi summary output.}
-
-\item{clin.array}{If \code{TRUE}, save an array of individual-level attribute
-history for treatment status, viral load, and CD4 level.}
-
-\item{delete.nodes}{If \code{TRUE}, delete vertices upon exit/death, otherwise
-deactivate them.}
-
-\item{save.int}{Interval of time steps at which dat object should be saved to
-disk.}
-
-\item{keep.cpdata}{Keep checkpoint interval data.}
-
-\item{save.transmat}{Save out transmission matrix.}
-
-\item{save.network}{Save out network objects (in \code{simOut} function).}
 
 \item{save.nwstats}{Save out network statistics.}
 

@@ -4,43 +4,25 @@
 \alias{make_nw.hiv}
 \title{Calculate Network Statistics}
 \usage{
-make_nw.hiv(n = 10000, prop.male = 0.451, ages.male = seq(18, 50, 7/365),
-  ages.feml = seq(18, 50, 7/365), start.prev = 0.05, meandeg.male = 1.005,
-  meandeg.feml = 0.826, absdiff.offst = 5.38, absdiff.remain = 4.11,
-  prop.conc.male = 0.178, prop.conc.feml = 0.028, agecat.cutoff = 35,
-  part.dur = 1125, time.unit = 7, use.constraints = TRUE)
+make_nw.hiv(n = 10000, meandeg = 0.8, prop.male = 0.5,
+  start.prev = 0.05, part.dur = 1000, time.unit = 7)
 }
 \arguments{
 \item{n}{Population size.}
 
+\item{meandeg}{Mean degree.}
+
 \item{prop.male}{Percent of the population that is male.}
 
-\item{ages.male}{Vector of ages for \code{init_nw}.}
-
-\item{ages.feml}{Vector of ages for \code{init_nw}.}
-
 \item{start.prev}{Starting HIV prevalence in the population.}
-
-\item{meandeg.male}{Mean degree of men.}
-
-\item{meandeg.feml}{Mean degree of females.}
-
-\item{absdiff.offst}{Mean relative age difference of men over women.}
-
-\item{absdiff.remain}{Average remainer of absdiffby term after offset.}
-
-\item{prop.conc.male}{Proportion of men with concurrency.}
-
-\item{prop.conc.feml}{Proportion of women with concurrency.}
-
-\item{agecat.cutoff}{Age in years for calculating the \code{agecat} attribute
-used in the network model.}
 
 \item{part.dur}{Mean duration of partnerships.}
 
 \item{time.unit}{Time unit used, relative to days.}
 
-\item{use.constraints}{If \code{TRUE}, use the \code{~bd(maxout = 3)} constraint.}
+\item{ages.male}{Vector of ages for \code{init_nw}.}
+
+\item{ages.feml}{Vector of ages for \code{init_nw}.}
 }
 \description{
 This function calculates the target statistics for the formation

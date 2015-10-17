@@ -5,17 +5,18 @@
 \title{Initial Conditions for Stochastic Network Model of HIV-1 Infection in
        Sub-Saharan Africa}
 \usage{
-init.hiv(i.prev.male = 0.05, i.prev.feml = 0.05, status.rand = FALSE,
-  inf.time.dist = "geometric", max.inf.time = 5 * 365,
-  reinit.age.bystatus = FALSE)
+init.hiv(i.prev.male = 0.05, i.prev.feml = 0.05, ages.male = seq(18, 55,
+  7/365), ages.feml = seq(18, 55, 7/365), inf.time.dist = "geometric",
+  max.inf.time = 5 * 365)
 }
 \arguments{
 \item{i.prev.male}{Prevalence of initially infected males.}
 
 \item{i.prev.feml}{Prevalence of initially infected females.}
 
-\item{status.rand}{If \code{TRUE}, set the number of initial infected from a
-series of binomial draws, else set the number deterministically.}
+\item{ages.male}{}
+
+\item{ages.feml}{}
 
 \item{inf.time.dist}{Probability distribution for setting time of infection
 for nodes infected at T1, with options of \code{"geometric"} for randomly
@@ -25,11 +26,7 @@ uniformly distributed time over that same interval, or \code{"allacute"} for
 placing all infections in the acute stage at the start.}
 
 \item{max.inf.time}{Maximum infection time in days for infection at initialization,
-used when \code{inf.time.dist} is \code{"geometric"} or \code{"uniform"}.}
-
-\item{reinit.age.bystatus}{If \code{TRUE}, will reinitialize ages by disease
-       status (infected tend to be older than susceptible) in initialization
-       module.}
+       used when \code{inf.time.dist} is \code{"geometric"} or \code{"uniform"}..}
 }
 \description{
 This function sets the initial conditions for the stochastic

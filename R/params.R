@@ -58,8 +58,6 @@
 #'        stable growth rate.
 #' @param b.propmale Proportion of entries assigned as male. If NULL, then set
 #'        adaptively based on the proportion at time 1.
-#' @param agecat.cutoff Age in years for calculating the \code{agecat} attribute
-#'        used in the network model.
 #'
 #' @param ds.exit.age Age at which the age-specific ds.rate is set to 1, with NA
 #'        value indicating no censoring.
@@ -112,7 +110,6 @@ param.hiv <- function(time.unit = 7,
                       b.rate = 0.03/365,
                       b.rate.method = "totpop",
                       b.propmale = NULL,
-                      agecat.cutoff = 35,
 
                       ds.exit.age = 55,
                       ds.rate.mult = 1,
@@ -190,8 +187,8 @@ param.hiv <- function(time.unit = 7,
 #'
 #' @param i.prev.male Prevalence of initially infected males.
 #' @param i.prev.feml Prevalence of initially infected females.
-#' @param status.rand If \code{TRUE}, set the number of initial infected from a
-#'        series of binomial draws, else set the number deterministically.
+#' @param ages.male
+#' @param ages.feml
 #' @param inf.time.dist Probability distribution for setting time of infection
 #'        for nodes infected at T1, with options of \code{"geometric"} for randomly
 #'        distributed on a geometric distribution with a probability of the
@@ -199,10 +196,7 @@ param.hiv <- function(time.unit = 7,
 #'        uniformly distributed time over that same interval, or \code{"allacute"} for
 #'        placing all infections in the acute stage at the start.
 #' @param max.inf.time Maximum infection time in days for infection at initialization,
-#'        used when \code{inf.time.dist} is \code{"geometric"} or \code{"uniform"}.
-#' @param reinit.age.bystatus If \code{TRUE}, will reinitialize ages by disease
-#'        status (infected tend to be older than susceptible) in initialization
-#'        module.
+#'        used when \code{inf.time.dist} is \code{"geometric"} or \code{"uniform"}..
 #'
 #' @details This function sets the initial conditions for the models.
 #'
@@ -210,10 +204,10 @@ param.hiv <- function(time.unit = 7,
 #'
 init.hiv <- function(i.prev.male = 0.05,
                      i.prev.feml = 0.05,
-                     status.rand = FALSE,
+                     ages.male = seq(18, 55, 7/365),
+                     ages.feml = seq(18, 55, 7/365),
                      inf.time.dist = "geometric",
-                     max.inf.time = 5 * 365,
-                     reinit.age.bystatus = FALSE) {
+                     max.inf.time = 5 * 365) {
 
   ## Process parameters
   p <- list()
@@ -266,17 +260,6 @@ init.hiv <- function(i.prev.male = 0.05,
 #'        with the default function of \code{\link{prevalence.hiv}}.
 #' @param verbose.FUN Module to print simulation progress to screen, with the
 #'        default function of \code{\link{verbose.hiv}}.
-#' @param calc.asprev If \code{TRUE}, add age and sex-specific binned prevalence
-#'        calculations to epi summary output.
-#' @param clin.array If \code{TRUE}, save an array of individual-level attribute
-#'        history for treatment status, viral load, and CD4 level.
-#' @param delete.nodes If \code{TRUE}, delete vertices upon exit/death, otherwise
-#'        deactivate them.
-#' @param save.int Interval of time steps at which dat object should be saved to
-#'        disk.
-#' @param keep.cpdata Keep checkpoint interval data.
-#' @param save.network Save out network objects (in \code{simOut} function).
-#' @param save.transmat Save out transmission matrix.
 #' @param save.nwstats Save out network statistics.
 #' @param save.other Other list elements of dat to save out.
 #' @param verbose If \code{TRUE}, print progress to console.
@@ -311,17 +294,10 @@ control.hiv <- function(simno = 1,
                         infection.FUN = infect.hiv,
                         prev.FUN = prevalence.hiv,
                         verbose.FUN = verbose.hiv,
-                        calc.asprev = FALSE,
-                        clin.array = FALSE,
-                        delete.nodes = TRUE,
-                        save.int = NULL,
-                        keep.cpdata = TRUE,
-                        save.transmat = FALSE,
-                        save.network = FALSE,
                         save.nwstats = FALSE,
                         save.other = c("el", "attr"),
                         verbose = TRUE,
-                        verbose.int = 100,
+                        verbose.int = 1,
                         skip.check = TRUE,
                         ...) {
 
@@ -345,9 +321,8 @@ control.hiv <- function(simno = 1,
   p$bi.mods <- bi.mods
   p$user.mods <- grep(".FUN", names.dot.args, value = TRUE)
 
-  if (clin.array == TRUE) {
-    p$save.other <- c(p$save.other, "clin")
-  }
+  p$save.transmat <- FALSE
+  p$save.network <- FALSE
 
   class(p) <- "control.net"
   return(p)
