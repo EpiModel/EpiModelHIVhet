@@ -10,10 +10,10 @@ control.hiv(simno = 1, nsteps = 100, start = 1, nsims = 1, ncores = 1,
   aging.FUN = aging.hiv, cd4.FUN = cd4.hiv, vl.FUN = vl.hiv,
   dx.FUN = dx.hiv, tx.FUN = tx.hiv, deaths.FUN = deaths.hiv,
   births.FUN = births.hiv, edges_correct.FUN = edges_correct.hiv,
-  updatenwp.FUN = update_nwp, resim_nets.FUN = simnet.hiv,
-  infection.FUN = infect.hiv, prev.FUN = prevalence.hiv,
-  verbose.FUN = verbose.hiv, save.nwstats = FALSE, save.other = c("el",
-  "attr"), verbose = TRUE, verbose.int = 1, skip.check = TRUE, ...)
+  resim_nets.FUN = simnet.hiv, infection.FUN = infect.hiv,
+  prev.FUN = prevalence.hiv, verbose.FUN = verbose.hiv,
+  save.nwstats = FALSE, save.other = c("el", "attr"), verbose = TRUE,
+  verbose.int = 1, skip.check = TRUE, ...)
 }
 \arguments{
 \item{simno}{Simulation ID number.}
@@ -50,8 +50,6 @@ or \code{"mpi"} for multi-node MPI threads.}
 \item{edges_correct.FUN}{Module to adjust the edges coefficient in response
 to changes to the population size, with the default function of
 \code{\link{edges_correct.hiv}} that preserves mean degree.}
-
-\item{updatenwp.FUN}{In progress}
 
 \item{resim_nets.FUN}{Module to resimulate the network at each time step.}
 
