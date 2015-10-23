@@ -25,8 +25,8 @@ initialize.hiv <- function(x, param, init, control, s) {
 
   dat$el <- as.edgelist(nw)
   attributes(dat$el)$vnames <- NULL
-  p <- tergmLite::ergm_prep(nw, x$formation, x$coef.diss$dissolution, x$coef.form,
-                 x$coef.diss$coef.adj, x$constraints, control = tergm::control.simulate.network())
+  p <- tergmLite::stergm_prep(nw, x$formation, x$coef.diss$dissolution, x$coef.form,
+                              x$coef.diss$coef.adj, x$constraints)
   p$model.form$formula <- NULL
   p$model.diss$formula <- NULL
   dat$p <- p
