@@ -68,7 +68,6 @@ initialize.hiv <- function(x, param, init, control, s) {
   ## Final steps
   dat$epi <- list()
   dat <- prevalence.hiv(dat, at = 1)
-  dat <- simnet.hiv(dat, at = 1)
 
 }
 
