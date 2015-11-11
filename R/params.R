@@ -66,6 +66,7 @@
 #'        mortality is governed by \code{di.cd4.rate}.
 #' @param di.cd4.rate Mortality in late-stage AIDS after hitting a nadir CD4 of
 #'        \code{di.cd4.aids}.
+#' @param ... additional arguments to be passed into model.
 #'
 #' @details This function sets the parameters for the models.
 #'
@@ -114,7 +115,8 @@ param.hiv <- function(time.unit = 7,
                       ds.exit.age = 55,
                       ds.rate.mult = 1,
                       di.cd4.aids = 50,
-                      di.cd4.rate = 2/365) {
+                      di.cd4.rate = 2/365,
+                      ...) {
 
   ## Process parameters
   p <- list()
@@ -187,8 +189,8 @@ param.hiv <- function(time.unit = 7,
 #'
 #' @param i.prev.male Prevalence of initially infected males.
 #' @param i.prev.feml Prevalence of initially infected females.
-#' @param ages.male
-#' @param ages.feml
+#' @param ages.male initial ages of males in the population.
+#' @param ages.feml initial ages of females in the population.
 #' @param inf.time.dist Probability distribution for setting time of infection
 #'        for nodes infected at T1, with options of \code{"geometric"} for randomly
 #'        distributed on a geometric distribution with a probability of the
@@ -196,7 +198,8 @@ param.hiv <- function(time.unit = 7,
 #'        uniformly distributed time over that same interval, or \code{"allacute"} for
 #'        placing all infections in the acute stage at the start.
 #' @param max.inf.time Maximum infection time in days for infection at initialization,
-#'        used when \code{inf.time.dist} is \code{"geometric"} or \code{"uniform"}..
+#'        used when \code{inf.time.dist} is \code{"geometric"} or \code{"uniform"}.
+#' @param ... additional arguments to be passed into model.
 #'
 #' @details This function sets the initial conditions for the models.
 #'
@@ -207,7 +210,8 @@ init.hiv <- function(i.prev.male = 0.05,
                      ages.male = seq(18, 55, 7/365),
                      ages.feml = seq(18, 55, 7/365),
                      inf.time.dist = "geometric",
-                     max.inf.time = 5 * 365) {
+                     max.inf.time = 5 * 365,
+                     ...) {
 
   ## Process parameters
   p <- list()
