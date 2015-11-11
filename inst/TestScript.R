@@ -3,7 +3,7 @@
 
 library(EpiModelHIV)
 
-st <- make_nw.hiv()
+st <- make_nw.hiv(part.dur = 2013)
 est <- netest(st$nw,
               formation = st$formation,
               target.stats = st$stats,
@@ -18,7 +18,8 @@ print(dx)
 plot(dx)
 
 param <- param.hiv()
-init <- init.hiv()
-control <- control.hiv()
+init <- init.hiv(i.prev.male = 0.25, i.prev.feml = 0.25)
+control <- control.hiv(nsteps = 2600)
 
 sim <- netsim(est, param, init, control)
+
