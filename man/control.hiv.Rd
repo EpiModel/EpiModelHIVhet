@@ -12,8 +12,8 @@ control.hiv(simno = 1, nsteps = 100, start = 1, nsims = 1, ncores = 1,
   births.FUN = births.hiv, edges_correct.FUN = edges_correct.hiv,
   resim_nets.FUN = simnet.hiv, infection.FUN = infect.hiv,
   prev.FUN = prevalence.hiv, verbose.FUN = verbose.hiv,
-  save.nwstats = FALSE, save.other = c("el", "attr"), verbose = TRUE,
-  verbose.int = 1, skip.check = TRUE, ...)
+  module.order = NULL, save.nwstats = FALSE, save.other = c("el", "attr"),
+  verbose = TRUE, verbose.int = 1, skip.check = TRUE, ...)
 }
 \arguments{
 \item{simno}{Simulation ID number.}
@@ -61,6 +61,14 @@ with the default function of \code{\link{prevalence.hiv}}.}
 \item{verbose.FUN}{Module to print simulation progress to screen, with the
 default function of \code{\link{verbose.hiv}}.}
 
+\item{module.order}{A character vector of module names that lists modules the
+order in which they should be evaluated within each time step. If
+\code{NULL}, the modules will be evaluated as follows: first any
+new modules supplied through \code{...} in the order in which they are
+listed, then the built-in modules in their order of the function listing.
+The \code{initialize.FUN} will always be run first and the
+\code{verbose.FUN} always last.}
+
 \item{save.nwstats}{Save out network statistics.}
 
 \item{save.other}{Other list elements of dat to save out.}
@@ -70,9 +78,7 @@ default function of \code{\link{verbose.hiv}}.}
 \item{verbose.int}{Interval for printing progress to console.}
 
 \item{skip.check}{If \code{TRUE}, skips the error check for parameter values,
-initial conditions, and control settings before running the models.
-This is suggested only if encountering unnecessary errors when running
-new models.}
+initial conditions, and control settings before running the models.}
 
 \item{...}{Additional arguments passed to the function.}
 }

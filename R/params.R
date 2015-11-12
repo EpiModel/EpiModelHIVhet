@@ -263,14 +263,19 @@ init.hiv <- function(i.prev.male = 0.05,
 #'        with the default function of \code{\link{prevalence.hiv}}.
 #' @param verbose.FUN Module to print simulation progress to screen, with the
 #'        default function of \code{\link{verbose.hiv}}.
+#' @param module.order A character vector of module names that lists modules the
+#'        order in which they should be evaluated within each time step. If
+#'        \code{NULL}, the modules will be evaluated as follows: first any
+#'        new modules supplied through \code{...} in the order in which they are
+#'        listed, then the built-in modules in their order of the function listing.
+#'        The \code{initialize.FUN} will always be run first and the
+#'        \code{verbose.FUN} always last.
 #' @param save.nwstats Save out network statistics.
 #' @param save.other Other list elements of dat to save out.
 #' @param verbose If \code{TRUE}, print progress to console.
 #' @param verbose.int Interval for printing progress to console.
 #' @param skip.check If \code{TRUE}, skips the error check for parameter values,
 #'        initial conditions, and control settings before running the models.
-#'        This is suggested only if encountering unnecessary errors when running
-#'        new models.
 #' @param ... Additional arguments passed to the function.
 #'
 #' @details This function sets the parameters for the models.
@@ -296,6 +301,7 @@ control.hiv <- function(simno = 1,
                         infection.FUN = infect.hiv,
                         prev.FUN = prevalence.hiv,
                         verbose.FUN = verbose.hiv,
+                        module.order = NULL,
                         save.nwstats = FALSE,
                         save.other = c("el", "attr"),
                         verbose = TRUE,
