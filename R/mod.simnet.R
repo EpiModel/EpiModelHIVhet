@@ -11,9 +11,16 @@
 #'
 simnet.hiv <- function(dat, at) {
 
+  # Update edges coefficients
+  dat <- edges_correct.hiv(dat, at)
+
+  # Update internal ergm data
   dat <- update_nwp(dat)
+
+  # Pull network parameters
   nwparam <- get_nwparam(dat)
 
+  # Simulate edgelist
   dat$el <- tergmLite::simulate_network(p = dat$p,
                                         el = dat$el,
                                         coef.form = nwparam$coef.form,

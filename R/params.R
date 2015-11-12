@@ -254,9 +254,6 @@ init.hiv <- function(i.prev.male = 0.05,
 #' @param tx.FUN HIV treatment module.
 #' @param deaths.FUN Module to simulate death or exit.
 #' @param births.FUN Module to simulate births or entries.
-#' @param edges_correct.FUN Module to adjust the edges coefficient in response
-#'        to changes to the population size, with the default function of
-#'        \code{\link{edges_correct.hiv}} that preserves mean degree.
 #' @param resim_nets.FUN Module to resimulate the network at each time step.
 #' @param infection.FUN Module to simulate disease infection.
 #' @param prev.FUN Module to calculate disease prevalence at each time step,
@@ -296,7 +293,6 @@ control.hiv <- function(simno = 1,
                         tx.FUN = tx.hiv,
                         deaths.FUN = deaths.hiv,
                         births.FUN = births.hiv,
-                        edges_correct.FUN = edges_correct.hiv,
                         resim_nets.FUN = simnet.hiv,
                         infection.FUN = infect.hiv,
                         prev.FUN = prevalence.hiv,
