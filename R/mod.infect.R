@@ -63,11 +63,6 @@ infect.hiv <- function(dat, at) {
   dat$epi$si.flow.male[at] <- sum(dat$attr$male[idsInf] == 1, na.rm = TRUE)
   dat$epi$si.flow.feml[at] <- sum(dat$attr$male[idsInf] == 0, na.rm = TRUE)
 
-  ## Supplemental incidence stats
-  if (!is.null(dat$control$getincid.infect)) {
-    dat <- do.call(dat$control[["getincid.infect"]], list(dat, at, idsInf, idsTrans))
-  }
-
   return(dat)
 }
 
