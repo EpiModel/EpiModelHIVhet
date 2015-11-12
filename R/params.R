@@ -121,8 +121,16 @@ param.hiv <- function(time.unit = 7,
   ## Process parameters
   p <- list()
   formal.args <- formals(sys.function())
+  formal.args[["..."]] <- NULL
   for (arg in names(formal.args)) {
     p[arg] <- list(get(arg))
+  }
+  dot.args <- list(...)
+  names.dot.args <- names(dot.args)
+  if (length(dot.args) > 0) {
+    for (i in 1:length(dot.args)) {
+      p[[names.dot.args[i]]] <- dot.args[[i]]
+    }
   }
 
 
@@ -216,8 +224,16 @@ init.hiv <- function(i.prev.male = 0.05,
   ## Process parameters
   p <- list()
   formal.args <- formals(sys.function())
+  formal.args[["..."]] <- NULL
   for (arg in names(formal.args)) {
     p[arg] <- list(get(arg))
+  }
+  dot.args <- list(...)
+  names.dot.args <- names(dot.args)
+  if (length(dot.args) > 0) {
+    for (i in 1:length(dot.args)) {
+      p[[names.dot.args[i]]] <- dot.args[[i]]
+    }
   }
 
 
