@@ -82,6 +82,10 @@ cd4.hiv <- function(dat, at) {
     cd4Count[idsNoTxMale] <- pmax(cd4Count[idsNoTxMale] - tx.cd4.decrat.male, 0)
   }
 
+  if (any(is.na(cd4Count[status == 1]))) {
+    stop("NA in cd4Count among infected")
+  }
+
   dat$attr$cd4Count <- cd4Count
 
   return(dat)
