@@ -1,8 +1,8 @@
 
-#' EpiModelHIV Package
+#' EpiModelHIVhet Package
 #'
 #' \tabular{ll}{
-#'    Package: \tab EpiModelHIV\cr
+#'    Package: \tab EpiModelHIVhet\cr
 #'    Type: \tab Package\cr
 #'    Version: \tab 0.1\cr
 #'    Date: \tab 2015-04-15\cr
@@ -13,10 +13,10 @@
 #' @details
 #' EpiModel extensions for modeling HIV infection among heterosexual populations.
 #'
-#' @name EpiModelHIV-package
+#' @name EpiModelHIVhet-package
 #' @docType package
 #' @keywords package
-#' @useDynLib EpiModelHIV
+#' @useDynLib EpiModelHIVhet
 #' @import EpiModel tergm tergmLite ergm network networkDynamic
 #' @importFrom Rcpp sourceCpp
 #'
