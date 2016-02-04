@@ -1,7 +1,7 @@
 
 ## Test script
 
-library(EpiModelHIV)
+library(EpiModelHIVhet)
 
 st <- make_nw.hiv(part.dur = 2013)
 est <- netest(st$nw,

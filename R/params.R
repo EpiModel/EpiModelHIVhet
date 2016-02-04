@@ -4,7 +4,7 @@
 #'
 #' @description Sets the simulation parameters for the stochastic
 #'              network model of HIV-1 Infection among Heterosexuals in
-#'              Sub-Saharan Africa for the \code{EpiModelHIV} package.
+#'              Sub-Saharan Africa for the \code{EpiModelHIVhet} package.
 #'
 #' @param time.unit Unit of time relative to one day.
 #'
@@ -139,7 +139,7 @@ param.hiv <- function(time.unit = 7,
 
 
   ## Death rate transformations
-  ltGhana <- EpiModelHIV::ltGhana
+  ltGhana <- EpiModelHIVhet::ltGhana
   ds.rates <- ltGhana[ltGhana$year == 2011, ]
   ds.rates$mrate <- ds.rates$mrate / 365
   if (is.numeric(ds.exit.age)) {
