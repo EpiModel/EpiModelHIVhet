@@ -19,5 +19,6 @@
 #' @useDynLib EpiModelHIVhet
 #' @import EpiModel EpiModelHPC tergm tergmLite ergm network networkDynamic
 #' @importFrom Rcpp sourceCpp
+#' @importFrom stats rbinom rgeom rnbinom rpois simulate
 #'
 NULL

@@ -19,10 +19,6 @@ make_nw_het(n = 10000, meandeg = 0.8, prop.male = 0.5,
 \item{part.dur}{Mean duration of partnerships.}
 
 \item{time.unit}{Time unit used, relative to days.}
-
-\item{ages.male}{Vector of ages for \code{init_nw}.}
-
-\item{ages.feml}{Vector of ages for \code{init_nw}.}
 }
 \description{
 This function calculates the target statistics for the formation

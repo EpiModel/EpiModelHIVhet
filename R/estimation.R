@@ -7,8 +7,6 @@
 #' @param n Population size.
 #' @param meandeg Mean degree.
 #' @param prop.male Percent of the population that is male.
-#' @param ages.male Vector of ages for \code{init_nw}.
-#' @param ages.feml Vector of ages for \code{init_nw}.
 #' @param start.prev Starting HIV prevalence in the population.
 #' @param part.dur Mean duration of partnerships.
 #' @param time.unit Time unit used, relative to days.
