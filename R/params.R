@@ -72,7 +72,7 @@
 #'
 #' @export
 #'
-param.hiv <- function(time.unit = 7,
+param_het <- function(time.unit = 7,
 
                       acute.stage.mult = 5,
                       aids.stage.mult = 1,
@@ -213,7 +213,7 @@ param.hiv <- function(time.unit = 7,
 #'
 #' @export
 #'
-init.hiv <- function(i.prev.male = 0.05,
+init_het <- function(i.prev.male = 0.05,
                      i.prev.feml = 0.05,
                      ages.male = seq(18, 55, 7/365),
                      ages.feml = seq(18, 55, 7/365),
@@ -273,9 +273,9 @@ init.hiv <- function(i.prev.male = 0.05,
 #' @param resim_nets.FUN Module to resimulate the network at each time step.
 #' @param infection.FUN Module to simulate disease infection.
 #' @param prev.FUN Module to calculate disease prevalence at each time step,
-#'        with the default function of \code{\link{prevalence.hiv}}.
+#'        with the default function of \code{\link{prevalence_het}}.
 #' @param verbose.FUN Module to print simulation progress to screen, with the
-#'        default function of \code{\link{verbose.hiv}}.
+#'        default function of \code{\link{verbose_het}}.
 #' @param module.order A character vector of module names that lists modules the
 #'        order in which they should be evaluated within each time step. If
 #'        \code{NULL}, the modules will be evaluated as follows: first any
@@ -295,24 +295,24 @@ init.hiv <- function(i.prev.male = 0.05,
 #'
 #' @export
 #'
-control.hiv <- function(simno = 1,
+control_het <- function(simno = 1,
                         nsteps = 100,
                         start = 1,
                         nsims = 1,
                         ncores = 1,
                         par.type = "single",
-                        initialize.FUN = initialize.hiv,
-                        aging.FUN = aging.hiv,
-                        cd4.FUN = cd4.hiv,
-                        vl.FUN = vl.hiv,
-                        dx.FUN = dx.hiv,
-                        tx.FUN = tx.hiv,
-                        deaths.FUN = deaths.hiv,
-                        births.FUN = births.hiv,
-                        resim_nets.FUN = simnet.hiv,
-                        infection.FUN = infect.hiv,
-                        prev.FUN = prevalence.hiv,
-                        verbose.FUN = verbose.hiv,
+                        initialize.FUN = initialize_het,
+                        aging.FUN = aging_het,
+                        cd4.FUN = cd4_het,
+                        vl.FUN = vl_het,
+                        dx.FUN = dx_het,
+                        tx.FUN = tx_het,
+                        deaths.FUN = deaths_het,
+                        births.FUN = births_het,
+                        resim_nets.FUN = simnet_het,
+                        infection.FUN = infect_het,
+                        prev.FUN = prevalence_het,
+                        verbose.FUN = verbose_het,
                         module.order = NULL,
                         save.nwstats = FALSE,
                         save.other = c("el", "attr"),

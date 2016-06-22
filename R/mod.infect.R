@@ -4,14 +4,14 @@
 #' @description Module function to simulate transmission over an active discordant
 #'              edgelist.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'
-infect.hiv <- function(dat, at) {
+infect_het <- function(dat, at) {
 
   ## Discordant Edgelist
-  del <- discord_edgelist.hiv(dat, at)
+  del <- discord_edgelist_het(dat, at)
 
   nInf <- 0
   idsInf <- idsTrans <- NULL
@@ -67,7 +67,7 @@ infect.hiv <- function(dat, at) {
 }
 
 
-discord_edgelist.hiv <- function(dat, at) {
+discord_edgelist_het <- function(dat, at) {
 
   status <- dat$attr$status
   active <- dat$attr$active

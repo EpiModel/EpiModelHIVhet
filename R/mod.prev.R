@@ -5,11 +5,11 @@
 #'              disease prevalence, demographics, and other epidemiological
 #'              outcomes.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'
-prevalence.hiv <- function(dat, at) {
+prevalence_het <- function(dat, at) {
 
   status <- dat$attr$status
   active <- dat$attr$active

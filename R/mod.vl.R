@@ -4,11 +4,11 @@
 #' @description Module function for simulating progression of HIV viral load in
 #'              natural disease dynamics and in the presence of ART.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'
-vl.hiv <- function(dat, at) {
+vl_het <- function(dat, at) {
 
   ## Common variables
   active <- dat$attr$active

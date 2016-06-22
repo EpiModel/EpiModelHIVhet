@@ -10,7 +10,7 @@
 #'
 #' @export
 #'
-aging.hiv <- function(dat, at) {
+aging_het <- function(dat, at) {
 
   ## Parameters
   time.unit <- dat$param$time.unit

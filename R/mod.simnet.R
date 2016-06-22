@@ -5,17 +5,17 @@
 #'              time step conditional on current network structure and vertex
 #'              attributes.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'
-simnet.hiv <- function(dat, at) {
+simnet_het <- function(dat, at) {
 
   # Update edges coefficients
-  dat <- edges_correct.hiv(dat, at)
+  dat <- edges_correct_het(dat, at)
 
   # Update internal ergm data
-  dat <- update_nwp(dat)
+  dat <- update_nwp_het(dat)
 
   # Pull network parameters
   nwparam <- get_nwparam(dat)
@@ -29,7 +29,7 @@ simnet.hiv <- function(dat, at) {
   return(dat)
 }
 
-update_nwp <- function(dat) {
+update_nwp_het <- function(dat) {
 
   mf <- dat$p$model.form
   md <- dat$p$model.diss
@@ -63,12 +63,12 @@ update_nwp <- function(dat) {
 
   ## 3. Update MHproposal.form ##
   mhf$arguments$constraints$bd$attribs <-
-    matrix(rep(mhf$arguments$constraints$bd$attribs[1], n), ncol = 1)
+               matrix(rep(mhf$arguments$constraints$bd$attribs[1], n), ncol = 1)
   mhf$arguments$constraints$bd$maxout <-
-    matrix(rep(mhf$arguments$constraints$bd$maxout[1], n), ncol = 1)
+                matrix(rep(mhf$arguments$constraints$bd$maxout[1], n), ncol = 1)
   mhf$arguments$constraints$bd$maxin <- matrix(rep(n, n), ncol = 1)
   mhf$arguments$constraints$bd$minout <-
-    mhf$arguments$constraints$bd$minin <- matrix(rep(0, n), ncol = 1)
+               mhf$arguments$constraints$bd$minin <- matrix(rep(0, n), ncol = 1)
 
 
   ## 4. Update MHproposal.diss ##

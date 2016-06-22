@@ -4,7 +4,7 @@
 #' @description Adjusts the edges coefficients in a dynamic network model
 #'              to preserve the mean degree.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @details
 #' In HIV/STI modeling, there is typically an assumption that changes in
@@ -26,7 +26,7 @@
 #' @keywords module
 #' @export
 #'
-edges_correct.hiv <- function(dat, at) {
+edges_correct_het <- function(dat, at) {
 
   # Popsize
   old.num <- dat$epi$num[at - 1]

@@ -4,11 +4,11 @@
 #' @description Module function for simulating HIV therapy after diagnosis,
 #'              including adherence and non-adherence to ART.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'
-tx.hiv <- function(dat, at) {
+tx_het <- function(dat, at) {
 
   # Variables ---------------------------------------------------------------
   active <- dat$attr$active

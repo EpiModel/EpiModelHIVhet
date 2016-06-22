@@ -12,7 +12,7 @@ individual-level attributes, and summary statistics.}
 
 \item{at}{Current time step.}
 
-\item{nBirths}{Number of new births as determined by \code{\link{births.hiv}}.}
+\item{nBirths}{Number of new births as determined by \code{\link{births_het}}.}
 }
 \description{
 Assigns vertex attributes to incoming nodes at birth/entry into

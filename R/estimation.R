@@ -15,7 +15,7 @@
 #'
 #' @export
 #'
-make_nw.hiv <- function(n = 10000,
+make_nw_het <- function(n = 10000,
                         meandeg = 0.8,
                         prop.male = 0.5,
                         start.prev = 0.05,
@@ -23,7 +23,6 @@ make_nw.hiv <- function(n = 10000,
                         time.unit = 7) {
 
   nMale <- round(n * prop.male)
-  nFeml <- n - nMale
 
   male <- rep(0, n)
   male[sample(1:n, nMale)] <- 1

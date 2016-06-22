@@ -4,11 +4,11 @@
 #' @description Module for simulating births/entries into the population, including
 #'              initialization of attributes for incoming nodes.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'
-births.hiv <- function(dat, at) {
+births_het <- function(dat, at) {
 
   # Variables
   b.rate.method <- dat$param$b.rate.method
@@ -61,18 +61,15 @@ births.hiv <- function(dat, at) {
 #' @description Assigns vertex attributes to incoming nodes at birth/entry into
 #'              the network.
 #'
-#' @inheritParams births.hiv
-#' @param nBirths Number of new births as determined by \code{\link{births.hiv}}.
+#' @inheritParams births_het
+#' @param nBirths Number of new births as determined by \code{\link{births_het}}.
 #'
 #' @export
 #'
 setBirthAttr <- function(dat, at, nBirths) {
 
   # Set attributes for new births to NA
-  dat$attr <- lapply(dat$attr, {
-    function(x)
-      c(x, rep(NA, nBirths))
-  })
+  dat$attr <- lapply(dat$attr, function(x) c(x, rep(NA, nBirths)))
   newIds <- which(is.na(dat$attr$active))
 
 
@@ -89,6 +86,7 @@ setBirthAttr <- function(dat, at, nBirths) {
 
   dat$attr$age[newIds] <- rep(18, nBirths)
 
+  # TODO: check this
   idsNewF <- intersect(newIds, which(dat$attr$male == 0))
   idsNewM <- intersect(newIds, which(dat$attr$male == 1))
 

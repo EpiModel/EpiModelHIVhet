@@ -4,7 +4,7 @@
 #' @description Module for simulating circumcision status at birth/entry into
 #'              the population.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'

@@ -21,7 +21,7 @@
 #' @keywords module
 #' @export
 #'
-verbose.hiv <- function(x, type, s, at) {
+verbose_het <- function(x, type, s, at) {
 
   if (type == "startup") {
 

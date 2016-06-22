@@ -4,11 +4,11 @@
 #' @description Module function for simulating progression of CD4 in natural
 #'              disease dynamics and in the presence of ART.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'
-cd4.hiv <- function(dat, at) {
+cd4_het <- function(dat, at) {
 
   active <- dat$attr$active
   status <- dat$attr$status

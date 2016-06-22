@@ -4,11 +4,11 @@
 #' @description Module function for simulating HIV diagnosis after infection,
 #'              currently based on diagnosis at treatment initiation.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'
-dx.hiv <- function(dat, at) {
+dx_het <- function(dat, at) {
 
   # Variables ---------------------------------------------------------------
   active <- dat$attr$active

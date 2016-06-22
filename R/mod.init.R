@@ -6,9 +6,9 @@
 #'              simulates disease status and other attributes.
 #'
 #' @param x An \code{EpiModel} object of class \code{\link{netest}}.
-#' @param param An \code{EpiModel} object of class \code{\link{param.hiv}}.
-#' @param init An \code{EpiModel} object of class \code{\link{init.hiv}}.
-#' @param control An \code{EpiModel} object of class \code{\link{control.hiv}}.
+#' @param param An \code{EpiModel} object of class \code{\link{param_het}}.
+#' @param init An \code{EpiModel} object of class \code{\link{init_het}}.
+#' @param control An \code{EpiModel} object of class \code{\link{control_het}}.
 #' @param s Simulation number, used for restarting dependent simulations.
 #'
 #' @return
@@ -17,7 +17,7 @@
 #'
 #' @export
 #'
-initialize.hiv <- function(x, param, init, control, s) {
+initialize_het <- function(x, param, init, control, s) {
 
   dat <- list()
   dat$temp <- list()
@@ -67,7 +67,7 @@ initialize.hiv <- function(x, param, init, control, s) {
 
   ## Final steps
   dat$epi <- list()
-  dat <- prevalence.hiv(dat, at = 1)
+  dat <- prevalence_het(dat, at = 1)
 
 }
 
@@ -79,9 +79,9 @@ initialize.hiv <- function(x, param, init, control, s) {
 #'              simulates disease status and other attributes.
 #'
 #' @param x An \code{EpiModel} object of class \code{\link{netest}}.
-#' @param param An \code{EpiModel} object of class \code{\link{param.hiv}}.
-#' @param init An \code{EpiModel} object of class \code{\link{init.hiv}}.
-#' @param control An \code{EpiModel} object of class \code{\link{control.hiv}}.
+#' @param param An \code{EpiModel} object of class \code{\link{param_het}}.
+#' @param init An \code{EpiModel} object of class \code{\link{init_het}}.
+#' @param control An \code{EpiModel} object of class \code{\link{control_het}}.
 #' @param s Simulation number, used for restarting dependent simulations.
 #'
 #' @return
@@ -90,7 +90,7 @@ initialize.hiv <- function(x, param, init, control, s) {
 #'
 #' @export
 #'
-reinit.hiv <- function(x, param, init, control, s) {
+reinit_het <- function(x, param, init, control, s) {
   dat <- list()
   dat$el <- x$el[[s]]
   dat$param <- param

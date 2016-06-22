@@ -4,11 +4,11 @@
 #' @description Module for simulating deaths among susceptible and infected
 #'              persons within the population.
 #'
-#' @inheritParams aging.hiv
+#' @inheritParams aging_het
 #'
 #' @export
 #'
-deaths.hiv <- function(dat, at) {
+deaths_het <- function(dat, at) {
 
   ### 1. Susceptible Deaths ###
 
