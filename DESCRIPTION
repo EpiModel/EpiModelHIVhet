@@ -1,13 +1,13 @@
 Package: EpiModelHIVhet
 Type: Package
 Title: EpiModel for HIV-1 Infection among Heterosexual Couples in Sub-Saharan Africa
-Version: 0.1
-Date: 2015-04-15
+Version: 0.5
+Date: 2015-06-21
 Authors@R: c( person("Samuel", "Jenness",
     role=c("cre","aut"), email="sjenness@uw.edu"))
 Maintainer: Samuel Jenness <sjenness@uw.edu>
 Description: EpiModel epidemic modules and related utility functions for
-    simulating HIV-1 infection among heterosexual populations in Sub-Saharan Africa.
+    simulating HIV-1 infection among heterosexual populations.
 License: GPL-3
 Depends:
     R (>= 3.2),
