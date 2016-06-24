@@ -60,7 +60,22 @@ initialize_het <- function(x, param, init, control, s) {
   dat <- initInfTime(dat)
   dat <- initDx(dat)
   dat <- initTx(dat)
-  dat <- circ(dat, at = 1)
+  
+  # Circumcision
+  male <- dat$attr$male
+  nMales <- sum(male == 1)
+  age <- dat$attr$age
+  
+  circStat <- circTime <- rep(NA, n)
+  
+  circStat[male == 1] <- rbinom(nMales, 1, dat$param$circ.prob.birth)
+  
+  isCirc <- which(circStat == 1)
+  circTime[isCirc] <- round(-age[isCirc] * (365 / dat$param$time.unit))
+  
+  dat$attr$circStat <- circStat
+  dat$attr$circTime <- circTime
+  
 
   ## Stats List
   dat$stats <- list()

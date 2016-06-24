@@ -87,7 +87,22 @@ setBirthAttr <- function(dat, at, nBirths) {
   dat$attr$age[newIds] <- rep(18, nBirths)
 
   # Circumcision
-  dat <- circ(dat, at)
+  circStat <- dat$attr$circStat
+  entTime <- dat$attr$entTime
+  
+  idsNewMale <- which(male == 1 & entTime == at)
+  
+  if (length(idsNewMale) > 0) {
+    age <- dat$attr$age[idsNewMale]
+    newCirc <- rbinom(length(idsNewMale), 1, circ.prob.birth)
+    isCirc <- which(newCirc == 1)
+    
+    newCircTime <- rep(NA, length(idsNewMale))
+    newCircTime[isCirc] <- round(-age[isCirc] * (365 / dat$param$time.unit))
+    
+    dat$attr$circStat[idsNewMale] <- newCirc
+    dat$attr$circTime[idsNewMale] <- newCircTime
+  }
  
 
   # Epi/Clinical
