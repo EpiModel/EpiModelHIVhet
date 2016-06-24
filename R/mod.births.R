@@ -86,13 +86,9 @@ setBirthAttr <- function(dat, at, nBirths) {
 
   dat$attr$age[newIds] <- rep(18, nBirths)
 
-  # TODO: check this
-  idsNewF <- intersect(newIds, which(dat$attr$male == 0))
-  idsNewM <- intersect(newIds, which(dat$attr$male == 1))
-
   # Circumcision
   dat <- circ(dat, at)
-
+ 
 
   # Epi/Clinical
   dat$attr$status[newIds] <- rep(0, nBirths)
