@@ -41,7 +41,7 @@ births_het <- function(dat, at) {
 
   # Update Population Structure
   if (nBirths > 0) {
-    dat <- setBirthAttr(dat, at, nBirths)
+    dat <- setBirthAttr_het(dat, at, nBirths)
     dat$el <- add_vertices(dat$el, nBirths)
   }
 
@@ -66,7 +66,7 @@ births_het <- function(dat, at) {
 #'
 #' @export
 #'
-setBirthAttr <- function(dat, at, nBirths) {
+setBirthAttr_het <- function(dat, at, nBirths) {
 
   # Set attributes for new births to NA
   dat$attr <- lapply(dat$attr, function(x) c(x, rep(NA, nBirths)))
